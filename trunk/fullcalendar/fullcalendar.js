@@ -114,7 +114,6 @@ var rtlDefaults = {
 var fc = $.fullCalendar = { version: "1.5.3" };
 var fcViews = fc.views = {};
 
-
 $.fn.fullCalendar = function(options) {
 
 
@@ -2236,13 +2235,13 @@ function BasicView(element, calendar, viewName) {
 					"<td class='fc- " + contentClass + " fc-day" + (i*colCnt+j) + "'>" + // need fc- for setDayID
 					"<div>" +
 					(showNumbers ?
-						"<a href='#'><div class='fc-day-number'/>" :
+						"<div class='fc-day-number'/>" :
 						''
 						) +
-					"<div class='fc-day-content'>" +
+					"<div class='fc-day-content'><a href='#'></a>" +
 					"<div style='position:relative'>&nbsp;</div>" +
 					"</div>" +
-					"</div></a>" +
+					"</div>" +
 					"</td>";
 			}
 			s +=
