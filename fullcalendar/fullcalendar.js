@@ -747,15 +747,15 @@ function Header(calendar, options) {
 							var button = $(
 								"<span class='fc-button fc-button-" + buttonName + " " + tm + "-state-default'>" +
 									"<span class='fc-button-inner'>" +
-										"<span class='fc-button-content'>" +
+										"<span class='fc-button-content'><a href='#'>" +
 											(icon ?
 												"<span class='fc-icon-wrap'>" +
 													"<span class='ui-icon ui-icon-" + icon + "'/>" +
 												"</span>" :
 												text
 												) +
-										"</span>" +
-										"<span class='fc-button-effect'><a href='#'></a></span>" +
+										"</a></span>" +
+										"<span class='fc-button-effect'></span>" +
 									"</span>" +
 								"</span>"
 							);
@@ -2232,17 +2232,17 @@ function BasicView(element, calendar, viewName) {
 				"<tr class='fc-week" + i + "'>";
 			for (j=0; j<colCnt; j++) {
 				s +=
-					"<td class='fc- " + contentClass + " fc-day" + (i*colCnt+j) + "'>" + // need fc- for setDayID
+					"<td class='fc- " + contentClass + " fc-day" + (i*colCnt+j) + "'><a href='#'>" + // need fc- for setDayID
 					"<div>" +
 					(showNumbers ?
 						"<div class='fc-day-number'/>" :
 						''
 						) +
-					"<div class='fc-day-content'><a href='#'></a>" +
+					"<div class='fc-day-content'>" +
 					"<div style='position:relative'>&nbsp;</div>" +
 					"</div>" +
 					"</div>" +
-					"</td>";
+					"</a></td>";
 			}
 			s +=
 				"</tr>";
@@ -3085,7 +3085,7 @@ function AgendaView(element, calendar, viewName) {
 				((!slotNormal || !minutes) ? formatDate(d, opt('axisFormat')) : '&nbsp;') +
 				"</th>" +
 				"<td class='" + contentClass + "'>" +
-				"<div style='position:relative'>&nbsp;</div>" +
+				"<a href='#'><div style='position:relative'>&nbsp;</div></a>" +
 				"</td>" +
 				"</tr>";
 			addMinutes(d, opt('slotMinutes'));
@@ -3533,7 +3533,7 @@ function AgendaView(element, calendar, viewName) {
 	
 	
 	function slotSelectionMousedown(ev) {
-		if (ev.which == 1 && opt('selectable')) { // ev.which==1 means left mouse button
+		if ( ev.which == 1 && opt('selectable')) { // ev.which==1 means left mouse button
 			unselect(ev);
 			var dates;
 			hoverListener.start(function(cell, origCell) {
@@ -4876,7 +4876,7 @@ function DayEventRenderer() {
 			});
 		
 		handle.mousedown(function(ev) {
-			if (ev.which != 1) {
+			if (ev.which != 1 ) {
 				return; // needs to be left mouse button
 			}
 			isResizing = true;
