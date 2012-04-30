@@ -5214,8 +5214,8 @@ function HoverListener(coordinateGrid) {
 		var $tpos1 = $(ev.target);
 		var tpos = $tpos1.parents("div#calendar").position();
 		var tpos2 = $tpos1.position();
-		alert( (tpos2.left+tpos.left)+"  "+ (tpos.top+tpos2.top) );
-		var newCell = coordinateGrid.cell(tpos.left, tpos.top);
+		alert( (tpos2.left+tpos.left)+"  "+ (tpos.top+tpos2.top+50) );
+		var newCell = coordinateGrid.cell((tpos2.left+tpos.left), (tpos.top+tpos2.top+50));
 		if (!newCell != !cell || newCell && (newCell.row != cell.row || newCell.col != cell.col)) {
 			if (newCell) {
 				if (!firstCell) {
