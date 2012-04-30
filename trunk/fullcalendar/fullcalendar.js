@@ -14,6 +14,7 @@
  * Date: Mon Feb 6 22:40:40 2012 -0800
  *
  */
+ //http://api.jquery.com/position/
  
 (function($, undefined) {
 
@@ -2139,7 +2140,7 @@ function BasicView(element, calendar, viewName) {
 	var clearOverlays = t.clearOverlays;
 	var daySelectionMousedown = t.daySelectionMousedown;
 	var formatDate = calendar.formatDate;
-	
+	var dayKeyTest = t.dayKeyTest;
 	
 	// locals
 	
@@ -2265,6 +2266,7 @@ function BasicView(element, calendar, viewName) {
 		bodyRows.eq(0).addClass('fc-first'); // fc-last is done in updateCells
 		
 		dayBind(bodyCells);
+		dayBind1(bodyCells.find("a"));
 		
 		daySegmentContainer =
 			$("<div style='position:absolute;z-index:8;top:0;left:0'/>")
@@ -2369,7 +2371,20 @@ function BasicView(element, calendar, viewName) {
 	
 	function dayBind(days) {
 		days.click(dayClick)
-			.mousedown(daySelectionMousedown);
+			.mousedown(daySelectionMousedown);		
+	}
+	
+	function dayBind1(days) {
+		//days.keydown( function(ev) { if(ev.which == 13) { alert("ggg"); } } );
+		days.keydown(dayKeyTest);
+	}
+	
+	function dayClickTest(ev) {
+		if (!opt('selectable')) { // if selectable, SelectionManager will worry about dayClick
+			var index = parseInt(this.className.match(/fc\-day(\d+)/)[1]); // TODO: maybe use .data
+			var date = indexDate(index);
+			trigger('dayClickTest', this, date, true, ev);
+		}			
 	}
 	
 	
@@ -4965,7 +4980,7 @@ function SelectionManager() {
 	t.unselect = unselect;
 	t.reportSelection = reportSelection;
 	t.daySelectionMousedown = daySelectionMousedown;
-	
+	t.dayKeyTest = dayKeyTest;
 	
 	// imports
 	var opt = t.opt;
@@ -5018,6 +5033,37 @@ function SelectionManager() {
 		trigger('select', null, startDate, endDate, allDay, ev);
 	}
 	
+	function dayKeyTest(ev) {
+		//alert( ev.target.nodeName );
+		var cellDate = t.cellDate;
+		var cellIsAllDay = t.cellIsAllDay;
+		var hoverListener = t.getHoverListener();
+		var reportDayClick = t.reportDayClick; // this is hacky and sort of weird
+		if (ev.which == 13	&& opt('selectable')) { // which==1 means left mouse button
+			alert("hi");
+			unselect(ev);
+			var _mousedownElement = this;
+			var dates;
+			hoverListener.start1(function(cell, origCell) { // TODO: maybe put cellDate/cellIsAllDay info in cell
+				clearSelection();
+				if (cell && cellIsAllDay(cell)) {
+					dates = [ cellDate(origCell), cellDate(cell) ].sort(cmp);
+					renderSelection(dates[0], dates[1], true);
+				}else{
+					dates = null;
+				}
+			}, ev);
+			$(document).one('keyup', function(ev) {
+				hoverListener.stop();
+				if (dates) {
+					if (+dates[0] == +dates[1]) {
+						reportDayClick(dates[0], true, ev);
+					}
+					reportSelection(dates[0], dates[1], true, ev);
+				}
+			});
+		}
+	}
 	
 	function daySelectionMousedown(ev) { // not really a generic manager method, oh well
 		var cellDate = t.cellDate;
@@ -5154,9 +5200,38 @@ function HoverListener(coordinateGrid) {
 		$(document).bind(bindType, mouse);
 	};
 	
+	t.start1 = function(_change, ev, _bindType) {
+		change = _change;
+		firstCell = cell = null;
+		coordinateGrid.build();
+		keyboard(ev);
+		//bindType = _bindType || 'mousemove';
+		//$(document).bind(bindType, mouse);
+	}
+	
+	function keyboard(ev) {
+		_fixUIEvent(ev);
+		var $tpos1 = $(ev.target);
+		var tpos = $tpos1.parents("div#calendar").position();
+		var tpos2 = $tpos1.position();
+		alert( (tpos2.left+tpos.left)+"  "+ (tpos.top+tpos2.top) );
+		var newCell = coordinateGrid.cell(tpos.left, tpos.top);
+		if (!newCell != !cell || newCell && (newCell.row != cell.row || newCell.col != cell.col)) {
+			if (newCell) {
+				if (!firstCell) {
+					firstCell = newCell;
+				}
+				change(newCell, firstCell, newCell.row-firstCell.row, newCell.col-firstCell.col);
+			}else{
+				change(newCell, firstCell);
+			}
+			cell = newCell;
+		}
+	}
 	
 	function mouse(ev) {
 		_fixUIEvent(ev); // see below
+		alert(ev.pageX +" "+ev.pageY);
 		var newCell = coordinateGrid.cell(ev.pageX, ev.pageY);
 		if (!newCell != !cell || newCell && (newCell.row != cell.row || newCell.col != cell.col)) {
 			if (newCell) {
