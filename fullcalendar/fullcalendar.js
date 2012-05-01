@@ -2114,6 +2114,7 @@
         t.dragStop = dragStop;
         t.defaultEventEnd = defaultEventEnd;
         t.getHoverListener = function () { return hoverListener };
+		t.getCoordinateGrid = function() { return coordinateGrid };
         t.colContentLeft = colContentLeft;
         t.colContentRight = colContentRight;
         t.dayOfWeekCol = dayOfWeekCol;
@@ -2855,7 +2856,7 @@
         t.allDayRow = getAllDayRow;
         t.allDayBounds = allDayBounds;
         t.getHoverListener = function () { return hoverListener };
-        t.colContentLeft = colContentLeft;
+		t.colContentLeft = colContentLeft;
         t.colContentRight = colContentRight;
         t.getDaySegmentContainer = function () { return daySegmentContainer };
         t.getSlotSegmentContainer = function () { return slotSegmentContainer };
@@ -5039,6 +5040,7 @@
             var cellDate = t.cellDate;
             var cellIsAllDay = t.cellIsAllDay;
             var hoverListener = t.getHoverListener();
+			var coordinateGrid = t.getCoordinateGrid();
             var reportDayClick = t.reportDayClick; // this is hacky and sort of weird
             if (ev.which == 13 && opt('selectable')) { // which==1 means left mouse button
                 alert("hi");
@@ -5053,17 +5055,19 @@
                 //} else {
                 //    dates = null;
                 //}
+				coordinateGrid.build();
                 var $tpos1 = $(ev.target);
                 var tpos = $tpos1.parents("div.fc-content").position();
                 var tpos2 = $tpos1.position();
                 alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 20));
-                var newCell = t.coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 20));
-                firstCell = newCell;
+				var newCell;
+				newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 20));
+				firstCell = newCell;
                 //change(newCell, firstCell, newCell.row - firstCell.row, newCell.col - firstCell.col);
                 dates = [cellDate(firstCell), cellDate(newCell)].sort(cmp);
                 cell = newCell;
                 //}, ev);
-                $(document).one('keyup', function (ev) {
+                //$(document).one('keypress', function (ev) {
                     hoverListener.stop();
                     if (dates) {
                         if (+dates[0] == +dates[1]) {
@@ -5071,7 +5075,7 @@
                         }
                         reportSelection(dates[0], dates[1], true, ev);
                     }
-                });
+                //});
             }
         }
 
