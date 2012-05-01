@@ -4981,6 +4981,7 @@
         t.reportSelection = reportSelection;
         t.daySelectionMousedown = daySelectionMousedown;
         t.dayKeyTest = dayKeyTest;
+        //t.coordinateGrid = coordinateGrid;
 
         // imports
         var opt = t.opt;
@@ -5044,15 +5045,24 @@
                 unselect(ev);
                 var _mousedownElement = this;
                 var dates;
-                hoverListener.start1(function (cell, origCell) { // TODO: maybe put cellDate/cellIsAllDay info in cell
-                    clearSelection();
-                    if (cell && cellIsAllDay(cell)) {
-                        dates = [cellDate(origCell), cellDate(cell)].sort(cmp);
-                        renderSelection(dates[0], dates[1], true);
-                    } else {
-                        dates = null;
-                    }
-                }, ev);
+                //hoverListener.start1(function (cell, origCell) { // TODO: maybe put cellDate/cellIsAllDay info in cell
+                //clearSelection();
+                //if (cell && cellIsAllDay(cell)) {
+                //dates = [cellDate(origCell), cellDate(cell)].sort(cmp);
+                //    renderSelection(dates[0], dates[1], true);
+                //} else {
+                //    dates = null;
+                //}
+                var $tpos1 = $(ev.target);
+                var tpos = $tpos1.parents("div.fc-content").position();
+                var tpos2 = $tpos1.position();
+                alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 20));
+                var newCell = t.coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 20));
+                firstCell = newCell;
+                //change(newCell, firstCell, newCell.row - firstCell.row, newCell.col - firstCell.col);
+                dates = [cellDate(firstCell), cellDate(newCell)].sort(cmp);
+                cell = newCell;
+                //}, ev);
                 $(document).one('keyup', function (ev) {
                     hoverListener.stop();
                     if (dates) {
@@ -5215,19 +5225,19 @@
             alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 20));
             var newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 20));
             /*if (!newCell != !cell || newCell && (newCell.row != cell.row || newCell.col != cell.col)) {
-                if (newCell) {
-                    if (!firstCell) {
-                        alert("con1");
-                        firstCell = newCell;
-                    }
-                    alert("con5");
-                    change(newCell, firstCell, newCell.row - firstCell.row, newCell.col - firstCell.col);
-                } else {
-                    alert("con2");
-                    change(newCell, firstCell);
-                }
-                alert("con3");
-                cell = newCell;
+            if (newCell) {
+            if (!firstCell) {
+            alert("con1");
+            firstCell = newCell;
+            }
+            alert("con5");
+            change(newCell, firstCell, newCell.row - firstCell.row, newCell.col - firstCell.col);
+            } else {
+            alert("con2");
+            change(newCell, firstCell);
+            }
+            alert("con3");
+            cell = newCell;
             }
             alert("con4");
             cell = newCell;*/
