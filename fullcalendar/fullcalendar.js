@@ -2114,7 +2114,7 @@
         t.dragStop = dragStop;
         t.defaultEventEnd = defaultEventEnd;
         t.getHoverListener = function () { return hoverListener };
-		t.getCoordinateGrid = function() { return coordinateGrid };
+        t.getCoordinateGrid = function () { return coordinateGrid };
         t.colContentLeft = colContentLeft;
         t.colContentRight = colContentRight;
         t.dayOfWeekCol = dayOfWeekCol;
@@ -2234,7 +2234,7 @@
 				"<tr class='fc-week" + i + "'>";
                 for (j = 0; j < colCnt; j++) {
                     s +=
-					"<td class='fc- " + contentClass + " fc-day" + (i * colCnt + j) + "'><a href='#'>" + // need fc- for setDayID
+					"<td class='fc- " + contentClass + " fc-day" + (i * colCnt + j) + "'><a href='#' title='date'>" + // need fc- for setDayID
 					"<div>" +
 					(showNumbers ?
 						"<div class='fc-day-number'/>" :
@@ -2856,7 +2856,7 @@
         t.allDayRow = getAllDayRow;
         t.allDayBounds = allDayBounds;
         t.getHoverListener = function () { return hoverListener };
-		t.colContentLeft = colContentLeft;
+        t.colContentLeft = colContentLeft;
         t.colContentRight = colContentRight;
         t.getDaySegmentContainer = function () { return daySegmentContainer };
         t.getSlotSegmentContainer = function () { return slotSegmentContainer };
@@ -2874,7 +2874,7 @@
         t.reportDayClick = reportDayClick; // selection mousedown hack
         t.dragStart = dragStart;
         t.dragStop = dragStop;
-
+        t.getCoordinateGrid = function () { return coordinateGrid };
 
         // imports
         View.call(t, element, calendar, viewName);
@@ -2891,7 +2891,7 @@
         var daySelectionMousedown = t.daySelectionMousedown;
         var slotSegHtml = t.slotSegHtml;
         var formatDate = calendar.formatDate;
-
+        var dayKeyTest = t.dayKeyTest;
 
         // locals
 
@@ -3048,9 +3048,9 @@
 				"<table style='width:100%' class='fc-agenda-allday' cellspacing='0'>" +
 				"<tr>" +
 				"<th class='" + headerClass + " fc-agenda-axis'>" + opt('allDayText') + "</th>" +
-				"<td>" +
+				"<td><a href='#'>" +
 				"<div class='fc-day-content'><div style='position:relative'/></div>" +
-				"</td>" +
+				"</td></a>" +
 				"<th class='" + headerClass + " fc-agenda-gutter'>&nbsp;</th>" +
 				"</tr>" +
 				"</table>";
@@ -3058,6 +3058,7 @@
                 allDayRow = allDayTable.find('tr');
 
                 dayBind(allDayRow.find('td'));
+                dayBind1(allDayRow.find('td a'));
 
                 axisFirstCells = axisFirstCells.add(allDayTable.find('th:first'));
                 gutterCells = gutterCells.add(allDayTable.find('th.fc-agenda-gutter'));
@@ -3114,6 +3115,7 @@
             slotTableFirstInner = slotTable.find('div:first');
 
             slotBind(slotTable.find('td'));
+            slotBind1(slotTable.find('td a'));
 
             axisFirstCells = axisFirstCells.add(slotTable.find('th:first'));
         }
@@ -3242,12 +3244,19 @@
 			.mousedown(daySelectionMousedown);
         }
 
+        function dayBind1(cells) {
+            //days.keydown( function(ev) { if(ev.which == 13) { alert("ggg"); } } );
+            cells.keydown(dayKeyTest);
+        }
 
         function slotBind(cells) {
             cells.click(slotClick)
 			.mousedown(slotSelectionMousedown);
         }
 
+        function slotBind1(cells) {
+            cells.keydown(slotKeyTest);
+        }
 
         function slotClick(ev) {
             if (!opt('selectable')) { // if selectable, SelectionManager will worry about dayClick
@@ -3547,6 +3556,45 @@
             }
         }
 
+        function slotKeyTest(ev) {
+            if (ev.which == 13 && opt('selectable')) { // ev.which==1 means left mouse button
+                unselect(ev);
+                var dates;
+                //hoverListener.start(function (cell, origCell) {
+                    coordinateGrid.build();
+                    var $tpos1 = $(ev.target);
+                    var tpos = $tpos1.parents("div.fc-content").position();
+                    var tpos2 = $tpos1.position();
+                    alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top+70));
+                    var newCell;
+                    newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top+70));
+                    firstCell = newCell;
+                    //clearSelection();
+                    //if (cell && cell.col == origCell.col && !cellIsAllDay(cell)) {
+                        var d1 = cellDate(firstCell);
+                        var d2 = cellDate(newCell);
+                        dates = [
+						d1,
+						addMinutes(cloneDate(d1), opt('slotMinutes')),
+						d2,
+						addMinutes(cloneDate(d2), opt('slotMinutes'))
+					].sort(cmp);
+                        renderSlotSelection(dates[0], dates[3]);
+                    //} else {
+                    //    dates = null;
+                    //}
+                //}, ev);
+                //$(document).one('mouseup', function (ev) {
+                    hoverListener.stop();
+                    if (dates) {
+                        if (+dates[0] == +dates[1]) {
+                            reportDayClick(dates[0], false, ev);
+                        }
+                        reportSelection(dates[0], dates[3], false, ev);
+                    }
+                //});
+            }
+        }
 
         function slotSelectionMousedown(ev) {
             if (ev.which == 1 && opt('selectable')) { // ev.which==1 means left mouse button
@@ -5040,7 +5088,7 @@
             var cellDate = t.cellDate;
             var cellIsAllDay = t.cellIsAllDay;
             var hoverListener = t.getHoverListener();
-			var coordinateGrid = t.getCoordinateGrid();
+            var coordinateGrid = t.getCoordinateGrid();
             var reportDayClick = t.reportDayClick; // this is hacky and sort of weird
             if (ev.which == 13 && opt('selectable')) { // which==1 means left mouse button
                 alert("hi");
@@ -5055,26 +5103,26 @@
                 //} else {
                 //    dates = null;
                 //}
-				coordinateGrid.build();
+                coordinateGrid.build();
                 var $tpos1 = $(ev.target);
                 var tpos = $tpos1.parents("div.fc-content").position();
                 var tpos2 = $tpos1.position();
                 alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 20));
-				var newCell;
-				newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 20));
-				firstCell = newCell;
+                var newCell;
+                newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 20));
+                firstCell = newCell;
                 //change(newCell, firstCell, newCell.row - firstCell.row, newCell.col - firstCell.col);
                 dates = [cellDate(firstCell), cellDate(newCell)].sort(cmp);
                 cell = newCell;
                 //}, ev);
                 //$(document).one('keypress', function (ev) {
-                    hoverListener.stop();
-                    if (dates) {
-                        if (+dates[0] == +dates[1]) {
-                            reportDayClick(dates[0], true, ev);
-                        }
-                        reportSelection(dates[0], dates[1], true, ev);
+                hoverListener.stop();
+                if (dates) {
+                    if (+dates[0] == +dates[1]) {
+                        reportDayClick(dates[0], true, ev);
                     }
+                    reportSelection(dates[0], dates[1], true, ev);
+                }
                 //});
             }
         }
