@@ -3106,12 +3106,8 @@
 				"</td>"*/ 
 				for (i = 0; i < colCnt; i++) {
                 s +=
-				"<td class='fc- fc-col" + i + ' ' + contentClass + "'><a href='#'>" + // fc- needed for setDayID
-				"<div>" +
-				"<div class='fc-day-content'>" +
+				"<td class='"+ contentClass + "'><a href='#'>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
-				"</div>" +
-				"</div>" +
 				"</a></td>";
 				}
 				
