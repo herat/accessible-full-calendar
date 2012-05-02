@@ -3047,11 +3047,17 @@
                 s =
 				"<table style='width:100%' class='fc-agenda-allday' cellspacing='0'>" +
 				"<tr>" +
-				"<th class='" + headerClass + " fc-agenda-axis'>" + opt('allDayText') + "</th>" +
-				"<td><a href='#'>" +
-				"<div class='fc-day-content'><div style='position:relative'/></div>" +
-				"</td></a>" +
-				"<th class='" + headerClass + " fc-agenda-gutter'>&nbsp;</th>" +
+				"<th class='" + headerClass + " fc-agenda-axis'>" + opt('allDayText') + "</th>";
+                /*"<td><a href='#'>" +
+                "<div class='fc-day-content'><div style='position:relative'/></div>" +
+                "</td></a>" +*/
+                for (i = 0; i < colCnt; i++) {
+                    s +=
+				    "<td><a href='#'>" + // fc- needed for setDayID
+				    "<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div>" +
+				    "</a></td>";
+                }
+                s += "<th class='" + headerClass + " fc-agenda-gutter'>&nbsp;</th>" +
 				"</tr>" +
 				"</table>";
                 allDayTable = $(s).appendTo(slotLayer);
@@ -3101,17 +3107,17 @@
 				"<th class='fc-agenda-axis " + headerClass + "'>" +
 				((!slotNormal || !minutes) ? formatDate(d, opt('axisFormat')) : '&nbsp;') +
 				"</th>";
-				/*"<td class='" + contentClass + "'>" +
-				"<a href='#'><div style='position:relative'>&nbsp;</div></a>" +
-				"</td>"*/ 
-				for (i = 0; i < colCnt; i++) {
-                s +=
-				"<td class='"+ contentClass + "'><a href='#'>" + // fc- needed for setDayID
+                /*"<td class='" + contentClass + "'>" +
+                "<a href='#'><div style='position:relative'>&nbsp;</div></a>" +
+                "</td>"*/
+                for (i = 0; i < colCnt; i++) {
+                    s +=
+				"<td class='" + contentClass + "'><a href='#'>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
-				}
-				
-				s += "</tr>";
+                }
+
+                s += "</tr>";
                 addMinutes(d, opt('slotMinutes'));
                 slotCnt++;
             }
@@ -3568,37 +3574,37 @@
                 unselect(ev);
                 var dates;
                 //hoverListener.start(function (cell, origCell) {
-                    coordinateGrid.build();
-                    var $tpos1 = $(ev.target);
-                    var tpos = $tpos1.parents("body").position();
-                    var tpos2 = $tpos1.offset();
-                    alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top+70));
-                    var newCell;
-                    newCell = coordinateGrid.cell((tpos2.left), (tpos2.top));
-                    firstCell = newCell;
-                    //clearSelection();
-                    //if (cell && cell.col == origCell.col && !cellIsAllDay(cell)) {
-                        var d1 = cellDate(firstCell);
-                        var d2 = cellDate(newCell);
-                        dates = [
+                coordinateGrid.build();
+                var $tpos1 = $(ev.target);
+                var tpos = $tpos1.parents("body").position();
+                var tpos2 = $tpos1.offset();
+                alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 70));
+                var newCell;
+                newCell = coordinateGrid.cell((tpos2.left), (tpos2.top));
+                firstCell = newCell;
+                //clearSelection();
+                //if (cell && cell.col == origCell.col && !cellIsAllDay(cell)) {
+                var d1 = cellDate(firstCell);
+                var d2 = cellDate(newCell);
+                dates = [
 						d1,
 						addMinutes(cloneDate(d1), opt('slotMinutes')),
 						d2,
 						addMinutes(cloneDate(d2), opt('slotMinutes'))
 					].sort(cmp);
-                        renderSlotSelection(dates[0], dates[3]);
-                    //} else {
-                    //    dates = null;
-                    //}
+                renderSlotSelection(dates[0], dates[3]);
+                //} else {
+                //    dates = null;
+                //}
                 //}, ev);
                 //$(document).one('mouseup', function (ev) {
-                    hoverListener.stop();
-                    if (dates) {
-                        if (+dates[0] == +dates[1]) {
-                            reportDayClick(dates[0], false, ev);
-                        }
-                        reportSelection(dates[0], dates[3], false, ev);
+                hoverListener.stop();
+                if (dates) {
+                    if (+dates[0] == +dates[1]) {
+                        reportDayClick(dates[0], false, ev);
                     }
+                    reportSelection(dates[0], dates[3], false, ev);
+                }
                 //});
             }
         }
