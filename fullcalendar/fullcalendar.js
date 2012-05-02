@@ -3100,11 +3100,22 @@
 				"<tr class='fc-slot" + i + ' ' + (!minutes ? '' : 'fc-minor') + "'>" +
 				"<th class='fc-agenda-axis " + headerClass + "'>" +
 				((!slotNormal || !minutes) ? formatDate(d, opt('axisFormat')) : '&nbsp;') +
-				"</th>" +
-				"<td class='" + contentClass + "'>" +
+				"</th>";
+				/*"<td class='" + contentClass + "'>" +
 				"<a href='#'><div style='position:relative'>&nbsp;</div></a>" +
-				"</td>" +
-				"</tr>";
+				"</td>"*/ 
+				for (i = 0; i < colCnt; i++) {
+                s +=
+				"<td class='fc- fc-col" + i + ' ' + contentClass + "'><a href='#'>" + // fc- needed for setDayID
+				"<div>" +
+				"<div class='fc-day-content'>" +
+				"<div style='position:relative'>&nbsp;</div>" +
+				"</div>" +
+				"</div>" +
+				"</a></td>";
+				}
+				
+				s += "</tr>";
                 addMinutes(d, opt('slotMinutes'));
                 slotCnt++;
             }
