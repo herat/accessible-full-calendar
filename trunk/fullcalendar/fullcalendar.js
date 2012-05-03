@@ -2376,7 +2376,6 @@
         }
 
         function dayBind1(days) {
-            //days.keydown( function(ev) { if(ev.which == 13) { alert("ggg"); } } );
             days.keydown(dayKeyTest);
         }
 
@@ -3258,7 +3257,6 @@
         }
 
         function dayBind1(cells) {
-            //days.keydown( function(ev) { if(ev.which == 13) { alert("ggg"); } } );
             cells.keydown(dayKeyTest);
         }
 
@@ -3578,7 +3576,7 @@
                 var $tpos1 = $(ev.target);
                 var tpos = $tpos1.parents("body").position();
                 var tpos2 = $tpos1.offset();
-                alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 70));
+                //alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 70));
                 var newCell;
                 newCell = coordinateGrid.cell((tpos2.left), (tpos2.top));
                 firstCell = newCell;
@@ -5104,7 +5102,7 @@
             var coordinateGrid = t.getCoordinateGrid();
             var reportDayClick = t.reportDayClick; // this is hacky and sort of weird
             if (ev.which == 13 && opt('selectable')) { // which==1 means left mouse button
-                alert("hi");
+                //alert("hi");
                 unselect(ev);
                 var _mousedownElement = this;
                 var dates;
@@ -5120,7 +5118,7 @@
                 var $tpos1 = $(ev.target);
                 var tpos = $tpos1.parents("div.fc-content").position();
                 var tpos2 = $tpos1.position();
-                alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 30));
+                //alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 30));
                 var newCell;
                 newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 30));
                 firstCell = newCell;
@@ -5287,7 +5285,7 @@
             var $tpos1 = $(ev.target);
             var tpos = $tpos1.parents("div.fc-content").position();
             var tpos2 = $tpos1.position();
-            alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 20));
+            //alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 20));
             var newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 20));
             /*if (!newCell != !cell || newCell && (newCell.row != cell.row || newCell.col != cell.col)) {
             if (newCell) {
