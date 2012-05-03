@@ -18,6 +18,8 @@
 
 (function ($, undefined) {
 
+	var monthNames = [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ];
 
     var defaults = {
 
@@ -2307,6 +2309,7 @@
                     cell.removeClass(tm + '-state-highlight fc-today');
                 }
                 cell.find('div.fc-day-number').text(date.getDate());
+				cell.find('div.fc-day-number').parent().parent().attr('title',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
                 if (dowDirty) {
                     setDayID(cell, date);
                 }
