@@ -2236,7 +2236,7 @@
 				"<tr class='fc-week" + i + "'>";
                 for (j = 0; j < colCnt; j++) {
                     s +=
-					"<td class='fc- " + contentClass + " fc-day" + (i * colCnt + j) + "'><a href='#' title='date'>" + // need fc- for setDayID
+					"<td class='fc- " + contentClass + " fc-day" + (i * colCnt + j) + "'><a href='#'>" + // need fc- for setDayID
 					"<div>" +
 					(showNumbers ?
 						"<div class='fc-day-number'/>" :
@@ -2308,8 +2308,9 @@
                 } else {
                     cell.removeClass(tm + '-state-highlight fc-today');
                 }
-                cell.find('div.fc-day-number').text(date.getDate());
-				cell.find('div.fc-day-number').parent().parent().attr('title',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
+                //cell.find('div.fc-day-number').text(date.getDate());
+				//cell.find('div.fc-day-number').attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
+				cell.find('div.fc-day-number').text(date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
                 if (dowDirty) {
                     setDayID(cell, date);
                 }
@@ -3112,9 +3113,9 @@
                 /*"<td class='" + contentClass + "'>" +
                 "<a href='#'><div style='position:relative'>&nbsp;</div></a>" +
                 "</td>"*/
-                for (i = 0; i < colCnt; i++) {
+                for (zz = 0; zz< colCnt; zz++) {
                     s +=
-				"<td class='" + contentClass + "'><a href='#'>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a href='#'>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
@@ -3146,6 +3147,7 @@
             for (i = 0; i < colCnt; i++) {
                 date = colDate(i);
                 headCell = dayHeadCells.eq(i);
+				headCell.attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
                 headCell.html(formatDate(date, colFormat));
                 bodyCell = dayBodyCells.eq(i);
                 if (+date == +today) {
