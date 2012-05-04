@@ -3115,7 +3115,7 @@
                 "</td>"*/
                 for (zz = 0; zz< colCnt; zz++) {
                     s +=
-				"<td  class='" + contentClass + "'><a href='#'>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a href='#'><div class='hidden'>a</div>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
