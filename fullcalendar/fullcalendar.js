@@ -3117,7 +3117,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     date = colDate(zz);
                     s +=
-				"<td  class='" + contentClass + "'><a href='#'><div class='hidden'>" + formatDate(d, opt('axisFormat')) + " of " + (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) + "</div>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a href='#'><div class='hidden'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='hidden1'>" + (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) + "</div>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
@@ -3141,7 +3141,7 @@
 
 
         function updateCells() {
-            var i;
+            var i, zzz;
             var headCell;
             var bodyCell;
             var allDayCell;
@@ -3155,7 +3155,7 @@
                 bodyCell = dayBodyCells.eq(i);
                 allDayCell = allDayRow.find('.hidden').eq(i);
                 allDayCell.html(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
-                
+
                 if (+date == +today) {
                     bodyCell.addClass(tm + '-state-highlight fc-today');
                 } else {
@@ -3163,7 +3163,13 @@
                 }
                 setDayID(headCell.add(bodyCell), date);
             }
-
+            $('div.hidden1').each(
+                function (index) {
+                    zzz = index % colCnt;
+                    date = colDate(zzz);
+                    $(this).html(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
+                }
+            );
         }
 
 
