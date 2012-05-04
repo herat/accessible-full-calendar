@@ -2897,7 +2897,7 @@
         var dayKeyTest = t.dayKeyTest;
 
         // locals
-
+	
         var dayTable;
         var dayHead;
         var dayHeadCells;
@@ -3054,9 +3054,10 @@
                 /*"<td><a href='#'>" +
                 "<div class='fc-day-content'><div style='position:relative'/></div>" +
                 "</td></a>" +*/
-                for (i = 0; i < colCnt; i++) {
-                    s +=
-				    "<td><a href='#'>" + // fc- needed for setDayID
+                for (zz = 0; zz < colCnt; zz++) {
+                    date = colDate(zz);
+					s +=
+				    "<td><a href='#'><div class='hidden'>"+(date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear())+"</div>" + // fc- needed for setDayID
 				    "<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div>" +
 				    "</a></td>";
                 }
@@ -3114,8 +3115,9 @@
                 "<a href='#'><div style='position:relative'>&nbsp;</div></a>" +
                 "</td>"*/
                 for (zz = 0; zz< colCnt; zz++) {
+					date = colDate(zz);					
                     s +=
-				"<td  class='" + contentClass + "'><a href='#'><div class='hidden'>a</div>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a href='#'><div class='hidden'>"+formatDate(d, opt('axisFormat'))+" of "+(date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear())+"</div>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
@@ -3147,9 +3149,10 @@
             for (i = 0; i < colCnt; i++) {
                 date = colDate(i);
                 headCell = dayHeadCells.eq(i);
-				headCell.attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
+				//headCell.attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
                 headCell.html(formatDate(date, colFormat));
                 bodyCell = dayBodyCells.eq(i);
+				
                 if (+date == +today) {
                     bodyCell.addClass(tm + '-state-highlight fc-today');
                 } else {
@@ -3157,6 +3160,7 @@
                 }
                 setDayID(headCell.add(bodyCell), date);
             }
+						
         }
 
 
