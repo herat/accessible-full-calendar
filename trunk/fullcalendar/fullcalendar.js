@@ -18,8 +18,8 @@
 
 (function ($, undefined) {
 
-	var monthNames = [ "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December" ];
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
 
     var defaults = {
 
@@ -2309,8 +2309,8 @@
                     cell.removeClass(tm + '-state-highlight fc-today');
                 }
                 //cell.find('div.fc-day-number').text(date.getDate());
-				//cell.find('div.fc-day-number').attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
-				cell.find('div.fc-day-number').text(date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
+                //cell.find('div.fc-day-number').attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
+                cell.find('div.fc-day-number').text(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
                 if (dowDirty) {
                     setDayID(cell, date);
                 }
@@ -2897,7 +2897,7 @@
         var dayKeyTest = t.dayKeyTest;
 
         // locals
-	
+
         var dayTable;
         var dayHead;
         var dayHeadCells;
@@ -3056,8 +3056,8 @@
                 "</td></a>" +*/
                 for (zz = 0; zz < colCnt; zz++) {
                     date = colDate(zz);
-					s +=
-				    "<td><a href='#'><div class='hidden'>"+(date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear())+"</div>" + // fc- needed for setDayID
+                    s +=
+				    "<td><a href='#'><div class='hidden'>" + (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) + "</div>" + // fc- needed for setDayID
 				    "<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div>" +
 				    "</a></td>";
                 }
@@ -3114,10 +3114,10 @@
                 /*"<td class='" + contentClass + "'>" +
                 "<a href='#'><div style='position:relative'>&nbsp;</div></a>" +
                 "</td>"*/
-                for (zz = 0; zz< colCnt; zz++) {
-					date = colDate(zz);					
+                for (zz = 0; zz < colCnt; zz++) {
+                    date = colDate(zz);
                     s +=
-				"<td  class='" + contentClass + "'><a href='#'><div class='hidden'>"+formatDate(d, opt('axisFormat'))+" of "+(date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear())+"</div>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a href='#'><div class='hidden'>" + formatDate(d, opt('axisFormat')) + " of " + (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) + "</div>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
@@ -3144,15 +3144,18 @@
             var i;
             var headCell;
             var bodyCell;
+            var allDayCell;
             var date;
             var today = clearTime(new Date());
             for (i = 0; i < colCnt; i++) {
                 date = colDate(i);
                 headCell = dayHeadCells.eq(i);
-				//headCell.attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
+                //headCell.attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
                 headCell.html(formatDate(date, colFormat));
                 bodyCell = dayBodyCells.eq(i);
-				
+                allDayCell = allDayRow.find('.hidden').eq(i);
+                allDayCell.html(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
+                
                 if (+date == +today) {
                     bodyCell.addClass(tm + '-state-highlight fc-today');
                 } else {
@@ -3160,7 +3163,7 @@
                 }
                 setDayID(headCell.add(bodyCell), date);
             }
-						
+
         }
 
 
