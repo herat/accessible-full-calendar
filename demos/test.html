@@ -31,8 +31,9 @@
 	                $("#dialog").dialog('open');
 	                $("#name").val("[event name]");
 
-	                $("#date-start").datepicker();
-	                $("#date-start").datepicker("setDate", date);
+	                $("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
+	                //$("#date-start").datepicker("setDate", date);
+                    //$("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 
 	                $("#date-end").datepicker();
 	                $("#date-end").datepicker("setDate", date);
@@ -102,7 +103,7 @@
                     calendar.fullCalendar('renderEvent',
 				{
 				    title: $("#name").val(),
-				    start: $.fullCalendar.formatDate($("#date-start").datepicker("getDate"), 'MM/dd/yyyy'),
+				    start: $("#date-start").val(),
 				    end: $.fullCalendar.formatDate($("#date-end").datepicker("getDate"), 'MM/dd/yyyy'),
                     
 				},
@@ -129,7 +130,7 @@
                 <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all title"><br>
                 <span class="inline">From:</span>
                 <br />
-                <span class="inline"><input type="text" name="date-start" id="date-start" class="text ui-widget-content ui-corner-all"></span>
+                <span class="inline"><input type="text" name="date-start" id="date-start" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
                 <span class="inline"><input type="text" name="time" id="time-start" class="text ui-widget-content ui-corner-all"></span>
                 <br />
                 <span class="inline">To:</span>
