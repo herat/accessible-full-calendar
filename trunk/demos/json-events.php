@@ -17,7 +17,10 @@
 			'title' => "Event2",
 			'start' => "$year-$month-20",
 			'end' => "$year-$month-22",
-			'url' => "http://yahoo.com/"
+			'url' => "http://yahoo.com/",
+			'color' => "rgb(0,128,128)",
+			'borderColor' => "rgb(0,0,0)",
+			'textColor' => "rgb(0,64,23)"
 		)
 	
 	));
