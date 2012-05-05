@@ -13,120 +13,112 @@
     <script type='text/javascript' src='../fullcalendar/fullcalendar.js'></script>
        
 	<script>
-    $(document).ready(function() {
-	    var date = new Date();
-	    var d = date.getDate();
-	    var m = date.getMonth();
-	    var y = date.getFullYear();
+	    $(document).ready(function () {
+	        var date = new Date();
+	        var d = date.getDate();
+	        var m = date.getMonth();
+	        var y = date.getFullYear();
 
-	    var calendar = $('#calendar').fullCalendar({
-	        header: {
-	            left: 'prev,next today',
-	            center: 'title',
-	            right: 'month,agendaWeek,agendaDay'
-	        },
-	        selectable: true,
-	        selectHelper: true,
-	        /*select: function (start, end, allDay) {
-	            var title = prompt('Event Title:');
-	            if (title) {
-	                calendar.fullCalendar('renderEvent',
-						{
-						    title: title,
-						    start: start,
-						    end: end,
-						    allDay: allDay
-						},
-						true // make the event "stick"
-					);
-	            }
-	            calendar.fullCalendar('unselect');
-	        },*/
-            dayClick: function (date, allDay, jsEvent, view) {  
-                $("#dialog").dialog('open');     
-                $("#name").val("(event name)");
-                $("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
-                $("#date-end").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
-                $("#time-start").val($.fullCalendar.formatDate(date, 'hh:mmtt'));
-                $("#time-end").val($.fullCalendar.formatDate(date, 'hh:mmtt')); 
-            }, 
-            
-	        editable: true,
-	        events: [
+	        var calendar = $('#calendar').fullCalendar({
+	            header: {
+	                left: 'prev,next today',
+	                center: 'title',
+	                right: 'month,agendaWeek,agendaDay'
+	            },
+	            selectable: true,
+	            selectHelper: true,
+	            dayClick: function (date, allDay, jsEvent, view) {
+	                $("#dialog").dialog('open');
+	                $("#name").val("[event name]");
+
+	                $("#date-start").datepicker();
+	                $("#date-start").datepicker("setDate", date);
+
+	                $("#date-end").datepicker();
+	                $("#date-end").datepicker("setDate", date);
+
+	                $("#viewname").val(view.name);
+
+	                $("#time-start").val($.fullCalendar.formatDate(date, 'hh:mmtt'));
+	                $("#time-end").val($.fullCalendar.formatDate(date, 'hh:mmtt'));
+	            },
+
+	            editable: true,
+	            events: [
 				{
-					title: 'All Day Event',
-					start: new Date(y, m, 1)
+				    title: 'All Day Event',
+				    start: new Date(y, m, 1)
 				},
 				{
-					title: 'Long Event',
-					start: new Date(y, m, d-5),
-					end: new Date(y, m, d-2)
+				    title: 'Long Event',
+				    start: new Date(y, m, d - 5),
+				    end: new Date(y, m, d - 2)
 				},
 				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d-3, 16, 0),
-					allDay: false
+				    id: 999,
+				    title: 'Repeating Event',
+				    start: new Date(y, m, d - 3, 16, 0),
+				    allDay: false
 				},
 				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+4, 16, 0),
-					allDay: false
+				    id: 999,
+				    title: 'Repeating Event',
+				    start: new Date(y, m, d + 4, 16, 0),
+				    allDay: false
 				},
 				{
-					title: 'Meeting',
-					start: new Date(y, m, d, 10, 30),
-					allDay: false
+				    title: 'Meeting',
+				    start: new Date(y, m, d, 10, 30),
+				    allDay: false
 				},
 				{
-					title: 'Lunch',
-					start: new Date(y, m, d, 12, 0),
-					end: new Date(y, m, d, 14, 0),
-					allDay: false
+				    title: 'Lunch',
+				    start: new Date(y, m, d, 12, 0),
+				    end: new Date(y, m, d, 14, 0),
+				    allDay: false
 				},
 				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: false
+				    title: 'Birthday Party',
+				    start: new Date(y, m, d + 1, 19, 0),
+				    end: new Date(y, m, d + 1, 22, 30),
+				    allDay: false
 				},
 				{
-					title: 'Click for Google',
-					start: new Date(y, m, 28),
-					end: new Date(y, m, 29),
-					url: 'http://google.com/'
+				    title: 'Click for Google',
+				    start: new Date(y, m, 28),
+				    end: new Date(y, m, 29),
+				    url: 'http://google.com/'
 				}
 			]
-	    });   
+	        });
 
-    $("#dialog").dialog({
-        autoOpen: false,
-        height: 350,
-        width: 700,
-        modal: true,
-        buttons: {
-            'Create event': function () {
-                calendar.fullCalendar('renderEvent',
+	        $("#dialog").dialog({
+	            autoOpen: false,
+	            height: 350,
+	            width: 700,
+	            modal: true,
+	            buttons: {
+	                'Create event': function () {
+                    calendar.fullCalendar('renderEvent',
 				{
-					    title: $("#name").val(),
-					    start: $("#date-start").val(),
-					    end: $("#date-end").val(),
-					    allDay: true					    
+				    title: $("#name").val(),
+				    start: $.fullCalendar.formatDate($("#date-start").datepicker("getDate"), 'MM/dd/yyyy'),
+				    end: $.fullCalendar.formatDate($("#date-end").datepicker("getDate"), 'MM/dd/yyyy'),
+                    
 				},
 				true // make the event "stick"
 				);
-                $(this).dialog('close');
-            },
-            Cancel: function () {
-                $(this).dialog('close');
-            }
-        },
-        close: function () {
-        }
+	                    $(this).dialog('close');
+	                },
+	                Cancel: function () {
+	                    $(this).dialog('close');
+	                }
+	            },
+	            close: function () {
+	            }
 
-    });
-});
+	        });
+	    });
 	</script>
 </head>
 
@@ -135,11 +127,17 @@
  <div id="dialog" class="event-dialog" title="Event">
             <div id="dialog-inner">
                 <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all title"><br>
+                <span class="inline">From:</span>
+                <br />
                 <span class="inline"><input type="text" name="date-start" id="date-start" class="text ui-widget-content ui-corner-all"></span>
-                <span class="inline">to:</span> <span class="inline"><input type="text" name="date" id="date-end" class="text ui-widget-content ui-corner-all"></span>
-                <br /><label for="description">Description:</label> 
-                <textarea name="description" id="description" class="text ui-widget-content ui-corner-all" rows="3" cols="73">       
-                </textarea>
+                <span class="inline"><input type="text" name="time" id="time-start" class="text ui-widget-content ui-corner-all"></span>
+                <br />
+                <span class="inline">To:</span>
+                <br /> 
+                <span class="inline"><input type="text" name="date" id="date-end" class="text ui-widget-content ui-corner-all"></span>
+                <span class="inline"><input type="text" name="time" id="time-end" class="text ui-widget-content ui-corner-all"></span>
+                <br />
+                <input type="hidden" id="viewname" />                
             </div>
         </div>
         <div id="calendar"></div>
