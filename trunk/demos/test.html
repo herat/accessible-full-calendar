@@ -34,14 +34,24 @@
 	                $("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 	                //$("#date-start").datepicker("setDate", date);
                     //$("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
-
-	                $("#date-end").datepicker();
-	                $("#date-end").datepicker("setDate", date);
+                    if( view.name == "month" )
+	                {   
+                        $("#date-end").datepicker();
+	                    $("#date-end").datepicker("setDate", date);
+                    }
+                    else
+                    {
+                        $("#date-end").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
+                        $("#date-end").attr("disabled","disabled");
+                    }
 
 	                $("#viewname").val(view.name);
 
-	                //$("#time-start").val($.fullCalendar.formatDate(date, 'hh:mmtt'));
-	                //$("#time-end").val($.fullCalendar.formatDate(date, 'hh:mmtt'));
+	                $("#time-start").val(date.getHours()+":"+date.getMinutes());
+                    if( date.getMinutes() == 0 )
+                        $("#time-end").val(date.getHours()+":30");
+                    else
+                        $("#time-end").val((parseInt(date.getHours())+1)+":0");
 	            },
 
 	            editable: true,
@@ -103,10 +113,27 @@
                     var startsplt = $("#date-start").val().split("/");
                     var ends =  $.fullCalendar.formatDate($("#date-end").datepicker("getDate"), 'MM/dd/yyyy');
                     var endsplt = ends.split("/");
+
+                    var timestr = $('#time-start').val().split(':');
+                    var timestp = $('#time-end').val().split(':');
+
                     if( startsplt[1].charAt(0) == '0' )
                     {
                         startsplt[1] = startsplt[1].charAt(1);
                     }
+                    if( endsplt[1].charAt(0) == '0' )
+                    {
+                        endsplt[1] = endsplt[1].charAt(1);
+                    }
+                    if( startsplt[0].charAt(0) == '0' )
+                    {
+                        startsplt[0] = startsplt[0].charAt(1);
+                    }
+                    if( endsplt[0].charAt(0) == '0' )
+                    {
+                        endsplt[0] = endsplt[0].charAt(1);
+                    }
+                    
                      if( $('#viewname').val() == "month" )
                         {
                             calendar.fullCalendar('renderEvent',
@@ -124,8 +151,8 @@
                             calendar.fullCalendar('renderEvent',
 				                {
 				                    title: $("#name").val(),
-				                    start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),parseInt($('#time-start').val()),0),
-				                    end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),parseInt($('#time-end').val()),0),
+				                    start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]),
+				                    end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]),
                                     allDay: false,		                                        
 				                },
 				            true // make the event "stick"
@@ -142,16 +169,11 @@
 
 	        });
             //add new time rows
-            var select = $('#time-start');
-            var zz = 0;
-            for(zz=0;zz<=24;zz++)
-            {
-                select.append("<option value='"+zz+"' >"+zz+"</option>");
-            }
             select = $('#time-end');
             for(zz=0;zz<=23;zz++)
             {
-                select.append("<option value='"+zz+"' >"+zz+"</option>");
+                select.append("<option value='"+zz+":0' >"+zz+"</option>");
+                select.append("<option value='"+zz+":30' >"+zz+":30"+"</option>");
             }
         });
 	</script>
@@ -165,10 +187,7 @@
                 <span class="inline">From:</span>
                 <br />
                 <span class="inline"><input type="text" name="date-start" id="date-start" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
-                <span class="inline"><!--<input type="text" name="time" id="time-start" class="text ui-widget-content ui-corner-all">-->
-                    <select name="time" id="time-start" class="text ui-widget-content ui-corner-all">
-                    </select>
-                </span>
+                <span class="inline"><input type="text" name="time" id="time-start" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
                 <br />
                 <span class="inline">To:</span>
                 <br /> 
