@@ -34,24 +34,65 @@
 	                $("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 	                //$("#date-start").datepicker("setDate", date);
                     //$("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
+					//alert( view.name );
                     if( view.name == "month" )
-	                {   
+	                {
+						//alert("month");
+						document.getElementById("date-end").disabled = false;
+						$("#time-start").addClass("hidden");
+						$("#time-end").addClass("hidden");   
                         $("#date-end").datepicker();
+						$("#date-end").datepicker("option", "minDate", date);
 	                    $("#date-end").datepicker("setDate", date);
                     }
                     else
                     {
-                        $("#date-end").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
-                        $("#date-end").attr("disabled","disabled");
+                        document.getElementById("date-end").disabled = true;
+						$("#time-start").removeClass("hidden");
+						$("#time-end").removeClass("hidden");
+						$("#date-end").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
+						//$("#date-end").attr("disabled","true");
+						$("#time-start").val(date.getHours()+":"+date.getMinutes());
+						
+						select = $('#time-end');
+						$("#time-end > option").each(function() {
+    						$(this).remove();
+						});
+						var startpt = date.getHours();
+						var bol = false;
+						if( date.getMinutes() == 0 )
+                        	bol = false;
+                    	else
+						{
+							startpt++;							
+                        	bol = true;
+						}
+            			for(zz=startpt;zz<=24;zz++)
+            			{
+							if( zz == 24 )
+							{
+								select.append("<option value='"+zz+":0' >"+zz+"</option>");
+							}
+							else
+							{
+								if( bol )	
+                				{
+									select.append("<option value='"+zz+":0' >"+zz+"</option>");
+								}
+								select.append("<option value='"+zz+":30' >"+zz+":30"+"</option>");
+								bol = true;
+								
+							}
+								
+            			}
+						
+                    	if( date.getMinutes() == 0 )
+                        	$("#time-end").val(date.getHours()+":30");
+                    	else
+                        	$("#time-end").val((parseInt(date.getHours())+1)+":0");
                     }
 
-	                $("#viewname").val(view.name);
-
-	                $("#time-start").val(date.getHours()+":"+date.getMinutes());
-                    if( date.getMinutes() == 0 )
-                        $("#time-end").val(date.getHours()+":30");
-                    else
-                        $("#time-end").val((parseInt(date.getHours())+1)+":0");
+	                $("#viewname").val(view.name);	                
 	            },
 
 	            editable: true,
