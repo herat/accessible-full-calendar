@@ -2237,7 +2237,7 @@
                 for (j = 0; j < colCnt; j++) {
                     s +=
 					"<td class='fc- " + contentClass + " fc-day" + (i * colCnt + j) + "'><a href='#'>" + // need fc- for setDayID
-					"<div>" +
+					"<div class='fc-hidden'></div><div>" +
 					(showNumbers ?
 						"<div class='fc-day-number'/>" :
 						''
@@ -2310,7 +2310,8 @@
                 }
                 //cell.find('div.fc-day-number').text(date.getDate());
                 //cell.find('div.fc-day-number').attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
-                cell.find('div.fc-day-number').text(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
+                cell.find('div.fc-day-number').text(date.getDate());
+				cell.find('div.fc-hidden').text(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
                 if (dowDirty) {
                     setDayID(cell, date);
                 }
