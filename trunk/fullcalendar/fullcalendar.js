@@ -3115,7 +3115,7 @@
 				.appendTo(slotContent);
 
             s =
-			"<table class='fc-agenda-slots' style='width:100%' cellspacing='0'>" +
+			"<table class='fc-agenda-slots fc-agenda-slots1' style='width:100%' cellspacing='0'>" +
 			"<tbody>";
             d = zeroDate();
             maxd = addMinutes(cloneDate(d), maxMinute);
@@ -3159,12 +3159,14 @@
 			);
 			$(".fc-dummy").focus(
 				function(){
-					$(this).parent().addClass('fc-he-test');
+					$('.fc-agenda-slots').removeClass('fc-agenda-slots1');
+					$(this).parent().addClass('fc-he-test');					
 				}
 			);
 			$(".fc-dummy").blur(
 				function(){
 					$(this).parent().removeClass('fc-he-test');
+					$('.fc-agenda-slots').addClass('fc-agenda-slots1');					
 				}
 			);
 
@@ -3594,7 +3596,7 @@
 							},
 							rect
 						));
-                            selectionHelper.css('opacity', opt('dragOpacity'));
+                            selectionHelper.css('opacity', 0/*opt('dragOpacity')*/);
                         }
                         if (selectionHelper) {
                             slotBind(selectionHelper);

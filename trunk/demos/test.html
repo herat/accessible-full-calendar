@@ -27,7 +27,7 @@
 	            },
 	            selectable: true,
 	            selectHelper: true,
-	            dayClick: function (date, allDay, jsEvent, view) {
+	            select: function (date,end, allDay, jsEvent, view) {
 	                $("#dialog").dialog('open');
 	                $("#name").val("[event name]");
 
@@ -39,8 +39,8 @@
 	                {
 						//alert("month");
 						document.getElementById("date-end").disabled = false;
-						$("#time-start").addClass("hidden");
-						$("#time-end").addClass("hidden");   
+						$("#time-start").addClass("hidden2");
+						$("#time-end").addClass("hidden2");   
                         $("#date-end").datepicker();
 						$("#date-end").datepicker("option", "minDate", date);
 	                    $("#date-end").datepicker("setDate", date);
@@ -48,8 +48,8 @@
                     else
                     {
                         document.getElementById("date-end").disabled = true;
-						$("#time-start").removeClass("hidden");
-						$("#time-end").removeClass("hidden");
+						$("#time-start").removeClass("hidden2");
+						$("#time-end").removeClass("hidden2");
 						$("#date-end").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 						//$("#date-end").attr("disabled","true");
 						$("#time-start").val(date.getHours()+":"+date.getMinutes());
@@ -150,31 +150,37 @@
 	            width: 700,
 	            modal: true,
 	            buttons: {
-	                'Create event': function () {
+	                'Create event': function () {						
                     var startsplt = $("#date-start").val().split("/");
-                    var ends =  $.fullCalendar.formatDate($("#date-end").datepicker("getDate"), 'MM/dd/yyyy');
-                    var endsplt = ends.split("/");
-
-                    var timestr = $('#time-start').val().split(':');
-                    var timestp = $('#time-end').val().split(':');
-
-                    if( startsplt[1].charAt(0) == '0' )
-                    {
-                        startsplt[1] = startsplt[1].charAt(1);
-                    }
-                    if( endsplt[1].charAt(0) == '0' )
-                    {
-                        endsplt[1] = endsplt[1].charAt(1);
-                    }
-                    if( startsplt[0].charAt(0) == '0' )
-                    {
-                        startsplt[0] = startsplt[0].charAt(1);
-                    }
-                    if( endsplt[0].charAt(0) == '0' )
-                    {
-                        endsplt[0] = endsplt[0].charAt(1);
-                    }
-                    
+					var ends;
+					if( $('#viewname').val() == "month" )
+						ends = $.fullCalendar.formatDate($("#date-end").datepicker("getDate"), 'MM/dd/yyyy');
+					else
+					{
+                    	ends =  $("#date-start").val();
+							
+						var timestr = $('#time-start').val().split(':');
+						var timestp = $('#time-end').val().split(':');						
+					}
+					var endsplt = ends.split("/");
+					
+					if( startsplt[1].charAt(0) == '0' )
+					{
+						startsplt[1] = startsplt[1].charAt(1);
+					}
+					if( endsplt[1].charAt(0) == '0' )
+					{
+						endsplt[1] = endsplt[1].charAt(1);
+					}
+					if( startsplt[0].charAt(0) == '0' )
+					{
+						startsplt[0] = startsplt[0].charAt(1);
+					}
+					if( endsplt[0].charAt(0) == '0' )
+					{
+						endsplt[0] = endsplt[0].charAt(1);
+					}
+					
                      if( $('#viewname').val() == "month" )
                         {
                             calendar.fullCalendar('renderEvent',
@@ -209,15 +215,23 @@
 	            }
 
 	        });
-            //add new time rows
+            /*add new time rows
             select = $('#time-end');
             for(zz=0;zz<=23;zz++)
             {
                 select.append("<option value='"+zz+":0' >"+zz+"</option>");
                 select.append("<option value='"+zz+":30' >"+zz+":30"+"</option>");
-            }
+            }*/
         });
 	</script>
+    <style type='text/css'>
+
+	#calendar {
+		width: 900px;
+		margin: 0 auto;
+		}
+
+</style>
 </head>
 
 <body>
