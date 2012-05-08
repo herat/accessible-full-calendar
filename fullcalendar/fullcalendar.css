@@ -15,6 +15,7 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
+	text-decoration:none;
 }
 .hidden{
 	position:absolute;
@@ -35,7 +36,12 @@
 a{
 	text-decoration:none;
 }
-
+a:hover div, a:focus div, a:active div {
+   color : green;
+   text-decoration : none;
+   border:#00F;
+   background-color:#C39;
+ }
 .fc {
 	direction: ltr;
 	text-align: left;
