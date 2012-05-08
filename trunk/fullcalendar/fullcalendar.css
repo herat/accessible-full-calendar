@@ -6,7 +6,7 @@
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
  * Date: Mon Feb 6 22:40:40 2012 -0800
- *
+ *http://css-tricks.com/removing-the-dotted-outline/
  */
 .fc-hidden{
 	position:absolute;
@@ -33,14 +33,15 @@
 	height:1px;
 	overflow:hidden;
 } 
-a.fc-dummy{
+.fc-dummy{
 	text-decoration:none;
 }
-a:hover div, a:focus div, a:active div {
-   color : green;
-   text-decoration : none;
+/*a:hover div, a:focus div, a:active div {
    border:#00F;
    background-color:#C39;
+ }*/ 
+.fc-he-test{
+   background: black;
  }
 .fc {
 	direction: ltr;
@@ -569,7 +570,7 @@ table.fc-border-separate {
 	
 .fc-agenda-slots td {
 	border-width: 1px 0 0;
-	background: none;
+	/*background: none;*/
 	}
 	
 .fc-agenda-slots td div {

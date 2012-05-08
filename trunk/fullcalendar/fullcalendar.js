@@ -2276,6 +2276,16 @@
 					event.preventDefault();
 				}
 			);
+			$(".fc-dummy").focus(
+				function(){
+					$(this).parent().addClass('fc-he-test');
+				}
+			);
+			$(".fc-dummy").blur(
+				function(){
+					$(this).parent().removeClass('fc-he-test');
+				}
+			);
 			
             daySegmentContainer =
 			$("<div style='position:absolute;z-index:8;top:0;left:0'/>")
@@ -3143,8 +3153,18 @@
             slotBind1(slotTable.find('td a'));
 			
 			$(".fc-dummy").click(
-				function(event){
+				function(event){					
 					event.preventDefault();
+				}
+			);
+			$(".fc-dummy").focus(
+				function(){
+					$(this).parent().addClass('fc-he-test');
+				}
+			);
+			$(".fc-dummy").blur(
+				function(){
+					$(this).parent().removeClass('fc-he-test');
 				}
 			);
 
@@ -3182,7 +3202,7 @@
                     date = colDate(zzz);
                     $(this).html(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
                 }
-            );
+            );			
         }
 
 
