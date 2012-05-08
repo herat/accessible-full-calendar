@@ -8,7 +8,7 @@
  * Date: Mon Feb 6 22:40:40 2012 -0800
  *
  */
- .fc-hidden{
+.fc-hidden{
 	position:absolute;
 	left:-10000px;
 	top:auto;
@@ -17,7 +17,7 @@
 	overflow:hidden;
 	text-decoration:none;
 }
-.hidden{
+.hidden2{
 	position:absolute;
 	left:-10000px;
 	top:auto;
@@ -33,7 +33,7 @@
 	height:1px;
 	overflow:hidden;
 } 
-a{
+a.fc-dummy{
 	text-decoration:none;
 }
 a:hover div, a:focus div, a:active div {
