@@ -571,9 +571,11 @@ table.fc-border-separate {
 	}
 	
 .fc-agenda-slots td {
-	border-width: 1px 0 0;
-	/*background: none;*/
+	border-width: 1px 0 0;	
 	}
+.fc-agenda-slots1 td{
+	background: none;
+}
 	
 .fc-agenda-slots td div {
 	height: 20px;
