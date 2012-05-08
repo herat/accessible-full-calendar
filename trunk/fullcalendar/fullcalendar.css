@@ -36,12 +36,14 @@
 .fc-dummy{
 	text-decoration:none;
 }
-/*a:hover div, a:focus div, a:active div {
-   border:#00F;
-   background-color:#C39;
- }*/ 
+.fc-dummy:hover , .fc-dummy:focus , .fc-dummy:active  {
+   border: none;
+   outline: none;
+   outline-style: none; 
+   -moz-outline-style:none;
+ } 
 .fc-he-test{
-   background: black;
+   background:#CFC;
  }
 .fc {
 	direction: ltr;
