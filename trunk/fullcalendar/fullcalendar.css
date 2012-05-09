@@ -32,7 +32,15 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
-} 
+}
+.hidden3{
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}  
 .fc-dummy{
 	text-decoration:none;
 }
