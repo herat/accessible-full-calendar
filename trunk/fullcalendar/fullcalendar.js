@@ -4057,7 +4057,7 @@
 			$(".hidden1").each(
 					function(index){
 						var date = event.start;
-						if( $(this).text().indexOf( date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() ) >= 0 )
+						if( $(this).text().indexOf( date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() ) >= 0 && $(this).prev().text().indexOf(formatDate(date,'h(:mm)tt')) >= 0)
 						{
 							//alert("match");
 							var edate = event.end;
