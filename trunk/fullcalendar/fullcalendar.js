@@ -4808,7 +4808,16 @@
 						var date = event.start;
 						if( $(this).text().indexOf( date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() ) >= 0 )
 						{
-							$(this).next().html(event.title);
+							var edate = event.end;
+							if( edate == null )
+							{
+								$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
+							}
+							else
+							{
+								//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
+								//date-$(this).next().append(" Event: "+event.title+" From: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To:"+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
+							}
 						}
 					}
 				);
