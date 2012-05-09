@@ -3134,7 +3134,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     date = colDate(zz);
                     s +=
-				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden2'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='hidden1'>" + (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) + "</div>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden2'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='hidden1'>" + (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) + "</div><div class='hidden3'></div>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
@@ -4052,6 +4052,28 @@
             }
             html +=
 			"</" + (url ? "a" : "div") + ">";
+			
+			//my code
+			$(".hidden1").each(
+					function(index){
+						var date = event.start;
+						if( $(this).text().indexOf( date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() ) >= 0 )
+						{
+							//alert("match");
+							var edate = event.end;
+							if( edate == null )
+							{
+								$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
+							}
+							else
+							{
+								//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
+								date-$(this).next().append(" Event: "+event.title+" From: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To:"+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
+							}
+						}
+					}
+				);
+			
             return html;
         }
 
@@ -4816,7 +4838,7 @@
 							else
 							{
 								//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
-								//date-$(this).next().append(" Event: "+event.title+" From: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To:"+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
+								date-$(this).next().append(" Event: "+event.title+" From: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To:"+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
 							}
 						}
 					}
