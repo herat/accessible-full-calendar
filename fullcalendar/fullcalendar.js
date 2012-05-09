@@ -14,7 +14,7 @@
 * Date: Mon Feb 6 22:40:40 2012 -0800
 *
 */
-//http://api.jquery.com/position/
+//http://api.jquery.com/position/ search textnode which contains date and then insert into dummy div- 9-5-2012
 
 (function ($, undefined) {
 
@@ -2237,7 +2237,7 @@
                 for (j = 0; j < colCnt; j++) {
                     s +=
 					"<td class='fc- " + contentClass + " fc-day" + (i * colCnt + j) + "'><a class='fc-dummy' href='#'>" + // need fc- for setDayID
-					"<div class='fc-hidden'></div><div>" +
+					"<div class='fc-hidden'></div><div class='hidden3'></div><div>" +
 					(showNumbers ?
 						"<div class='fc-day-number'/>" :
 						''
@@ -4803,6 +4803,15 @@
                 seg.outerWidth = right - left;
                 seg.startCol = leftCol;
                 seg.endCol = rightCol + 1; // needs to be exclusive
+				$(".fc-hidden").each(
+					function(index){
+						var date = event.start;
+						if( $(this).text().indexOf( date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() ) >= 0 )
+						{
+							$(this).next().html(event.title);
+						}
+					}
+				);
             }
             return html;
         }
