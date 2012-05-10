@@ -2736,6 +2736,15 @@
                     }, ev, 'drag');
                 },
                 stop: function (ev, ui) {
+					//remove events from its original position
+					$(".fc-hidden").each(
+					function(index){
+						var date = event.start;
+						if( $(this).next().text().indexOf( event.title ) >= 0 )
+						{
+							$(this).next().html("");
+						}
+					});
                     hoverListener.stop();
                     clearOverlays();
                     trigger('eventDragStop', eventElement, event, ev, ui);
