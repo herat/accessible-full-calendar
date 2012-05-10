@@ -4277,6 +4277,14 @@
                     }
                 },
                 stop: function (ev, ui) {
+					$(".hidden1").each(
+					function(index){
+						var date = event.start;
+						if( $(this).next().text().indexOf( event.title ) >= 0 )
+						{
+							$(this).next().html("");
+						}
+					});
                     var cell = hoverListener.stop();
                     clearOverlays();
                     trigger('eventDragStop', eventElement, event, ev, ui);
