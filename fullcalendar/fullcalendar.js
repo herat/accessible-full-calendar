@@ -4066,7 +4066,7 @@
 			$(".hidden1").each(
 					function(index){
 						var date = event.start;
-						if( $(this).text().indexOf( date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() ) >= 0 && $(this).prev().text().indexOf(formatDate(date,'h(:mm)tt')) >= 0)
+						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() && $(this).prev().text() == formatDate(date,'h(:mm)tt') + " of " )
 						{
 							if( $(this).next().text().indexOf(event.title)>= 0)
 							{
@@ -4076,12 +4076,12 @@
 								var edate = event.end;
 								if( edate == null )
 								{
-									$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
+									$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
 								}
 								else
 								{
 									//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
-									date-$(this).next().append(" Event: "+event.title+" From: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To:"+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
+									$(this).next().append(" Event: "+event.title+" From: "+formatDate(date,'h(:mm)tt')+" To:"+formatDate(edate,'h(:mm)tt'));
 								}
 							}
 						}
@@ -4850,7 +4850,7 @@
 				$(".fc-hidden").each(
 					function(index){
 						var date = event.start;
-						if( $(this).text().indexOf( date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() ) >= 0 )
+						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() )
 						{
 							if( $(this).next().text().indexOf(event.title)>= 0)
 							{
@@ -4860,12 +4860,12 @@
 								var edate = event.end;
 								if( edate == null )
 								{
-									$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
+									$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
 								}
 								else
 								{
 									//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
-									date-$(this).next().append(" Event: "+event.title+" From: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To:"+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
+									$(this).next().append(" Event: "+event.title+" From: "+ formatDate(date,'h(:mm)tt') +" of "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To: "+formatDate(edate,'h(:mm)tt')+" of "+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
 								}
 							}
 						}
