@@ -1,0 +1,4 @@
+6:03 PM 5/13/2012
+save prev id in hidden element and delete/edit events using it.
+auto increment id in calendar.
+all ids will be compulsory for a calendar.
