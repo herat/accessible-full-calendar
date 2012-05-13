@@ -2280,7 +2280,7 @@
 				function(){
 					$(this).parent().addClass('fc-he-test');
 				}
-			);
+			);				
 			$(".fc-dummy").blur(
 				function(){
 					$(this).parent().removeClass('fc-he-test');
@@ -2652,8 +2652,29 @@
 
 
         function renderEvents(events, modifiedEventId) {
-            reportEvents(events);
+			reportEvents(events);
             renderDaySegs(compileSegs(events), modifiedEventId);
+			$(".fc-event-skin").focus(					
+					function(){
+						console.log("event focused");
+						$(this).removeClass('fc-event-skin').addClass('fc-event-hf');
+						$(this).children('.fc-event-skin').removeClass('fc-event-skin').addClass('fc-event-hf');
+					}
+				);
+			$(".fc-event").blur(					
+					function(){
+						console.log("event focused");
+						$(this).removeClass('fc-event-hf').addClass('fc-event-skin');
+						$(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
+					}
+				);
+			$("a.fc-event-skin").click(
+				function(event){
+					console.log("here...");
+					event.preventDefault();
+					//use this if no other options can be utilized. Search particular event and pass it here.trigger('eventClick', this,events[0], event);
+				}
+			);			
         }
 
 
@@ -2699,7 +2720,7 @@
                 resizableDayEvent(event, eventElement, seg);
             }
             eventElementHandlers(event, eventElement);
-            // needs to be after, because resizableDayEvent might stopImmediatePropagation on click
+			// needs to be after, because resizableDayEvent might stopImmediatePropagation on click
         }
 
 
@@ -3810,7 +3831,7 @@
                 renderDaySegs(compileDaySegs(dayEvents), modifiedEventId);
                 setHeight(); // no params means set to viewHeight
             }
-            renderSlotSegs(compileSlotSegs(slotEvents), modifiedEventId);
+			renderSlotSegs(compileSlotSegs(slotEvents), modifiedEventId);
         }
 
 
@@ -4033,11 +4054,12 @@
             if (event.source) {
                 classes = classes.concat(event.source.className || []);
             }
-            if (url) {
+			html += "a href='#'";
+            /*if (url) {
                 html += "a href='" + htmlEscape(event.url) + "'";
             } else {
                 html += "div";
-            }
+            }*/
             html +=
 			" class='" + classes.join(' ') + "'" +
 			" style='position:absolute;z-index:8;top:" + seg.top + "px;left:" + seg.left + "px;" + skinCss + "'" +
@@ -4060,14 +4082,15 @@
 				"<div class='ui-resizable-handle ui-resizable-s'>=</div>";
             }
             html +=
-			"</" + (url ? "a" : "div") + ">";
-			
+			//"</" + (url ? "a" : "div") + ">";
+			"</" +  "a"  + ">";
 			//my code
 			$(".hidden1").each(
 					function(index){
 						var date = event.start;
 						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() && $(this).prev().text() == formatDate(date,'h(:mm)tt') + " of " )
 						{
+							//console.log( "match" + event.title);
 							if( $(this).next().text().indexOf(event.title)>= 0)
 							{
 							}
@@ -4087,8 +4110,7 @@
 						}
 					}
 				);
-			
-            return html;
+			return html;
         }
 
 
@@ -4520,8 +4542,10 @@
 
         // attaches eventClick, eventMouseover, eventMouseout
         function eventElementHandlers(event, eventElement) {
-            eventElement
+			eventElement
 			.click(function (ev) {
+				console.log("clicked and triggered"+eventElement.html());
+				ev.preventDefault();
 			    if (!eventElement.hasClass('ui-draggable-dragging') &&
 					!eventElement.hasClass('ui-resizable-resizing')) {
 			        return trigger('eventClick', this, event, ev);
@@ -4534,7 +4558,7 @@
 				function (ev) {
 				    trigger('eventMouseout', this, event, ev);
 				}
-			);
+			);			
             // TODO: don't fire eventMouseover/eventMouseout *while* dragging is occuring (on subject element)
             // TODO: same for resizing
         }
@@ -4780,7 +4804,8 @@
             for (i = 0; i < segCnt; i++) {
                 seg = segs[i];
                 event = seg.event;
-                classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
+				
+				classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
                 if (isEventDraggable(event)) {
                     classes.push('fc-event-draggable');
                 }
@@ -4813,11 +4838,12 @@
                 }
                 url = event.url;
                 skinCss = getSkinCss(event, opt);
-                if (url) {
+                /*if (url) {
                     html += "<a href='" + htmlEscape(url) + "'";
                 } else {
                     html += "<div";
-                }
+                }*/
+				html += "<a href='#'";
                 html +=
 				" class='" + classes.join(' ') + "'" +
 				" style='position:absolute;z-index:8;left:" + left + "px;" + skinCss + "'" +
@@ -4842,11 +4868,13 @@
 					"</div>";
                 }
                 html +=
-				"</" + (url ? "a" : "div") + ">";
+				//"</" + (url ? "a" : "div") + ">";
+				"</a>";
                 seg.left = left;
                 seg.outerWidth = right - left;
                 seg.startCol = leftCol;
                 seg.endCol = rightCol + 1; // needs to be exclusive
+				
 				$(".fc-hidden").each(
 					function(index){
 						var date = event.start;
@@ -4871,6 +4899,7 @@
 						}
 					}
 				);
+				
             }
             return html;
         }
@@ -4931,6 +4960,7 @@
             for (i = 0; i < segCnt; i++) {
                 seg = segs[i];
                 element = seg.element;
+				//console.log( element.html() );
                 if (element) {
                     event = seg.event;
                     if (event._id === modifiedEventId) {
