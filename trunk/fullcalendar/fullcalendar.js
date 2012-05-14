@@ -3972,7 +3972,9 @@
 			//events are focused after all day links. Test it using this temp link.
             slotSegmentContainer[0].innerHTML = "<a href='#'>Temp Link</a>"+html; // faster than html()
 			$(".fc-event-vert").click(
-					function (){
+					function (evnt){
+						evnt.preventDefault();
+						trigger('eventClick', this, segs[0].event, evnt);
 						console.log( "hieee" );
 					}
 				);
