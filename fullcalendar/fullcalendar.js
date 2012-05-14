@@ -2667,12 +2667,15 @@
 						$(this).removeClass('fc-event-hf').addClass('fc-event-skin');
 						$(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
 					}
-				);
-			$("a.fc-event-skin").click(
+				);			
+			$("a.fc-event-skin").keypress(
 				function(event){
-					console.log("here...");
-					event.preventDefault();
-					//use this if no other options can be utilized. Search particular event and pass it here.trigger('eventClick', this,events[0], event);
+					if( event.keyCode == 13 )
+					{
+						console.log("here...");
+						event.preventDefault();
+						//use this if no other options can be utilized. Search particular event and pass it here.trigger('eventClick', this,events[0], event);
+					}
 				}
 			);			
         }
@@ -3963,8 +3966,15 @@
                 seg.outerWidth = outerWidth;
                 seg.outerHeight = bottom - top;
                 html += slotSegHtml(event, seg);
+				//here everytime it is called in day and week view				
+				console.log( event.title );
             }
             slotSegmentContainer[0].innerHTML = html; // faster than html()
+			$(".fc-event-vert").click(
+					function (){
+						console.log( "hieee" );
+					}
+				);
             eventElements = slotSegmentContainer.children();
 
             // retrieve elements, run through eventRender callback, bind event handlers

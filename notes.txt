@@ -5,3 +5,4 @@ all ids will be compulsory for a calendar.
 Update hidden divs when events are edited or deleted. - done
 keyboard navigation for edit and delete entries.
 Check logic for endtime and startdate for new dialog1.
+Modify day and week renders to render events like month view.<a> elements.
