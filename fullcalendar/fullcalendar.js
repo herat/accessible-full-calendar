@@ -3970,7 +3970,21 @@
 				console.log( event.title );
             }
 			//events are focused after all day links. Test it using this temp link.
-            slotSegmentContainer[0].innerHTML = "<a href='#'>Temp Link</a>"+html; // faster than html()
+            slotSegmentContainer[0].innerHTML = html; // faster than html()
+			$(".fc-event-vert").focus(
+				function (eve){
+					$(this).removeClass("fc-event-skin").addClass("fc-event-hf1");
+					$(this).children(".fc-event-skin").removeClass("fc-event-skin").addClass("fc-event-hf1");
+					$(this).children().children(".fc-event-skin").removeClass("fc-event-skin").addClass("fc-event-hf1");					
+				}
+			);
+			$(".fc-event-vert").blur(
+				function (eve){
+					$(this).removeClass("fc-event-hf1").addClass("fc-event-skin");
+					$(this).children(".fc-event-hf1").removeClass("fc-event-hf1").addClass("fc-event-skin");
+					$(this).children().children(".fc-event-hf1").removeClass("fc-event-hf1").addClass("fc-event-skin");					
+				}
+			);
 			$(".fc-event-vert").click(
 					function (evnt){
 						evnt.preventDefault();
@@ -3978,6 +3992,7 @@
 						console.log( "hieee" );
 					}
 				);
+			
             eventElements = slotSegmentContainer.children();
 
             // retrieve elements, run through eventRender callback, bind event handlers
