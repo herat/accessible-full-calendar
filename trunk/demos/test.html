@@ -307,6 +307,20 @@
 						'Delete Event': function() {
 							calendar.fullCalendar('removeEvents',
 							function( ev ){
+								$(".fc-hidden").each(
+								function(index){
+									if( $(this).next().text().indexOf( ev.title ) >= 0 )
+									{
+										$(this).next().html("");
+									}
+								});
+								$(".hidden1").each(
+								function(index){
+									if( $(this).next().text().indexOf( ev.title ) >= 0 )
+									{
+										$(this).next().html("");
+									}
+								});
 								if( ev.title == $("#name1").val())
 									return true;
 							}
@@ -318,8 +332,23 @@
 						
 						calendar.fullCalendar('removeEvents',
 							function( ev ){
+								$(".fc-hidden").each(
+								function(index){
+									if( $(this).next().text().indexOf( ev.title ) >= 0 )
+									{
+										$(this).next().html("");
+									}
+								});
+								$(".hidden1").each(
+								function(index){
+									if( $(this).next().text().indexOf( ev.title ) >= 0 )
+									{
+										$(this).next().html("");
+									}
+								});
 								if( ev.title == $("#name1").val())
 									return true;
+								
 							}
 						);
 						
