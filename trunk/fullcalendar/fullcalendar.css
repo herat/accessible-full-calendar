@@ -332,6 +332,11 @@ a.fc-event {
 	background-color: #000; /* default BACKGROUND color */
 	color: #fff;            /* default TEXT color */
 }
+.fc-event-hf1  {
+	border-color: #000;     /* default BORDER color */
+	background-color: #000; /* default BACKGROUND color */
+	color: #fff;            /* default TEXT color */
+}
 .fc-event-inner {
 	position: relative;
 	width: 100%;
