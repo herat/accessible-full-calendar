@@ -6,3 +6,7 @@ Update hidden divs when events are edited or deleted. - done
 keyboard navigation for edit and delete entries.
 Check logic for endtime and startdate for new dialog1.
 Modify day and week renders to render events like month view.<a> elements.
+
+Remove console.log statements. http://stackoverflow.com/questions/7742781/ie9-bug-javascript-only-works-after-opening-developer-tools-once-very-stran
+
+Finish code for publishing.
