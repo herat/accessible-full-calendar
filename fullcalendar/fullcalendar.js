@@ -3969,7 +3969,8 @@
 				//here everytime it is called in day and week view				
 				console.log( event.title );
             }
-            slotSegmentContainer[0].innerHTML = html; // faster than html()
+			//events are focused after all day links. Test it using this temp link.
+            slotSegmentContainer[0].innerHTML = "<a href='#'>Temp Link</a>"+html; // faster than html()
 			$(".fc-event-vert").click(
 					function (){
 						console.log( "hieee" );
