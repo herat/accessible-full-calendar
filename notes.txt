@@ -16,3 +16,5 @@ Add support for chrome and IE, test code for all browsers.
 Use +"<div style='display:none'>Testing 123</div>" to display event id in the calendar and use it.
 
 Add tooltip support to expand event.
+
+When new evets are added, add new condtitions for checking validity. Also make sure each event has id, start and end fields.
