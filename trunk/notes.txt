@@ -13,3 +13,4 @@ Finish code for publishing.
 
 8:50 AM 5/15/2012
 Add support for chrome and IE, test code for all browsers.
+Use +"<div style='display:none'>Testing 123</div>" to display event id in the calendar and use it.
