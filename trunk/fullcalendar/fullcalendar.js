@@ -2668,8 +2668,9 @@
 						$(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
 					}
 				);			
-			$(".fc-event-hori").keypress(
+			$("a.fc-event-hori").keydown(				
 				function(event){
+					//console.log("here...");
 					if( event.keyCode == 13 )
 					{
 						//console.log("here...");
@@ -3994,18 +3995,21 @@
 					$(this).children().children(".fc-event-hf1").removeClass("fc-event-hf1").addClass("fc-event-skin");					
 				}
 			);
-			$(".fc-event-vert").click(
+			$(".fc-event-vert").keydown(
 					function (evnt){
-						evnt.preventDefault();
-						var typ;
-						for( var zy = 0;zy < segs.length;zy++)
+						if( evnt.keyCode == 13 )
 						{
-							//console.log($(this).find(".fc-event-title").text());
-							if( segs[zy].event.title == $(this).find(".fc-event-title").text())
-								typ = segs[zy].event;
+							evnt.preventDefault();
+							var typ;
+							for( var zy = 0;zy < segs.length;zy++)
+							{
+								//console.log($(this).find(".fc-event-title").text());
+								if( segs[zy].event.title == $(this).find(".fc-event-title").text())
+									typ = segs[zy].event;
+							}
+							trigger('eventClick', this, typ, evnt);
+							//console.log( "hieee" );
 						}
-						trigger('eventClick', this, typ, evnt);
-						//console.log( "hieee" );
 					}
 				);
 			
