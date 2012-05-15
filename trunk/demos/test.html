@@ -29,7 +29,7 @@
 	            selectHelper: true,
 				//event is clicked
 				eventClick: function(calevent,jsEvent,view){
-					console.log("event clicked");
+					//console.log("event clicked");
 					$("#fc-emode1").val("edit");
 					
 					$("#dialog1").dialog('open');
@@ -44,11 +44,13 @@
                     if( view.name == "month" )
 	                {
 						//alert("month");
-						document.getElementById("date-end").disabled = false;
+						document.getElementById("date-end1").disabled = false;
 						$("#time-start1").addClass("hidden2");
 						$("#time-end1").addClass("hidden2");   
+						$("#date-start1").datepicker();
+						$("#date-start1").datepicker("setDate", date);
                         $("#date-end1").datepicker();
-						$("#date-end1").datepicker("option", "minDate", date);
+						//$("#date-end1").datepicker("option", "minDate", date);
 						if( calevent.end != null )
 							$("#date-end1").datepicker("setDate", calevent.end);
 						else
@@ -56,7 +58,7 @@
                     }
                     else
                     {
-                        document.getElementById("date-end").disabled = true;
+                        document.getElementById("date-end1").disabled = true;
 						$("#time-start1").removeClass("hidden2");
 						$("#time-end1").removeClass("hidden2");
 						$("#date-end1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
@@ -64,20 +66,21 @@
 						$("#time-start1").val(date.getHours()+":"+date.getMinutes());
 						
 						select = $('#time-end1');
-						$("#time-end > option").each(function() {
+						$("#time-end1 > option").each(function() {
     						$(this).remove();
 						});
 						var startpt = date.getHours();
-						var bol = false;
-						if( date.getMinutes() == 0 )
+						var endpt = calevent.end;
+						var bol = true;
+						/*if( date.getMinutes() == 0 )
                         	bol = false;
                     	else
 						{
 							startpt++;							
                         	bol = true;
-						}
-            			for(zz=startpt;zz<=24;zz++)
-            			{
+						}*/
+						for(zz=0;zz<=24;zz++)
+						{
 							if( zz == 24 )
 							{
 								select.append("<option value='"+zz+":0' >"+zz+"</option>");
@@ -86,21 +89,15 @@
 							{
 								if( bol )	
                 				{
-									select.append("<option value='"+zz+":0' >"+zz+"</option>");
+									select.append("<option value='"+zz+":0' >"+zz+"</option>");									
 								}
-								select.append("<option value='"+zz+":30' >"+zz+":30"+"</option>");
-								bol = true;
-								
+								select.append("<option value='"+zz+":30' >"+zz+":30"+"</option>");								
+								bol = true;								
 							}
-								
-            			}
-						
-                    	if( date.getMinutes() == 0 )
-                        	$("#time-end1").val(date.getHours()+":30");
-                    	else
-                        	$("#time-end1").val((parseInt(date.getHours())+1)+":0");
+						}
+						//console.log(endpt.getHours());
+						select.val(endpt.getHours()+":"+endpt.getMinutes());						            			
                     }
-
 	                $("#viewname1").val(view.name);
 				},
 				//enter data
@@ -462,7 +459,7 @@
                 <input type="text" name="name" id="name1" class="text ui-widget-content ui-corner-all title"><br>
                 <span class="inline">From:</span>
                 <br />
-                <span class="inline"><input type="text" name="date-start" id="date-start1" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
+                <span class="inline"><input type="text" name="date-start" id="date-start1" class="text ui-widget-content ui-corner-all"></span>
                 <span class="inline"><input type="text" name="time" id="time-start1" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
                 <br />
                 <span class="inline">To:</span>
