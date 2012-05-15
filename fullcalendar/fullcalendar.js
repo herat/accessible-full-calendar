@@ -2656,25 +2656,34 @@
             renderDaySegs(compileSegs(events), modifiedEventId);
 			$(".fc-event-skin").focus(					
 					function(){
-						console.log("event focused");
+						//console.log("event focused");
 						$(this).removeClass('fc-event-skin').addClass('fc-event-hf');
 						$(this).children('.fc-event-skin').removeClass('fc-event-skin').addClass('fc-event-hf');
 					}
 				);
 			$(".fc-event").blur(					
 					function(){
-						console.log("event focused");
+						//console.log("event focused");
 						$(this).removeClass('fc-event-hf').addClass('fc-event-skin');
 						$(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
 					}
 				);			
-			$("a.fc-event-skin").keypress(
+			$(".fc-event-hori").keypress(
 				function(event){
 					if( event.keyCode == 13 )
 					{
-						console.log("here...");
+						//console.log("here...");
 						event.preventDefault();
+						var typ;
 						//use this if no other options can be utilized. Search particular event and pass it here.trigger('eventClick', this,events[0], event);
+						for( var zy = 0;zy < events.length;zy++)
+						{
+							//console.log($(this).find(".fc-event-title").text());
+							if( events[zy].title == $(this).find(".fc-event-title").text())
+								typ = events[zy];
+						}
+						//console.log(events.length);
+						trigger('eventClick', this,typ, event);
 					}
 				}
 			);			
@@ -3967,7 +3976,7 @@
                 seg.outerHeight = bottom - top;
                 html += slotSegHtml(event, seg);
 				//here everytime it is called in day and week view				
-				console.log( event.title );
+				//console.log( event.title );
             }
 			//events are focused after all day links. Test it using this temp link.
             slotSegmentContainer[0].innerHTML = html; // faster than html()
@@ -3988,8 +3997,15 @@
 			$(".fc-event-vert").click(
 					function (evnt){
 						evnt.preventDefault();
-						trigger('eventClick', this, segs[0].event, evnt);
-						console.log( "hieee" );
+						var typ;
+						for( var zy = 0;zy < segs.length;zy++)
+						{
+							//console.log($(this).find(".fc-event-title").text());
+							if( segs[zy].event.title == $(this).find(".fc-event-title").text())
+								typ = segs[zy].event;
+						}
+						trigger('eventClick', this, typ, evnt);
+						//console.log( "hieee" );
 					}
 				);
 			
@@ -4572,7 +4588,7 @@
         function eventElementHandlers(event, eventElement) {
 			eventElement
 			.click(function (ev) {
-				console.log("clicked and triggered"+eventElement.html());
+				//console.log("clicked and triggered"+eventElement.html());
 				ev.preventDefault();
 			    if (!eventElement.hasClass('ui-draggable-dragging') &&
 					!eventElement.hasClass('ui-resizable-resizing')) {
