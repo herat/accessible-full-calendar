@@ -44,7 +44,9 @@
                     if( view.name == "month" )
 	                {
 						//alert("month");
+						$("#container-fc-tm").html("<input type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'>");
 						document.getElementById("date-end1").disabled = false;
+						document.getElementById("date-start1").disabled = false;
 						$("#time-start1").addClass("hidden2");
 						$("#time-end1").addClass("hidden2");   
 						$("#date-start1").datepicker();
@@ -58,7 +60,9 @@
                     }
                     else
                     {
-                        document.getElementById("date-end1").disabled = true;
+                        //document.getElementById("date-end1").disabled = true;
+						//document.getElementById("date-start1").disabled = true;
+						$("#container-fc-tm").html("<select name='time' id='time-start1' class='text ui-widget-content ui-corner-all'></select>");
 						$("#time-start1").removeClass("hidden2");
 						$("#time-end1").removeClass("hidden2");
 						$("#date-end1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
@@ -96,7 +100,30 @@
 							}
 						}
 						//console.log(endpt.getHours());
-						select.val(endpt.getHours()+":"+endpt.getMinutes());						            			
+						select.val(endpt.getHours()+":"+endpt.getMinutes());
+						
+						select = $('#time-start1');
+						bol = true;
+						
+						for(zz=0;zz<=24;zz++)
+						{
+							if( zz == 24 )
+							{
+								select.append("<option value='"+zz+":0' >"+zz+"</option>");
+							}
+							else
+							{
+								if( bol )	
+                				{
+									select.append("<option value='"+zz+":0' >"+zz+"</option>");									
+								}
+								select.append("<option value='"+zz+":30' >"+zz+":30"+"</option>");								
+								bol = true;								
+							}
+						}
+						
+						select.val(date.getHours()+":"+date.getMinutes());
+												            			
                     }
 	                $("#viewname1").val(view.name);
 				},
@@ -463,7 +490,7 @@
                 <span class="inline">From:</span>
                 <br />
                 <span class="inline"><input type="text" name="date-start" id="date-start1" class="text ui-widget-content ui-corner-all"></span>
-                <span class="inline"><input type="text" name="time" id="time-start1" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
+                <span class="inline"><span id="container-fc-tm"><input type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'></span></span>
                 <br />
                 <span class="inline">To:</span>
                 <br /> 
