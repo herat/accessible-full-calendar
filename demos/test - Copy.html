@@ -34,9 +34,14 @@
 	            },
 	            selectable: true,
 	            selectHelper: true,
-				/*eventAfterRender: function( evento,elemento,viewo ){
-					console.log( evento.title + "  " +elemento.html());
-				},*/
+				eventAfterRender: function( evento,elemento,viewo ){
+					//console.log( evento.title + "  " +elemento.html());
+					fluid.tooltip( elemento, {
+							content: function(){
+								return "Edit Event";
+							}
+						});
+				},
 				viewDisplay: function(view) {
         			//console.log('The new title of the view is ' + view.title+" "+$(this).html());
 					if( view.name == "month" )
@@ -46,17 +51,30 @@
 							//console.log($(this).find(".fc-day"+ty).html());
 							fluid.tooltip(".fc-day"+ty, {
 								content: function () {
-									//return $(this).parent().text();
-									//console.log($(this).html());
-									if ( $(this).html().indexOf( "fc-day-content" ) >= 0 )
+									return "Create Event";
+									
+									/*if ( $(this).html().indexOf( "fc-day-content" ) >= 0 )
 										return $(this).prev().prev().text();
 									else if ( $(this).html().indexOf("div") >= 0)
 										return $(this).parent().prev().prev().text();
 									else
 										return $(this).parent().parent().prev().prev().text();
-									return "";								
+									return "";*/								
 								}
 							});
+						}
+					}
+					else
+					{
+						for( var ty=0;ty <= 47;ty++)
+						{
+							$(".fc-slot"+ty).find(".fc-widget-content").each( function(){
+									fluid.tooltip( $(this),{
+											content: function(){
+												return "Create Event";
+											}
+										} );
+								});
 						}
 					}
     			},
