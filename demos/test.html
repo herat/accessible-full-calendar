@@ -357,28 +357,6 @@
 						},
 						'Edit event': function () {
 						
-						calendar.fullCalendar('removeEvents',
-							function( ev ){
-								$(".fc-hidden").each(
-								function(index){
-									if( $(this).next().text().indexOf( ev.title ) >= 0 )
-									{
-										$(this).next().html("");
-									}
-								});
-								$(".hidden1").each(
-								function(index){
-									if( $(this).next().text().indexOf( ev.title ) >= 0 )
-									{
-										$(this).next().html("");
-									}
-								});
-								if( ev.title == $("#name1").val())
-									return true;
-								
-							}
-						);
-						
 						var startsplt = $("#date-start1").val().split("/");
 						var ends;
 						if( $('#viewname1').val() == "month" )
@@ -408,6 +386,51 @@
 						{
 							endsplt[0] = endsplt[0].charAt(1);
 						}
+						
+						if( $('#viewname1').val() == "month" )
+						{
+							var sdat = new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]));
+							var edat = new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]));
+							if( edat < sdat )
+							{
+								alert("Enter valid dates");
+								$(this).dialog('close');
+								return;
+							}
+						}
+						else
+						{
+							var sdat = new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]);
+							var edat = new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]);
+							if( edat < sdat )
+							{
+								alert("Enter valid dates");
+								$(this).dialog('close');
+								return;
+							}
+						}
+						
+						calendar.fullCalendar('removeEvents',
+							function( ev ){
+								$(".fc-hidden").each(
+								function(index){
+									if( $(this).next().text().indexOf( ev.title ) >= 0 )
+									{
+										$(this).next().html("");
+									}
+								});
+								$(".hidden1").each(
+								function(index){
+									if( $(this).next().text().indexOf( ev.title ) >= 0 )
+									{
+										$(this).next().html("");
+									}
+								});
+								if( ev.title == $("#name1").val())
+									return true;
+								
+							}
+						);
 						
 						 if( $('#viewname1').val() == "month" )
 							{
