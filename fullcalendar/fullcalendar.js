@@ -2656,16 +2656,37 @@
             renderDaySegs(compileSegs(events), modifiedEventId);
 			$(".fc-event-skin").focus(					
 					function(){
-						//console.log("event focused");
-						$(this).removeClass('fc-event-skin').addClass('fc-event-hf');
-						$(this).children('.fc-event-skin').removeClass('fc-event-skin').addClass('fc-event-hf');
+						var tmpcont = $(this).text();
+						//console.log(tmpcont+"--------");
+						$(document).find("a.fc-event-skin").each( 
+							function (){
+							//console.log( $(this).html() +"  "+ tmpcont);
+							if( $(this).text().trim() == tmpcont.trim() )
+							{
+								//console.log("Match");
+								$(this).removeClass('fc-event-skin').addClass('fc-event-hf');
+								$(this).children('.fc-event-skin').removeClass('fc-event-skin').addClass('fc-event-hf');
+							}
+						});
 					}
 				);
 			$(".fc-event").blur(					
 					function(){
 						//console.log("event focused");
-						$(this).removeClass('fc-event-hf').addClass('fc-event-skin');
-						$(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
+						//$(this).removeClass('fc-event-hf').addClass('fc-event-skin');
+						//$(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
+						var tmpcont = $(this).text();
+						//console.log(tmpcont+"--------");
+						$(document).find("a.fc-event").each( 
+							function (){
+							//console.log( $(this).html() +"  "+ tmpcont);
+							if( $(this).text().trim() == tmpcont.trim() )
+							{
+								//console.log("Match");
+								$(this).removeClass('fc-event-hf').addClass('fc-event-skin');
+								$(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
+							}
+						});
 					}
 				);			
 			$("a.fc-event-hori").keydown(				
