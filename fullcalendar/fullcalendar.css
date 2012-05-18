@@ -51,7 +51,7 @@
    -moz-outline-style:none;
  } 
 .fc-he-test{
-   background:#CFC;
+   background:#FC6;
  }
 .fc {
 	direction: ltr;
@@ -329,13 +329,13 @@ a.fc-event {
 /* for focus- herat */
 .fc-event-hf  {
 	border-color: #000;     /* default BORDER color */
-	background-color: #000; /* default BACKGROUND color */
-	color: #fff;            /* default TEXT color */
+	background-color:#FF3; /* default BACKGROUND color */
+	color: #000;            /* default TEXT color */
 }
 .fc-event-hf1  {
 	border-color: #000;     /* default BORDER color */
-	background-color: #000; /* default BACKGROUND color */
-	color: #fff;            /* default TEXT color */
+	background-color: #FF3; /* default BACKGROUND color */
+	color: #000;            /* default TEXT color */
 }
 .fc-event-inner {
 	position: relative;
