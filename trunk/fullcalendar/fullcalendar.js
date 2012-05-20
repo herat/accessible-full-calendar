@@ -3191,7 +3191,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     date = colDate(zz);
                     s +=
-				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden2'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='fc-cell-id'></div><div class='hidden1'>" + /*(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) +*/ "</div><div class='hidden3'></div>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden2'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='fc-cell-id'></div><div class='hidden1'>" + (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) + "</div><div class='hidden3'></div>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
@@ -4154,7 +4154,7 @@
 						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() && $(this).prev().prev().text() == formatDate(date,'h(:mm)tt') + " of " )
 						{
 							//console.log( "match" + event.title);
-							if( $(this).prev().text().indexOf(event.id)>= 0)
+							if( '"'+event.id+'"' == '"undefined"' || $(this).prev().text().indexOf('"'+event.id+'"')>= 0)
 							{
 							}
 							else
@@ -4946,7 +4946,7 @@
 						var date = event.start;
 						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() )
 						{
-							if( $(this).prev().text().indexOf('"'+event.id+'"')>= 0)
+							if( $(this).prev().text().indexOf('"'+event.id+'"')>= 0 )
 							{
 							}
 							else
