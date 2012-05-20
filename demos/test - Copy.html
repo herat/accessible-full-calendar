@@ -27,6 +27,7 @@
 	        var y = date.getFullYear();
             
 	        var calendar = $('#calendar').fullCalendar({
+				/*defaultView: 'agendaWeek',*/
 	            header: {
 	                left: 'prev,next today',
 	                center: 'title',
@@ -35,7 +36,6 @@
 	            selectable: true,
 	            selectHelper: true,
 				eventAfterRender: function( evento,elemento,viewo ){
-					//console.log( evento.title + "  " +elemento.html());
 					fluid.tooltip( elemento, {
 							content: function(){
 								return "Edit Event";
@@ -43,12 +43,10 @@
 						});
 				},
 				viewDisplay: function(view) {
-        			//console.log('The new title of the view is ' + view.title+" "+$(this).html());
-					if( view.name == "month" )
+        			if( view.name == "month" )
 					{
 						for( var ty=0; ty<= 41;ty++)
 						{
-							//console.log($(this).find(".fc-day"+ty).html());
 							fluid.tooltip(".fc-day"+ty, {
 								content: function () {
 									return "Create Event";
@@ -80,22 +78,18 @@
     			},
 				//event is clicked
 				eventClick: function(calevent,jsEvent,view){
-					//console.log("event clicked");
-					$("#fc-emode1").val("edit");
 					
-					$("#dialog1").dialog('open');
-	                $("#name1").val(calevent.title);
+					$("#fc-emode1").val("edit");
+					$("#dialog1").dialog('open');	                
+					$("#name1").val(calevent.title);
 										
 					var date = calevent.start;
 					
 	                $("#date-start1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
-					$("#ori-name1").val( calevent.title );
-	                //$("#date-start").datepicker("setDate", date);
-                    //$("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
-					//alert( view.name );
+					$("#ori-name1").val( calevent.id );
+	                
                     if( view.name == "month" )
 	                {
-						//alert("month");
 						$("#container-fc-tm").html("<input type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'>");
 						document.getElementById("date-end1").disabled = false;
 						document.getElementById("date-start1").disabled = false;
@@ -104,7 +98,7 @@
 						$("#date-start1").datepicker();
 						$("#date-start1").datepicker("setDate", date);
                         $("#date-end1").datepicker();
-						//$("#date-end1").datepicker("option", "minDate", date);
+						
 						if( calevent.end != null )
 							$("#date-end1").datepicker("setDate", calevent.end);
 						else
@@ -112,9 +106,7 @@
                     }
                     else
                     {
-                        //document.getElementById("date-end1").disabled = true;
-						//document.getElementById("date-start1").disabled = true;
-						$("#container-fc-tm").html("<select name='time' id='time-start1' class='text ui-widget-content ui-corner-all'></select>");
+                        $("#container-fc-tm").html("<select name='time' id='time-start1' class='text ui-widget-content ui-corner-all'></select>");
 						$("#time-start1").removeClass("hidden2");
 						$("#time-end1").removeClass("hidden2");
 						$("#date-end1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
@@ -128,13 +120,6 @@
 						var startpt = date.getHours();
 						var endpt = calevent.end;
 						var bol = true;
-						/*if( date.getMinutes() == 0 )
-                        	bol = false;
-                    	else
-						{
-							startpt++;							
-                        	bol = true;
-						}*/
 						for(zz=0;zz<=24;zz++)
 						{
 							if( zz == 24 )
@@ -181,19 +166,14 @@
 				},
 				//enter data
 	            select: function (date,end, allDay, jsEvent, view) {
-					$("#fc-emode").val("create");
-					
+					$("#fc-emode").val("create");					
 	                $("#dialog").dialog('open');
 	                $("#name").val("[event name]");
 					                
 					$("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 					
-	                //$("#date-start").datepicker("setDate", date);
-                    //$("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
-					//alert( view.name );
                     if( view.name == "month" )
 	                {
-						//alert("month");
 						document.getElementById("date-end").disabled = false;
 						$("#time-start").addClass("hidden2");
 						$("#time-end").addClass("hidden2");   
@@ -207,7 +187,6 @@
 						$("#time-start").removeClass("hidden2");
 						$("#time-end").removeClass("hidden2");
 						$("#date-end").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
-						//$("#date-end").attr("disabled","true");
 						$("#time-start").val(date.getHours()+":"+date.getMinutes());
 						
 						select = $('#time-end');
@@ -251,7 +230,7 @@
 	                $("#viewname").val(view.name);	                
 	            },
 
-	            editable: true,
+	            editable: false,
 	            events: [
 				{
 					id: 1,
@@ -347,6 +326,7 @@
 							{
 								calendar.fullCalendar('renderEvent',
 									{
+										id: Math.floor((Math.random()*100)+1), 
 										title: $("#name").val(),
 										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])),
 										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1])),				                                       
@@ -359,6 +339,7 @@
 							{
 								calendar.fullCalendar('renderEvent',
 									{
+										id: Math.floor((Math.random()*100)+1),
 										title: $("#name").val(),
 										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]),
 										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]),
@@ -389,19 +370,21 @@
 							function( ev ){
 								$(".fc-hidden").each(
 								function(index){
-									if( $(this).next().text().indexOf( ev.title ) >= 0 )
+									if( $(this).prev().text().indexOf( '"' +ev.id +'"' ) >= 0 )
 									{
+										$(this).prev().html("");
 										$(this).next().html("");
 									}
 								});
 								$(".hidden1").each(
 								function(index){
-									if( $(this).next().text().indexOf( ev.title ) >= 0 )
+									if(  $(this).prev().text().indexOf( '"' +ev.id +'"' ) >= 0 )
 									{
+										$(this).prev().html("");
 										$(this).next().html("");
 									}
 								});
-								if( ev.title == $("#ori-name1").val())
+								if( ev.id == $("#ori-name1").val())
 									return true;
 							}
 							
@@ -467,19 +450,21 @@
 							function( ev ){
 								$(".fc-hidden").each(
 								function(index){
-									if( $(this).next().text().indexOf( ev.title ) >= 0 )
+									if( $(this).prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
 									{
+										$(this).prev().html("");
 										$(this).next().html("");
 									}
 								});
 								$(".hidden1").each(
 								function(index){
-									if( $(this).next().text().indexOf( ev.title ) >= 0 )
+									if( $(this).prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
 									{
+										$(this).prev().html("");
 										$(this).next().html("");
 									}
 								});
-								if( ev.title == $("#ori-name1").val())
+								if( ev.id == $("#ori-name1").val())
 									return true;
 								
 							}
@@ -489,6 +474,7 @@
 							{
 								calendar.fullCalendar('renderEvent',
 									{
+										id: $("#ori-name1").val(),
 										title: $("#name1").val(),
 										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])),
 										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1])),				                                       
@@ -501,6 +487,7 @@
 							{
 								calendar.fullCalendar('renderEvent',
 									{
+										id: $("#ori-name1").val(),
 										title: $("#name1").val(),
 										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]),
 										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]),
@@ -518,15 +505,7 @@
 					close: function () {
 					}
 	
-				});
-			
-            /*add new time rows
-            select = $('#time-end');
-            for(zz=0;zz<=23;zz++)
-            {
-                select.append("<option value='"+zz+":0' >"+zz+"</option>");
-                select.append("<option value='"+zz+":30' >"+zz+":30"+"</option>");
-            }*/
+				});     
 			
         });
 	</script>
@@ -537,7 +516,7 @@
 		margin: 0 auto;
 		}
 
-</style>
+	</style>
 </head>
 
 <body>

@@ -316,11 +316,12 @@
         // TODO: improve view switching (still weird transition in IE, and FF has whiteout problem)
 
         function changeView(newViewName) {
+			
             if (!currentView || newViewName != currentView.name) {
                 ignoreWindowResize++; // because setMinHeight might change the height before render (and subsequently setSize) is reached
-
+				
                 unselect();
-
+				
                 var oldView = currentView;
                 var newViewElement;
 
@@ -351,8 +352,8 @@
                 header.activateButton(newViewName);
 
                 renderView(); // after height has been set, will make absoluteViewElement's position=relative, then set to null
-
-                content.css('overflow', '');
+				
+				content.css('overflow', '');
                 if (oldView) {
                     setMinHeight(content, 1);
                 }
@@ -380,19 +381,24 @@
                 var forceEventRender = false;
                 if (!currentView.start || inc || date < currentView.start || date >= currentView.end) {
                     // view must render an entire new date range (and refetch/render events)
+					//console.log("con1 ");
                     currentView.render(date, inc || 0); // responsible for clearing events
                     setSize(true);
                     forceEventRender = true;
                 }
                 else if (currentView.sizeDirty) {
                     // view must resize (and rerender events)
+					//console.log("con2 ");
                     currentView.clearEvents();
                     setSize();
                     forceEventRender = true;
                 }
                 else if (currentView.eventsDirty) {
+				 	//console.log("con3 ");
                     currentView.clearEvents();
                     forceEventRender = true;
+					currentView.render(date, inc || 0); // responsible for clearing events
+                    setSize(true);
                 }
                 currentView.sizeDirty = false;
                 currentView.eventsDirty = false;
@@ -741,7 +747,7 @@
                             else if (fcViews[buttonName]) {
                                 buttonClick = function () {
                                     button.removeClass(tm + '-state-hover'); // forget why
-                                    calendar.changeView(buttonName);
+									calendar.changeView(buttonName);
                                 };
                             }
                             if (buttonClick) {
@@ -2237,7 +2243,7 @@
                 for (j = 0; j < colCnt; j++) {
                     s +=
 					"<td class='fc- " + contentClass + " fc-day" + (i * colCnt + j) + "'><a class='fc-dummy' href='#'>" + // need fc- for setDayID
-					"<div class='fc-hidden'></div><div class='hidden3'></div><div>" +
+					"<div class='fc-box-id'></div><div class='fc-hidden'></div><div class='hidden3'></div><div>" +
 					(showNumbers ?
 						"<div class='fc-day-number'/>" :
 						''
@@ -2324,8 +2330,6 @@
                 } else {
                     cell.removeClass(tm + '-state-highlight fc-today');
                 }
-                //cell.find('div.fc-day-number').text(date.getDate());
-                //cell.find('div.fc-day-number').attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
                 cell.find('div.fc-day-number').text(date.getDate());
 				cell.find('div.fc-hidden').text(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
                 if (dowDirty) {
@@ -2656,14 +2660,12 @@
             renderDaySegs(compileSegs(events), modifiedEventId);
 			$(".fc-event-skin").focus(					
 					function(){
-						var tmpcont = $(this).text();
-						//console.log(tmpcont+"--------");
+						var tmpcont = $(this).find(".fc-id").text();
 						$(document).find("a.fc-event-skin").each( 
-							function (){
-							//console.log( $(this).html() +"  "+ tmpcont);
-							if( $(this).text().trim() == tmpcont.trim() )
+						  function (){
+							if( $(this).find(".fc-id").text() == tmpcont )
 							{
-								//console.log("Match");
+								//console.log("Match" + tmpcont);								
 								$(this).removeClass('fc-event-skin').addClass('fc-event-hf');
 								$(this).children('.fc-event-skin').removeClass('fc-event-skin').addClass('fc-event-hf');
 							}
@@ -2672,15 +2674,10 @@
 				);
 			$(".fc-event").blur(					
 					function(){
-						//console.log("event focused");
-						//$(this).removeClass('fc-event-hf').addClass('fc-event-skin');
-						//$(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
-						var tmpcont = $(this).text();
-						//console.log(tmpcont+"--------");
+						var tmpcont = $(this).find(".fc-id").text();
 						$(document).find("a.fc-event").each( 
-							function (){
-							//console.log( $(this).html() +"  "+ tmpcont);
-							if( $(this).text().trim() == tmpcont.trim() )
+						   function (){
+							if( $(this).find(".fc-id").text() == tmpcont )
 							{
 								//console.log("Match");
 								$(this).removeClass('fc-event-hf').addClass('fc-event-skin');
@@ -2691,20 +2688,15 @@
 				);			
 			$("a.fc-event-hori").keydown(				
 				function(event){
-					//console.log("here...");
 					if( event.keyCode == 13 )
 					{
-						//console.log("here...");
 						event.preventDefault();
 						var typ;
-						//use this if no other options can be utilized. Search particular event and pass it here.trigger('eventClick', this,events[0], event);
 						for( var zy = 0;zy < events.length;zy++)
 						{
-							//console.log($(this).find(".fc-event-title").text());
-							if( events[zy].title == $(this).find(".fc-event-title").text())
+							if( events[zy].id == $(this).find(".fc-id").text())
 								typ = events[zy];
 						}
-						//console.log(events.length);
 						trigger('eventClick', this,typ, event);
 					}
 				}
@@ -2795,9 +2787,10 @@
 					$(".fc-hidden").each(
 					function(index){
 						var date = event.start;
-						if( $(this).next().text().indexOf( event.title ) >= 0 )
+						if( $(this).prev().text().indexOf( '"'+event.id+'"' ) >= 0 )
 						{
 							$(this).next().html("");
+							$(this).prev().html("");
 						}
 					});
                     hoverListener.stop();
@@ -2857,7 +2850,7 @@
             t.end = end;
             t.visStart = visStart;
             t.visEnd = visEnd;
-            renderAgenda(weekends ? 7 : 5);
+			renderAgenda(weekends ? 7 : 5);
         }
 
 
@@ -2893,7 +2886,7 @@
             t.title = formatDate(date, opt('titleFormat'));
             t.start = t.visStart = start;
             t.end = t.visEnd = end;
-            renderAgenda(1);
+			renderAgenda(1);
         }
 
 
@@ -3033,11 +3026,11 @@
 
         function renderAgenda(c) {
             colCnt = c;
-            updateOptions();
+			updateOptions();
             if (!dayTable) {
                 buildSkeleton();
             } else {
-                clearEvents();
+				clearEvents();
             }
             updateCells();
         }
@@ -3138,7 +3131,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     date = colDate(zz);
                     s +=
-				    "<td><a class='fc-dummy' href='#'><div class='hidden2'>" + (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) + "</div>" + // fc- needed for setDayID
+				    "<td><a class='fc-dummy' href='#'><div class='hidden2'>" /*+ (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear())*/ + "</div>" + // fc- needed for setDayID
 				    "<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div>" +
 				    "</a></td>";
                 }
@@ -3198,7 +3191,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     date = colDate(zz);
                     s +=
-				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden2'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='hidden1'>" + (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) + "</div><div class='hidden3'></div>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden2'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='fc-cell-id'></div><div class='hidden1'>" + /*(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) +*/ "</div><div class='hidden3'></div>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
@@ -3246,6 +3239,7 @@
             var allDayCell;
             var date;
             var today = clearTime(new Date());
+			//console.log("update cells");
             for (i = 0; i < colCnt; i++) {
                 date = colDate(i);
                 headCell = dayHeadCells.eq(i);
@@ -3261,10 +3255,11 @@
                     bodyCell.removeClass(tm + '-state-highlight fc-today');
                 }
                 setDayID(headCell.add(bodyCell), date);
-            }
+            }			
             $('div.hidden1').each(
                 function (index) {
                     zzz = index % colCnt;
+					//console.log( zzz );
                     date = colDate(zzz);
                     $(this).html(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
                 }
@@ -4025,11 +4020,10 @@
 							for( var zy = 0;zy < segs.length;zy++)
 							{
 								//console.log($(this).find(".fc-event-title").text());
-								if( segs[zy].event.title == $(this).find(".fc-event-title").text())
+								if( segs[zy].event.id == $(this).find(".fc-id").text())
 									typ = segs[zy].event;
 							}
-							trigger('eventClick', this, typ, evnt);
-							//console.log( "hieee" );
+							trigger('eventClick', this, typ, evnt);							
 						}
 					}
 				);
@@ -4138,7 +4132,7 @@
 			"<div class='fc-event-time'>" +
 			htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
 			"</div>" +
-			"</div>" +
+			"</div><div class='fc-id'>"+event.id+"</div>" +
 			"<div class='fc-event-content'>" +
 			"<div class='fc-event-title'>" +
 			htmlEscape(event.title) +
@@ -4157,10 +4151,10 @@
 			$(".hidden1").each(
 					function(index){
 						var date = event.start;
-						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() && $(this).prev().text() == formatDate(date,'h(:mm)tt') + " of " )
+						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() && $(this).prev().prev().text() == formatDate(date,'h(:mm)tt') + " of " )
 						{
 							//console.log( "match" + event.title);
-							if( $(this).next().text().indexOf(event.title)>= 0)
+							if( $(this).prev().text().indexOf(event.id)>= 0)
 							{
 							}
 							else
@@ -4169,11 +4163,13 @@
 								if( edate == null )
 								{
 									$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
+									$(this).prev().append('"'+event.id +'",');
 								}
 								else
 								{
 									//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
 									$(this).next().append(" Event: "+event.title+" From: "+formatDate(date,'h(:mm)tt')+" To:"+formatDate(edate,'h(:mm)tt'));
+									$(this).prev().append('"'+event.id +'",');
 								}
 							}
 						}
@@ -4371,8 +4367,9 @@
 					$(".hidden1").each(
 					function(index){
 						var date = event.start;
-						if( $(this).next().text().indexOf( event.title ) >= 0 )
+						if( $(this).prev().text().indexOf('"'+ event.id+'"' ) >= 0 )
 						{
+							$(this).prev().html("");
 							$(this).next().html("");
 						}
 					});
@@ -4916,7 +4913,7 @@
                 html +=
 				" class='" + classes.join(' ') + "'" +
 				" style='position:absolute;z-index:8;left:" + left + "px;" + skinCss + "'" +
-				">" +
+				"><div class='fc-id'>"+event.id+"</div>" +
 				"<div" +
 				" class='fc-event-inner fc-event-skin'" +
 				(skinCss ? " style='" + skinCss + "'" : '') +
@@ -4949,7 +4946,7 @@
 						var date = event.start;
 						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() )
 						{
-							if( $(this).next().text().indexOf(event.title)>= 0)
+							if( $(this).prev().text().indexOf('"'+event.id+'"')>= 0)
 							{
 							}
 							else
@@ -4958,11 +4955,13 @@
 								if( edate == null )
 								{
 									$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
+									$(this).prev().append('"'+event.id +'",');
 								}
 								else
 								{
 									//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
 									$(this).next().append(" Event: "+event.title+" From: "+ formatDate(date,'h(:mm)tt') +" of "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To: "+formatDate(edate,'h(:mm)tt')+" of "+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
+									$(this).prev().append('"'+event.id +'",');
 								}
 							}
 						}

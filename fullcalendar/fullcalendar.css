@@ -8,6 +8,15 @@
  * Date: Mon Feb 6 22:40:40 2012 -0800
  *http://css-tricks.com/removing-the-dotted-outline/
  */
+ .fc-id{
+	 display:none;
+ }
+ .fc-box-id{
+	 display:none;
+ }
+ .fc-cell-id{
+	 display:none;
+ }
 .fc-hidden{
 	position:absolute;
 	left:-10000px;
