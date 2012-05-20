@@ -4696,6 +4696,28 @@
 			ev,
 			ui
 		);
+                $(".hidden1").each(
+					function(index){
+						if(  $(this).prev().text().indexOf( '"' +event.id +'"' ) >= 0 )
+						{
+						$(this).prev().html("");
+						$(this).next().html("");
+                                                
+                                                var edate = event.end;
+                                                var date = event.start;
+						if( edate == null )
+						{
+						$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
+						$(this).prev().append('"'+event.id +'",');
+                                                }
+						else
+						{
+						//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
+						$(this).next().append(" Event: "+event.title+" From: "+formatDate(date,'h(:mm)tt')+" To:"+formatDate(edate,'h(:mm)tt'));
+						$(this).prev().append('"'+event.id +'",');
+                                                }
+					  }
+					});    
             reportEventChange(eventId);
         }
 
