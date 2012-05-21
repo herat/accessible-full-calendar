@@ -1,21 +1,21 @@
 6:03 PM 5/13/2012
-save prev id in hidden element and delete/edit events using it.
+save prev id in hidden element and delete/edit events using it. -done
 auto increment id in calendar.
 all ids will be compulsory for a calendar.
 Update hidden divs when events are edited or deleted. - done
-keyboard navigation for edit and delete entries.
-Check logic for endtime and startdate for new dialog1.
-Modify day and week renders to render events like month view.<a> elements.
+keyboard navigation for edit and delete entries. -done
+Check logic for endtime and startdate for new dialog1. - partially done
+Modify day and week renders to render events like month view.<a> elements. -done
 
 Remove console.log statements. http://stackoverflow.com/questions/7742781/ie9-bug-javascript-only-works-after-opening-developer-tools-once-very-stran - done
 
 Finish code for publishing.
 
 8:50 AM 5/15/2012
-Add support for chrome and IE, test code for all browsers.
-Use +"<div style='display:none'>Testing 123</div>" to display event id in the calendar and use it.
+Add support for chrome and IE, test code for all browsers. - partially done
+Use +"<div style='display:none'>Testing 123</div>" to display event id in the calendar and use it. -done
 
-Add tooltip support to expand event.
+Add tooltip support to expand event. -done
 
 When new evets are added, add new condtitions for checking validity. Also make sure each event has id, start and end fields.
 
