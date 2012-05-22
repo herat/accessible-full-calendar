@@ -263,27 +263,27 @@
 					id: 5,
 				    title: 'Meeting',
 				    start: new Date(y, m, 8, 10, 30),
-				    allDay: false,					
+				    allDay: false					
 				},
 				{
 					id: 6,
 				    title: 'Lunch',
 				    start: new Date(y, m+2, 9, 12, 0),
 				    end: new Date(y, m, 9, 23, 30),
-				    allDay: false,					
+				    allDay: false					
 				},
 				{
 					id: 7,
 				    title: 'Birthday Party',
 				    start: new Date(y, m, d + 1, 3, 0),
 				    end: new Date(y, m, d + 1, 4, 0),
-				    allDay: false,					
+				    allDay: false					
 				},
 				{
 					id: 8,
 				    title: 'Click for Google',
 				    start: new Date(y, m, 28),
-				    end: new Date(y, m, 29),				    
+				    end: new Date(y, m, 29)				    
 				}
 			]
 	        });
@@ -332,7 +332,7 @@
 										id: Math.floor((Math.random()*100)+1), 
 										title: $("#name").val(),
 										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])),
-										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1])),				                                       
+										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]))				                                       
 									},
 								true // make the event "stick"
 								);
@@ -346,7 +346,7 @@
 										title: $("#name").val(),
 										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]),
 										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]),
-										allDay: false,		                                        
+										allDay: false		                                        
 									},
 								true // make the event "stick"
 								);
@@ -480,7 +480,7 @@
 										id: $("#ori-name1").val(),
 										title: $("#name1").val(),
 										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])),
-										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1])),				                                       
+										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]))				                                       
 									},
 								true // make the event "stick"
 								);
@@ -494,7 +494,7 @@
 										title: $("#name1").val(),
 										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]),
 										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]),
-										allDay: false,		                                        
+										allDay: false	                                        
 									},
 								true // make the event "stick"
 								);
