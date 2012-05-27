@@ -14,7 +14,6 @@
 * Date: Mon Feb 6 22:40:40 2012 -0800
 *
 */
-//Notes: Check if div already has same event
 
 (function ($, undefined) {
 
@@ -369,6 +368,23 @@
 
 
         function renderView(inc) {
+			$(".hidden2").each(
+				function(index){
+					
+					$(this).prev().prev().html("");
+					$(this).prev().html("");
+					
+				});
+				$(".fc-hidden").each(
+				function(index){
+					$(this).parent().prev().prev().html("");
+					$(this).parent().prev().html("");						
+				});
+				$(".hidden1").each(
+				function(index){
+					$(this).prev().html("");
+					$(this).next().html("");						
+				});
             if (elementVisible()) {
                 ignoreWindowResize++; // because renderEvents might temporarily change the height before setSize is reached
 
@@ -3145,7 +3161,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     //date = colDate(zz);
                     s +=
-				    "<td><a class='fc-dummy' href='#'><div class='hidden2'>" /*+ (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear())*/ + "</div>" + // fc- needed for setDayID
+				    "<td><a class='fc-dummy' href='#'><div class='fc-box-id1'></div><div class='fc-hidden1'></div><div class='hidden2'>" /*+ (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear())*/ + "</div>" + // fc- needed for setDayID
 				    "<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div>" +
 				    "</a></td>";
                 }
@@ -3205,7 +3221,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     //date = colDate(zz);
                     s +=
-				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden2'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='fc-cell-id'></div><div class='hidden1'>" + /*(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) +*/ "</div><div class='hidden3'></div>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden4'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='fc-cell-id'></div><div class='hidden1'>" + /*(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) +*/ "</div><div class='hidden3'></div>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
@@ -4113,6 +4129,7 @@
 
 
         function slotSegHtml(event, seg) {
+			//console.log( event.title );
             var html = "<";
             var url = event.url;
             var skinCss = getSkinCss(event, opt);
@@ -4285,6 +4302,15 @@
                     }, ev, 'drag');
                 },
                 stop: function (ev, ui) {
+					$(".hidden2").each(
+					function(index){
+						var date = event.start;
+						if( $(this).prev().prev().text().indexOf( '"'+event.id+'"' ) >= 0 )
+						{
+							$(this).prev().prev().html("");
+							$(this).prev().html("");
+						}
+					});
                     hoverListener.stop();
                     clearOverlays();
                     trigger('eventDragStop', eventElement, event, ev, ui);
@@ -4951,7 +4977,7 @@
             for (i = 0; i < segCnt; i++) {
                 seg = segs[i];
                 event = seg.event;
-				
+				//console.log( event.title );
 				classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
                 if (isEventDraggable(event)) {
                     classes.push('fc-event-draggable');
@@ -5021,6 +5047,33 @@
                 seg.outerWidth = right - left;
                 seg.startCol = leftCol;
                 seg.endCol = rightCol + 1; // needs to be exclusive
+				
+				$(".hidden2").each(
+					function(index){
+						var date = event.start;
+						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() )
+						{
+							if( $(this).prev().prev().text().indexOf('"'+event.id+'"')>= 0 )
+							{
+							}
+							else
+							{
+								var edate = event.end;
+								if( edate == null )
+								{
+									$(this).prev().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
+									$(this).prev().prev().append('"'+event.id +'",');
+								}
+								else
+								{
+									//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
+									$(this).prev().append(" Event: "+event.title+" From: "+ formatDate(date,'h(:mm)tt') +" of "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To: "+formatDate(edate,'h(:mm)tt')+" of "+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
+									$(this).prev().prev().append('"'+event.id +'",');
+								}
+							}
+						}
+					}
+				);
 				
 				$(".fc-hidden").each(
 					function(index){
