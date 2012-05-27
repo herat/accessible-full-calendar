@@ -100,7 +100,7 @@
 	                
                     if( calevent.allDay == true )
 	                {
-						$("#container-fc-tm").html("<input type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'>");
+						$("#container-fc-tm").html("<input title='Enter Start Time' type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'>");
 						document.getElementById("date-end1").disabled = false;
 						document.getElementById("date-start1").disabled = false;
 						$("#time-start1").addClass("hidden4");
@@ -116,7 +116,7 @@
                     }
                     else
                     {
-                        $("#container-fc-tm").html("<select name='time' id='time-start1' class='text ui-widget-content ui-corner-all'></select>");
+                        $("#container-fc-tm").html("<select title='Select Start Time' name='time' id='time-start1' class='text ui-widget-content ui-corner-all'></select>");
 						$("#time-start1").removeClass("hidden4");
 						$("#time-end1").removeClass("hidden4");
 						$("#date-end1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
@@ -542,38 +542,38 @@
 </head>
 
 <body>
- <div id="dialog" class="event-dialog" title="Event">
+ <div id="dialog" class="event-dialog" title="Create Event">
             <div id="dialog-inner">
-                <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all title"><br>
+                <input title="Event title" type="text" name="name" id="name" class="text ui-widget-content ui-corner-all title"><br>
                 <span class="inline">From:</span>
                 <br />
-                <span class="inline"><input type="text" name="date-start" id="date-start" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
-                <span class="inline"><input type="text" name="time" id="time-start" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
+                <span class="inline"><input title="Enter Start Date" type="text" name="date-start" id="date-start" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
+                <span class="inline"><input title="Select Start Time" type="text" name="time" id="time-start" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
                 <br />
                 <span class="inline">To:</span>
                 <br /> 
-                <span class="inline"><input type="text" name="date" id="date-end" class="text ui-widget-content ui-corner-all"></span>
+                <span class="inline"><input title="Enter End Date" type="text" name="date" id="date-end" class="text ui-widget-content ui-corner-all"></span>
                 <span class="inline"><!--<input type="text" name="time" id="time-end" class="text ui-widget-content ui-corner-all">--></span>
-                    <select name="time" id="time-end" class="text ui-widget-content ui-corner-all">
+                    <select title="Select End Time" name="time" id="time-end" class="text ui-widget-content ui-corner-all">
                     </select>
                 <br />
                 <input type="hidden" id="viewname" />
                 <input type="hidden"  id="fc-emode" />
           </div>
         </div>
-        <div id="dialog1" class="event-dialog" title="Event">
+        <div id="dialog1" class="event-dialog" title="Edit Event">
             <div id="dialog-inner1">
-                <input type="text" name="name" id="name1" class="text ui-widget-content ui-corner-all title"><br>
+                <input type="text" title="Event title" name="name" id="name1" class="text ui-widget-content ui-corner-all title"><br>
                 <span class="inline">From:</span>
                 <br />
-                <span class="inline"><input type="text" name="date-start" id="date-start1" class="text ui-widget-content ui-corner-all"></span>
-                <span class="inline"><span id="container-fc-tm"><input type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'></span></span>
+                <span class="inline"><input type="text" title="Enter Start Date" name="date-start" id="date-start1" class="text ui-widget-content ui-corner-all"></span>
+                <span class="inline"><span id="container-fc-tm"><input type='text' title="Select Start Time" name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'></span></span>
                 <br />
                 <span class="inline">To:</span>
                 <br /> 
-                <span class="inline"><input type="text" name="date" id="date-end1" class="text ui-widget-content ui-corner-all"></span>
+                <span class="inline"><input type="text" title="Enter End Date" name="date" id="date-end1" class="text ui-widget-content ui-corner-all"></span>
                 <span class="inline"><!--<input type="text" name="time" id="time-end" class="text ui-widget-content ui-corner-all">--></span>
-                    <select name="time" id="time-end1" class="text ui-widget-content ui-corner-all">
+                    <select name="time" id="time-end1" title="Select End Time" class="text ui-widget-content ui-corner-all">
                     </select>
                 <br />
                 <input type="hidden" id="viewname1" />
