@@ -753,10 +753,23 @@
                             if (buttonClick) {
                                 var icon = options.theme ? smartProperty(options.buttonIcons, buttonName) : null; // why are we using smartProperty here?
                                 var text = smartProperty(options.buttonText, buttonName); // why are we using smartProperty here?
+								var hiddn;
+								if( text.indexOf( "9668" ) > 0 )
+								{
+									hiddn = "Previous";
+								}
+								else if( text.indexOf( "9658" ) > 0 )
+								{
+									hiddn = "Next";
+								}
+								else
+								{
+									hiddn = "";
+								}
                                 var button = $(
 								"<span class='fc-button fc-button-" + buttonName + " " + tm + "-state-default'>" +
 									"<span class='fc-button-inner'>" +
-										"<span class='fc-button-content'><a class='fc-dummy' href='#'>" +
+										"<span class='fc-button-content'><a class='fc-dummy' href='#'><div class='fc-button-firsts'>"+hiddn+"</div>" +
 											(icon ?
 												"<span class='fc-icon-wrap'>" +
 													"<span class='ui-icon ui-icon-" + icon + "'/>" +
@@ -2243,12 +2256,12 @@
                 for (j = 0; j < colCnt; j++) {
                     s +=
 					"<td class='fc- " + contentClass + " fc-day" + (i * colCnt + j) + "'><a class='fc-dummy' href='#'>" + // need fc- for setDayID
-					"<div class='fc-box-id'></div><div class='fc-hidden'></div><div class='hidden3'></div><div>" +
+					"<div class='fc-box-id'></div><div class='hidden3'></div><div>" +
 					(showNumbers ?
 						"<div class='fc-day-number'/>" :
 						''
 						) +
-					"<div class='fc-day-content'>" +
+					"<div class='fc-hidden'></div><div class='fc-day-content'>" +
 					"<div style='position:relative'>&nbsp;</div>" +
 					"</div>" +
 					"</div>" +
@@ -2331,7 +2344,7 @@
                     cell.removeClass(tm + '-state-highlight fc-today');
                 }
                 cell.find('div.fc-day-number').text(date.getDate());
-				cell.find('div.fc-hidden').text(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
+				cell.find('div.fc-hidden').text(monthNames[date.getMonth()] + " " + date.getFullYear());
                 if (dowDirty) {
                     setDayID(cell, date);
                 }
@@ -2697,6 +2710,7 @@
 							if( events[zy].id == $(this).find(".fc-id").text())
 								typ = events[zy];
 						}
+						//for month view
 						trigger('eventClick', this,typ, event);
 					}
 				}
@@ -2787,10 +2801,10 @@
 					$(".fc-hidden").each(
 					function(index){
 						var date = event.start;
-						if( $(this).prev().text().indexOf( '"'+event.id+'"' ) >= 0 )
+						if( $(this).parent().prev().prev().text().indexOf( '"'+event.id+'"' ) >= 0 )
 						{
-							$(this).next().html("");
-							$(this).prev().html("");
+							$(this).parent().prev().prev().html("");
+							$(this).parent().prev().html("");
 						}
 					});
                     hoverListener.stop();
@@ -4028,7 +4042,7 @@
 					}
 				);
 			
-            eventElements = slotSegmentContainer.children();
+			eventElements = slotSegmentContainer.children();
 
             // retrieve elements, run through eventRender callback, bind event handlers
             for (i = 0; i < segCnt; i++) {
@@ -4839,6 +4853,51 @@
                 rowDivs[rowI].height(arrayMax(colHeights));
             }
             daySegSetTops(segs, getRowTops(rowDivs));
+			
+			$(".fc-event-skin").focus(					
+					function(){
+						var tmpcont = $(this).find(".fc-id").text();
+						$(document).find("a.fc-event-skin").each( 
+						  function (){
+							if( $(this).find(".fc-id").text() == tmpcont )
+							{
+								//console.log("Match" + tmpcont);								
+								$(this).removeClass('fc-event-skin').addClass('fc-event-hf');
+								$(this).children('.fc-event-skin').removeClass('fc-event-skin').addClass('fc-event-hf');
+							}
+						});
+					}
+				);
+			$(".fc-event").blur(					
+					function(){
+						var tmpcont = $(this).find(".fc-id").text();
+						$(document).find("a.fc-event").each( 
+						   function (){
+							if( $(this).find(".fc-id").text() == tmpcont )
+							{
+								//console.log("Match");
+								$(this).removeClass('fc-event-hf').addClass('fc-event-skin');
+								$(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
+							}
+						});
+					}
+				);			
+			$("a.fc-event-hori").keydown(				
+				function(event){
+					if( event.keyCode == 13 )
+					{
+						event.preventDefault();
+						var typ;
+						for( var zy = 0;zy < segs.length;zy++)
+						{
+							if( segs[zy].event.id == $(this).find(".fc-id").text())
+								typ = segs[zy].event;
+						}
+						//for all day events
+						trigger('eventClick', this,typ, event);
+					}
+				}
+			);
         }
 
 
@@ -4966,9 +5025,9 @@
 				$(".fc-hidden").each(
 					function(index){
 						var date = event.start;
-						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() )
+						if( $(this).prev().text()+" "+$(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() )
 						{
-							if( $(this).prev().text().indexOf('"'+event.id+'"')>= 0 )
+							if( $(this).parent().prev().prev().text().indexOf('"'+event.id+'"')>= 0 )
 							{
 							}
 							else
@@ -4976,14 +5035,14 @@
 								var edate = event.end;
 								if( edate == null )
 								{
-									$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
-									$(this).prev().append('"'+event.id +'",');
+									$(this).parent().prev().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
+									$(this).parent().prev().prev().append('"'+event.id +'",');
 								}
 								else
 								{
 									//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
-									$(this).next().append(" Event: "+event.title+" From: "+ formatDate(date,'h(:mm)tt') +" of "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To: "+formatDate(edate,'h(:mm)tt')+" of "+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
-									$(this).prev().append('"'+event.id +'",');
+									$(this).parent().prev().append(" Event: "+event.title+" From: "+ formatDate(date,'h(:mm)tt') +" of "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To: "+formatDate(edate,'h(:mm)tt')+" of "+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
+									$(this).parent().prev().prev().append('"'+event.id +'",');
 								}
 							}
 						}
@@ -5373,7 +5432,7 @@
                     if (+dates[0] == +dates[1]) {
                         reportDayClick(dates[0], true, ev);
                     }
-                    reportSelection(dates[0], dates[1], true, ev);
+					reportSelection(dates[0], dates[1], true, ev);
                 }
                 //});
             }

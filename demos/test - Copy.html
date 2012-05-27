@@ -67,6 +67,13 @@
 					}
 					else
 					{
+						$(".fc-day-content").each( function() {
+							fluid.tooltip( $(this),{
+								content: function(){
+									return "Create Event";
+								}
+							});
+						});
 						for( var ty=0;ty <= 47;ty++)
 						{
 							$(".fc-slot"+ty).find(".fc-widget-content").each( function(){
@@ -91,7 +98,7 @@
 	                $("#date-start1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 					$("#ori-name1").val( calevent.id );
 	                
-                    if( view.name == "month" )
+                    if( calevent.allDay == true )
 	                {
 						$("#container-fc-tm").html("<input type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'>");
 						document.getElementById("date-end1").disabled = false;
@@ -175,7 +182,7 @@
 					                
 					$("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 					
-                    if( view.name == "month" )
+                    if( allDay == true )
 	                {
 						document.getElementById("date-end").disabled = false;
 						$("#time-start").addClass("hidden2");
@@ -373,10 +380,10 @@
 							function( ev ){
 								$(".fc-hidden").each(
 								function(index){
-									if( $(this).prev().text().indexOf( '"' +ev.id +'"' ) >= 0 )
+									if( $(this).parent().prev().prev().text().indexOf( '"' +ev.id +'"' ) >= 0 )
 									{
-										$(this).prev().html("");
-										$(this).next().html("");
+										$(this).parent().prev().prev().html("");
+										$(this).parent().prev().html("");
 									}
 								});
 								$(".hidden1").each(
@@ -453,10 +460,10 @@
 							function( ev ){
 								$(".fc-hidden").each(
 								function(index){
-									if( $(this).prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
+									if( $(this).parent().prev().prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
 									{
-										$(this).prev().html("");
-										$(this).next().html("");
+										$(this).parent().prev().prev().html("");
+										$(this).parent().prev().html("");
 									}
 								});
 								$(".hidden1").each(
