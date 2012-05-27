@@ -5490,12 +5490,12 @@
 				//alert( ie );
 				if( typeof ie === "undefined" )
 				{
-					alert( "case1" );
+					//alert( "case1" );
                 	newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 30));
 				}
 				else
 				{
-					alert( "case2" );
+					//alert( "case2" );
 					newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 45));
 				}
 				//alert( newCell.col );
