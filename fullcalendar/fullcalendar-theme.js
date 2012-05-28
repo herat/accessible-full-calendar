@@ -14,7 +14,6 @@
 * Date: Mon Feb 6 22:40:40 2012 -0800
 *
 */
-//Notes: Check if div already has same event
 
 (function ($, undefined) {
 
@@ -369,6 +368,23 @@
 
 
         function renderView(inc) {
+			$(".hidden2").each(
+				function(index){
+					
+					$(this).prev().prev().html("");
+					$(this).prev().html("");
+					
+				});
+				$(".fc-hidden").each(
+				function(index){
+					$(this).parent().prev().prev().html("");
+					$(this).parent().prev().html("");						
+				});
+				$(".hidden1").each(
+				function(index){
+					$(this).prev().html("");
+					$(this).next().html("");						
+				});
             if (elementVisible()) {
                 ignoreWindowResize++; // because renderEvents might temporarily change the height before setSize is reached
 
@@ -753,10 +769,23 @@
                             if (buttonClick) {
                                 var icon = options.theme ? smartProperty(options.buttonIcons, buttonName) : null; // why are we using smartProperty here?
                                 var text = smartProperty(options.buttonText, buttonName); // why are we using smartProperty here?
+								var hiddn;
+								if( text.indexOf( "9668" ) > 0 )
+								{
+									hiddn = "Previous";
+								}
+								else if( text.indexOf( "9658" ) > 0 )
+								{
+									hiddn = "Next";
+								}
+								else
+								{
+									hiddn = "";
+								}
                                 var button = $(
 								"<span class='fc-button fc-button-" + buttonName + " " + tm + "-state-default'>" +
 									"<span class='fc-button-inner'>" +
-										"<span class='fc-button-content'><a class='fc-dummy' href='#'>" +
+										"<span class='fc-button-content'><a class='fc-dummy' href='#'><div class='fc-button-firsts'>"+hiddn+"</div>" +
 											(icon ?
 												"<span class='fc-icon-wrap'>" +
 													"<span class='ui-icon ui-icon-" + icon + "'/>" +
@@ -2243,12 +2272,12 @@
                 for (j = 0; j < colCnt; j++) {
                     s +=
 					"<td class='fc- " + contentClass + " fc-day" + (i * colCnt + j) + "'><a class='fc-dummy' href='#'>" + // need fc- for setDayID
-					"<div class='fc-box-id'></div><div class='fc-hidden'></div><div class='hidden3'></div><div>" +
+					"<div class='fc-box-id'></div><div class='hidden3'></div><div>" +
 					(showNumbers ?
 						"<div class='fc-day-number'/>" :
 						''
 						) +
-					"<div class='fc-day-content'>" +
+					"<div class='fc-hidden'></div><div class='fc-day-content'>" +
 					"<div style='position:relative'>&nbsp;</div>" +
 					"</div>" +
 					"</div>" +
@@ -2331,7 +2360,7 @@
                     cell.removeClass(tm + '-state-highlight fc-today');
                 }
                 cell.find('div.fc-day-number').text(date.getDate());
-				cell.find('div.fc-hidden').text(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
+				cell.find('div.fc-hidden').text(monthNames[date.getMonth()] + " " + date.getFullYear());
                 if (dowDirty) {
                     setDayID(cell, date);
                 }
@@ -2697,6 +2726,7 @@
 							if( events[zy].id == $(this).find(".fc-id").text())
 								typ = events[zy];
 						}
+						//for month view
 						trigger('eventClick', this,typ, event);
 					}
 				}
@@ -2787,10 +2817,10 @@
 					$(".fc-hidden").each(
 					function(index){
 						var date = event.start;
-						if( $(this).prev().text().indexOf( '"'+event.id+'"' ) >= 0 )
+						if( $(this).parent().prev().prev().text().indexOf( '"'+event.id+'"' ) >= 0 )
 						{
-							$(this).next().html("");
-							$(this).prev().html("");
+							$(this).parent().prev().prev().html("");
+							$(this).parent().prev().html("");
 						}
 					});
                     hoverListener.stop();
@@ -3131,7 +3161,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     //date = colDate(zz);
                     s +=
-				    "<td><a class='fc-dummy' href='#'><div class='hidden2'>" /*+ (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear())*/ + "</div>" + // fc- needed for setDayID
+				    "<td><a class='fc-dummy' href='#'><div class='fc-box-id1'></div><div class='fc-hidden1'></div><div class='hidden2'>" /*+ (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear())*/ + "</div>" + // fc- needed for setDayID
 				    "<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div>" +
 				    "</a></td>";
                 }
@@ -3191,7 +3221,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     //date = colDate(zz);
                     s +=
-				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden2'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='fc-cell-id'></div><div class='hidden1'>" + /*(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) +*/ "</div><div class='hidden3'></div>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden4'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='fc-cell-id'></div><div class='hidden1'>" + /*(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) +*/ "</div><div class='hidden3'></div>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
@@ -3682,6 +3712,7 @@
         function slotKeyTest(ev) {
             if (ev.which == 13 && opt('selectable')) { // ev.which==1 means left mouse button
                 unselect(ev);
+				//alert("hiii");
                 var dates;
                 //hoverListener.start(function (cell, origCell) {
                 coordinateGrid.build();
@@ -3691,6 +3722,31 @@
                 //alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 70));
                 var newCell;
                 newCell = coordinateGrid.cell((tpos2.left), (tpos2.top));
+				
+				var ie = (function(){
+					var undef,
+						v = 3,
+						div = document.createElement('div'),
+						all = div.getElementsByTagName('i');
+				
+					while (
+						div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+						all[0]
+					);				
+					return v > 4 ? v : undef;				
+				}());
+				//alert( ie );
+				if( typeof ie === "undefined" )
+				{
+					//alert( "case1" );
+                	newCell = coordinateGrid.cell((tpos2.left), (tpos2.top));
+				}
+				else
+				{
+					//alert( "case2" );
+					newCell = coordinateGrid.cell((tpos2.left), (tpos2.top+15));
+				}
+				
                 firstCell = newCell;
                 //clearSelection();
                 //if (cell && cell.col == origCell.col && !cellIsAllDay(cell)) {
@@ -4028,7 +4084,7 @@
 					}
 				);
 			
-            eventElements = slotSegmentContainer.children();
+			eventElements = slotSegmentContainer.children();
 
             // retrieve elements, run through eventRender callback, bind event handlers
             for (i = 0; i < segCnt; i++) {
@@ -4099,6 +4155,7 @@
 
 
         function slotSegHtml(event, seg) {
+			//console.log( event.title );
             var html = "<";
             var url = event.url;
             var skinCss = getSkinCss(event, opt);
@@ -4271,6 +4328,15 @@
                     }, ev, 'drag');
                 },
                 stop: function (ev, ui) {
+					$(".hidden2").each(
+					function(index){
+						var date = event.start;
+						if( $(this).prev().prev().text().indexOf( '"'+event.id+'"' ) >= 0 )
+						{
+							$(this).prev().prev().html("");
+							$(this).prev().html("");
+						}
+					});
                     hoverListener.stop();
                     clearOverlays();
                     trigger('eventDragStop', eventElement, event, ev, ui);
@@ -4839,6 +4905,51 @@
                 rowDivs[rowI].height(arrayMax(colHeights));
             }
             daySegSetTops(segs, getRowTops(rowDivs));
+			
+			$(".fc-event-skin").focus(					
+					function(){
+						var tmpcont = $(this).find(".fc-id").text();
+						$(document).find("a.fc-event-skin").each( 
+						  function (){
+							if( $(this).find(".fc-id").text() == tmpcont )
+							{
+								//console.log("Match" + tmpcont);								
+								$(this).removeClass('fc-event-skin').addClass('fc-event-hf');
+								$(this).children('.fc-event-skin').removeClass('fc-event-skin').addClass('fc-event-hf');
+							}
+						});
+					}
+				);
+			$(".fc-event").blur(					
+					function(){
+						var tmpcont = $(this).find(".fc-id").text();
+						$(document).find("a.fc-event").each( 
+						   function (){
+							if( $(this).find(".fc-id").text() == tmpcont )
+							{
+								//console.log("Match");
+								$(this).removeClass('fc-event-hf').addClass('fc-event-skin');
+								$(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
+							}
+						});
+					}
+				);			
+			$("a.fc-event-hori").keydown(				
+				function(event){
+					if( event.keyCode == 13 )
+					{
+						event.preventDefault();
+						var typ;
+						for( var zy = 0;zy < segs.length;zy++)
+						{
+							if( segs[zy].event.id == $(this).find(".fc-id").text())
+								typ = segs[zy].event;
+						}
+						//for all day events
+						trigger('eventClick', this,typ, event);
+					}
+				}
+			);
         }
 
 
@@ -4892,7 +5003,7 @@
             for (i = 0; i < segCnt; i++) {
                 seg = segs[i];
                 event = seg.event;
-				
+				//console.log( event.title );
 				classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
                 if (isEventDraggable(event)) {
                     classes.push('fc-event-draggable');
@@ -4963,12 +5074,12 @@
                 seg.startCol = leftCol;
                 seg.endCol = rightCol + 1; // needs to be exclusive
 				
-				$(".fc-hidden").each(
+				$(".hidden2").each(
 					function(index){
 						var date = event.start;
 						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() )
 						{
-							if( $(this).prev().text().indexOf('"'+event.id+'"')>= 0 )
+							if( $(this).prev().prev().text().indexOf('"'+event.id+'"')>= 0 )
 							{
 							}
 							else
@@ -4976,14 +5087,41 @@
 								var edate = event.end;
 								if( edate == null )
 								{
-									$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
-									$(this).prev().append('"'+event.id +'",');
+									$(this).prev().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
+									$(this).prev().prev().append('"'+event.id +'",');
 								}
 								else
 								{
 									//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
-									$(this).next().append(" Event: "+event.title+" From: "+ formatDate(date,'h(:mm)tt') +" of "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To: "+formatDate(edate,'h(:mm)tt')+" of "+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
-									$(this).prev().append('"'+event.id +'",');
+									$(this).prev().append(" Event: "+event.title+" From: "+ formatDate(date,'h(:mm)tt') +" of "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To: "+formatDate(edate,'h(:mm)tt')+" of "+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
+									$(this).prev().prev().append('"'+event.id +'",');
+								}
+							}
+						}
+					}
+				);
+				
+				$(".fc-hidden").each(
+					function(index){
+						var date = event.start;
+						if( $(this).prev().text()+" "+$(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() )
+						{
+							if( $(this).parent().prev().prev().text().indexOf('"'+event.id+'"')>= 0 )
+							{
+							}
+							else
+							{
+								var edate = event.end;
+								if( edate == null )
+								{
+									$(this).parent().prev().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
+									$(this).parent().prev().prev().append('"'+event.id +'",');
+								}
+								else
+								{
+									//time-$(this).next().append("Event: "+formatDate(date,'h(:mm)tt'));
+									$(this).parent().prev().append(" Event: "+event.title+" From: "+ formatDate(date,'h(:mm)tt') +" of "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" To: "+formatDate(edate,'h(:mm)tt')+" of "+edate.getDate() + " " + monthNames[edate.getMonth()] + " " + edate.getFullYear());
+									$(this).parent().prev().prev().append('"'+event.id +'",');
 								}
 							}
 						}
@@ -5361,7 +5499,31 @@
                 var tpos2 = $tpos1.position();
                 //alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 30));
                 var newCell;
-                newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 30));
+				
+				var ie = (function(){
+					var undef,
+						v = 3,
+						div = document.createElement('div'),
+						all = div.getElementsByTagName('i');
+				
+					while (
+						div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+						all[0]
+					);				
+					return v > 4 ? v : undef;				
+				}());
+				//alert( ie );
+				if( typeof ie === "undefined" )
+				{
+					//alert( "case1" );
+                	newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 30));
+				}
+				else
+				{
+					//alert( "case2" );
+					newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 40));
+				}
+				//alert( newCell.col );
                 firstCell = newCell;
                 //change(newCell, firstCell, newCell.row - firstCell.row, newCell.col - firstCell.col);
                 dates = [cellDate(firstCell), cellDate(newCell)].sort(cmp);
@@ -5373,7 +5535,7 @@
                     if (+dates[0] == +dates[1]) {
                         reportDayClick(dates[0], true, ev);
                     }
-                    reportSelection(dates[0], dates[1], true, ev);
+					reportSelection(dates[0], dates[1], true, ev);
                 }
                 //});
             }
