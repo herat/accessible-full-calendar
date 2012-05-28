@@ -309,7 +309,7 @@
 						'Create event': function () {						
 						var startsplt = $("#date-start").val().split("/");
 						var ends;
-						if( $('#viewname').val() == "month" )
+						if( $('#viewname').val() == "month" || document.getElementById("date-end").disabled == false)
 							ends = $.fullCalendar.formatDate($("#date-end").datepicker("getDate"), 'MM/dd/yyyy');
 						else
 						{
@@ -337,7 +337,7 @@
 							endsplt[0] = endsplt[0].charAt(1);
 						}
 						
-						 if( $('#viewname').val() == "month" )
+						 if( $('#viewname').val() == "month" || document.getElementById("date-end").disabled == false)
 							{
 								calendar.fullCalendar('renderEvent',
 									{
