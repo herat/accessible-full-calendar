@@ -3722,6 +3722,31 @@
                 //alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 70));
                 var newCell;
                 newCell = coordinateGrid.cell((tpos2.left), (tpos2.top));
+				
+				var ie = (function(){
+					var undef,
+						v = 3,
+						div = document.createElement('div'),
+						all = div.getElementsByTagName('i');
+				
+					while (
+						div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+						all[0]
+					);				
+					return v > 4 ? v : undef;				
+				}());
+				//alert( ie );
+				if( typeof ie === "undefined" )
+				{
+					//alert( "case1" );
+                	newCell = coordinateGrid.cell((tpos2.left), (tpos2.top));
+				}
+				else
+				{
+					//alert( "case2" );
+					newCell = coordinateGrid.cell((tpos2.left), (tpos2.top+15));
+				}
+				
                 firstCell = newCell;
                 //clearSelection();
                 //if (cell && cell.col == origCell.col && !cellIsAllDay(cell)) {
@@ -5496,7 +5521,7 @@
 				else
 				{
 					//alert( "case2" );
-					newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 45));
+					newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 40));
 				}
 				//alert( newCell.col );
                 firstCell = newCell;
