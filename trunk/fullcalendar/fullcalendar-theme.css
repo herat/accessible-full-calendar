@@ -8,16 +8,37 @@
  * Date: Mon Feb 6 22:40:40 2012 -0800
  *http://css-tricks.com/removing-the-dotted-outline/
  */
+ .fc-button-firsts{
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+	text-decoration:none; 
+ }
  .fc-id{
 	 display:none;
  }
  .fc-box-id{
 	 display:none;
  }
+ .fc-box-id1{
+	 display:none;
+ }
  .fc-cell-id{
 	 display:none;
  }
 .fc-hidden{
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+	text-decoration:none;
+}
+.fc-hidden1{
 	position:absolute;
 	left:-10000px;
 	top:auto;
@@ -34,6 +55,15 @@
 	height:1px;
 	overflow:hidden;
 }
+.hidden-fullday{
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}
+
 .hidden1{
 	position:absolute;
 	left:-10000px;
@@ -43,6 +73,14 @@
 	overflow:hidden;
 }
 .hidden3{
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}
+.hidden4{
 	position:absolute;
 	left:-10000px;
 	top:auto;
