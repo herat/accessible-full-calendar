@@ -8,7 +8,7 @@
  * Date: Mon Feb 6 22:40:40 2012 -0800
  *http://css-tricks.com/removing-the-dotted-outline/
  */
- .fc-button-firsts{
+.fc-button-firsts{
 	position:absolute;
 	left:-10000px;
 	top:auto;
@@ -16,19 +16,19 @@
 	height:1px;
 	overflow:hidden;
 	text-decoration:none; 
- }
- .fc-id{
-	 display:none;
- }
- .fc-box-id{
-	 display:none;
- }
- .fc-box-id1{
-	 display:none;
- }
- .fc-cell-id{
-	 display:none;
- }
+	}
+.fc-id{
+	display:none;
+	}
+.fc-box-id{
+	display:none;
+	}
+.fc-box-id1{
+	display:none;
+	}
+.fc-cell-id{
+	display:none;
+	}
 .fc-hidden{
 	position:absolute;
 	left:-10000px;
@@ -37,7 +37,7 @@
 	height:1px;
 	overflow:hidden;
 	text-decoration:none;
-}
+	}
 .fc-hidden1{
 	position:absolute;
 	left:-10000px;
@@ -46,7 +46,7 @@
 	height:1px;
 	overflow:hidden;
 	text-decoration:none;
-}
+	}
 .hidden2{
 	position:absolute;
 	left:-10000px;
@@ -54,7 +54,7 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
-}
+	}
 .hidden-fullday{
 	position:absolute;
 	left:-10000px;
@@ -62,8 +62,7 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
-}
-
+	}
 .hidden1{
 	position:absolute;
 	left:-10000px;
@@ -71,7 +70,7 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
-}
+	}
 .hidden3{
 	position:absolute;
 	left:-10000px;
@@ -79,7 +78,7 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
-}
+	}
 .hidden4{
 	position:absolute;
 	left:-10000px;
@@ -87,19 +86,19 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
-}  
+	}  
 .fc-dummy{
-	text-decoration:none;
-}
+		text-decoration:none;
+	}
 .fc-dummy:hover , .fc-dummy:focus , .fc-dummy:active  {
-   border: none;
-   outline: none;
-   outline-style: none; 
-   -moz-outline-style:none;
- } 
+	  border: none;
+	  outline: none;
+	  outline-style: none; 
+	  -moz-outline-style:none;
+	 } 
 .fc-he-test{
-   background:#FC6;
- }
+	 background:#FC6;
+	 }
 .fc {
 	direction: ltr;
 	text-align: left;

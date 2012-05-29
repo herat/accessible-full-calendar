@@ -501,6 +501,14 @@
 										$(this).next().html("");
 									}
 								});
+								$(".hidden2").each(
+								function(index){
+									if( $(this).prev().prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
+									{
+										$(this).prev().prev().html("");
+										$(this).prev().html("");
+									}
+								});
 								if( ev.id == $("#ori-name1").val())
 									return true;
 								
