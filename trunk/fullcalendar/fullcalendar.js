@@ -368,19 +368,19 @@
 
 
         function renderView(inc) {
-			$(".hidden2").each(
+			$(".fc-allday-bhidden").each(
 				function(index){
 					
 					$(this).prev().prev().html("");
 					$(this).prev().html("");
 					
 				});
-				$(".fc-hidden").each(
+				$(".fc-month-vhidden").each(
 				function(index){
 					$(this).parent().prev().prev().html("");
 					$(this).parent().prev().html("");						
 				});
-				$(".hidden1").each(
+				$(".fc-cell-date").each(
 				function(index){
 					$(this).prev().html("");
 					$(this).next().html("");						
@@ -2272,12 +2272,12 @@
                 for (j = 0; j < colCnt; j++) {
                     s +=
 					"<td class='fc- " + contentClass + " fc-day" + (i * colCnt + j) + "'><a class='fc-dummy' href='#'>" + // need fc- for setDayID
-					"<div class='fc-box-id'></div><div class='hidden3'></div><div>" +
+					"<div class='fc-monthv-id'></div><div class='fc-month-vevent'></div><div>" +
 					(showNumbers ?
 						"<div class='fc-day-number'/>" :
 						''
 						) +
-					"<div class='fc-hidden'></div><div class='fc-day-content'>" +
+					"<div class='fc-month-vhidden'></div><div class='fc-day-content'>" +
 					"<div style='position:relative'>&nbsp;</div>" +
 					"</div>" +
 					"</div>" +
@@ -2360,7 +2360,7 @@
                     cell.removeClass(tm + '-state-highlight fc-today');
                 }
                 cell.find('div.fc-day-number').text(date.getDate());
-				cell.find('div.fc-hidden').text(monthNames[date.getMonth()] + " " + date.getFullYear());
+				cell.find('div.fc-month-vhidden').text(monthNames[date.getMonth()] + " " + date.getFullYear());
                 if (dowDirty) {
                     setDayID(cell, date);
                 }
@@ -2814,7 +2814,7 @@
                 },
                 stop: function (ev, ui) {
 					//remove events from its original position
-					$(".fc-hidden").each(
+					$(".fc-month-vhidden").each(
 					function(index){
 						var date = event.start;
 						if( $(this).parent().prev().prev().text().indexOf( '"'+event.id+'"' ) >= 0 )
@@ -3161,7 +3161,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     //date = colDate(zz);
                     s +=
-				    "<td><a class='fc-dummy' href='#'><div class='fc-box-id1'></div><div class='fc-hidden1'></div><div class='hidden2'>" /*+ (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear())*/ + "</div>" + // fc- needed for setDayID
+				    "<td><a class='fc-dummy' href='#'><div class='fc-allday-row-id'></div><div class='fc-weekday-ehidden'></div><div class='fc-allday-bhidden'>" /*+ (date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear())*/ + "</div>" + // fc- needed for setDayID
 				    "<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div>" +
 				    "</a></td>";
                 }
@@ -3221,7 +3221,7 @@
                 for (zz = 0; zz < colCnt; zz++) {
                     //date = colDate(zz);
                     s +=
-				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='hidden4'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='fc-cell-id'></div><div class='hidden1'>" + /*(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) +*/ "</div><div class='hidden3'></div>" + // fc- needed for setDayID
+				"<td  class='" + contentClass + "'><a class='fc-dummy' href='#'><div class='fc-cell-time'>" + formatDate(d, opt('axisFormat')) + " of </div><div class='fc-cell-id'></div><div class='fc-cell-date'>" + /*(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()) +*/ "</div><div class='fc-month-vevent'></div>" + // fc- needed for setDayID
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</a></td>";
                 }
@@ -3276,7 +3276,7 @@
                 //headCell.attr('abbr',date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
                 headCell.html(formatDate(date, colFormat));
                 bodyCell = dayBodyCells.eq(i);
-                allDayCell = allDayRow.find('.hidden2').eq(i);
+                allDayCell = allDayRow.find('.fc-allday-bhidden').eq(i);
                 allDayCell.html(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
 
                 if (+date == +today) {
@@ -3286,10 +3286,10 @@
                 }
                 setDayID(headCell.add(bodyCell), date);
             }			
-            $('div.hidden1').each(
+            $('div.fc-cell-date').each(
                 function (index) {
                     zzz = index % colCnt;
-					//console.log( zzz );
+					//console.log( zzz + " " + date.getDate());
                     date = colDate(zzz);
                     $(this).html(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
                 }
@@ -4205,7 +4205,7 @@
 			//"</" + (url ? "a" : "div") + ">";
 			"</" +  "a"  + ">";
 			//my code
-			$(".hidden1").each(
+			$(".fc-cell-date").each(
 					function(index){
 						var date = event.start;
 						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() && $(this).prev().prev().text() == formatDate(date,'h(:mm)tt') + " of " )
@@ -4328,7 +4328,7 @@
                     }, ev, 'drag');
                 },
                 stop: function (ev, ui) {
-					$(".hidden2").each(
+					$(".fc-allday-bhidden").each(
 					function(index){
 						var date = event.start;
 						if( $(this).prev().prev().text().indexOf( '"'+event.id+'"' ) >= 0 )
@@ -4430,7 +4430,7 @@
                     }
                 },
                 stop: function (ev, ui) {
-					$(".hidden1").each(
+					$(".fc-cell-date").each(
 					function(index){
 						var date = event.start;
 						if( $(this).prev().text().indexOf('"'+ event.id+'"' ) >= 0 )
@@ -4762,15 +4762,15 @@
 			ev,
 			ui
 		);
-                $(".hidden1").each(
+                $(".fc-cell-date").each(
 					function(index){
 						if(  $(this).prev().text().indexOf( '"' +event.id +'"' ) >= 0 )
 						{
 						$(this).prev().html("");
 						$(this).next().html("");
                                                 
-                                                var edate = event.end;
-                                                var date = event.start;
+						var edate = event.end;
+						var date = event.start;
 						if( edate == null )
 						{
 						$(this).next().append(" Event: "+event.title+" on: "+date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear()+" at "+formatDate(date,'h(:mm)tt'));
@@ -5074,7 +5074,7 @@
                 seg.startCol = leftCol;
                 seg.endCol = rightCol + 1; // needs to be exclusive
 				
-				$(".hidden2").each(
+				$(".fc-allday-bhidden").each(
 					function(index){
 						var date = event.start;
 						if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() )
@@ -5101,7 +5101,7 @@
 					}
 				);
 				
-				$(".fc-hidden").each(
+				$(".fc-month-vhidden").each(
 					function(index){
 						var date = event.start;
 						if( $(this).prev().text()+" "+$(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() )

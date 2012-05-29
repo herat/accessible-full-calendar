@@ -20,16 +20,16 @@
 .fc-id{
 	display:none;
 	}
-.fc-box-id{
+.fc-monthv-id{
 	display:none;
 	}
-.fc-box-id1{
+.fc-allday-row-id{
 	display:none;
 	}
 .fc-cell-id{
 	display:none;
 	}
-.fc-hidden{
+.fc-month-vhidden{
 	position:absolute;
 	left:-10000px;
 	top:auto;
@@ -38,7 +38,7 @@
 	overflow:hidden;
 	text-decoration:none;
 	}
-.fc-hidden1{
+.fc-weekday-ehidden{
 	position:absolute;
 	left:-10000px;
 	top:auto;
@@ -47,7 +47,7 @@
 	overflow:hidden;
 	text-decoration:none;
 	}
-.hidden2{
+.fc-allday-bhidden{
 	position:absolute;
 	left:-10000px;
 	top:auto;
@@ -63,7 +63,7 @@
 	height:1px;
 	overflow:hidden;
 	}
-.hidden1{
+.fc-cell-date{
 	position:absolute;
 	left:-10000px;
 	top:auto;
@@ -71,7 +71,7 @@
 	height:1px;
 	overflow:hidden;
 	}
-.hidden3{
+.fc-month-vevent{
 	position:absolute;
 	left:-10000px;
 	top:auto;
@@ -79,7 +79,7 @@
 	height:1px;
 	overflow:hidden;
 	}
-.hidden4{
+.fc-cell-time{
 	position:absolute;
 	left:-10000px;
 	top:auto;
@@ -99,6 +99,8 @@
 .fc-he-test{
 	 background:#FC6;
 	 }
+	 
+	 
 .fc {
 	direction: ltr;
 	text-align: left;
