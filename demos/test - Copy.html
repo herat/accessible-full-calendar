@@ -6,20 +6,19 @@
 	
     <script type="text/javascript" src="../jquery/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="../jquery/jquery-ui-1.8.20.custom.min.js"></script>
-   		<script type="text/javascript" src="../jquery/lib/jquery/plugins/tooltip/js/jquery.ui.tooltip.js"></script>
-        <script type="text/javascript" src="../jquery/framework/core/js/FluidDocument.js"></script>
-        <script type="text/javascript" src="../jquery/framework/core/js/Fluid.js"></script>
-        <script type="text/javascript" src="../jquery/framework/core/js/DataBinding.js"></script>
-        <script type="text/javascript" src="../jquery/components/tooltip/js/Tooltip.js"></script>
-        <link rel="stylesheet" type="text/css" href="../jquery/lib/jquery/plugins/tooltip/css/jquery.tooltip.css" />
+	<script type="text/javascript" src="../jquery/lib/jquery/plugins/tooltip/js/jquery.ui.tooltip.js"></script>
+    <script type="text/javascript" src="../jquery/framework/core/js/FluidDocument.js"></script>
+    <script type="text/javascript" src="../jquery/framework/core/js/Fluid.js"></script>
+    <script type="text/javascript" src="../jquery/framework/core/js/DataBinding.js"></script>
+    <script type="text/javascript" src="../jquery/components/tooltip/js/Tooltip.js"></script>
     
+    <link rel="stylesheet" type="text/css" href="../jquery/lib/jquery/plugins/tooltip/css/jquery.tooltip.css" />
     <link rel='stylesheet' type='text/css' href='../jquery/jquery-ui-1.8.20.custom.css' />
-
     <link rel='stylesheet' type='text/css' href='../fullcalendar/fullcalendar.css' />
     <link rel='stylesheet' type='text/css' href='../fullcalendar/fullcalendar.print.css' media='print' />
-    <script type='text/javascript' src='../fullcalendar/fullcalendar.js'></script>
-       
-	<script>
+    
+	<script type='text/javascript' src='../fullcalendar/fullcalendar.js'></script>
+    <script>
 	    $(document).ready(function () {
 	        var date = new Date();
 	        var d = date.getDate();
@@ -100,14 +99,14 @@
 	                
                     if( calevent.allDay == true )
 	                {
-						$("#container-fc-tm").html("<input title='Enter Start Time' type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'>");
+						$("#container-fc-tm").html("<input type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'>");
 						document.getElementById("date-end1").disabled = false;
 						document.getElementById("date-start1").disabled = false;
-						$("#time-start1").addClass("hidden4");
-						$("#time-end1").addClass("hidden4");  
+						$("#time-start1").addClass("fc-cell-time");
+						$("#time-end1").addClass("fc-cell-time");  
 						
-						$("#lbl-end-time1").addClass("hidden4");
-						$("#lbl-start-time1").addClass("hidden4");
+						$("#lbl-end-time1").addClass("fc-cell-time");
+						$("#lbl-start-time1").addClass("fc-cell-time");
 						 
 						$("#date-start1").datepicker();
 						$("#date-start1").datepicker("setDate", date);
@@ -120,12 +119,12 @@
                     }
                     else
                     {
-                        $("#container-fc-tm").html("<select title='Select Start Time' name='time' id='time-start1' class='text ui-widget-content ui-corner-all'></select>");
-						$("#time-start1").removeClass("hidden4");
-						$("#time-end1").removeClass("hidden4");
+                        $("#container-fc-tm").html("<select name='time' id='time-start1' class='text ui-widget-content ui-corner-all'></select>");
+						$("#time-start1").removeClass("fc-cell-time");
+						$("#time-end1").removeClass("fc-cell-time");
 						
-						$("#lbl-end-time1").removeClass("hidden4");
-						$("#lbl-start-time1").removeClass("hidden4");
+						$("#lbl-end-time1").removeClass("fc-cell-time");
+						$("#lbl-start-time1").removeClass("fc-cell-time");
 						
 						$("#date-end1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 						//$("#date-end").attr("disabled","true");
@@ -194,10 +193,10 @@
 	                {
 						document.getElementById("date-end").disabled = false;
 						
-						$("#time-start").addClass("hidden4");
-						$("#time-end").addClass("hidden4");   
-						$("#lbl-end-time").addClass("hidden4");
-						$("#lbl-start-time").addClass("hidden4");
+						$("#time-start").addClass("fc-cell-time");
+						$("#time-end").addClass("fc-cell-time");   
+						$("#lbl-end-time").addClass("fc-cell-time");
+						$("#lbl-start-time").addClass("fc-cell-time");
                         $("#date-end").datepicker();
 						$("#date-end").datepicker("option", "minDate", date);
 	                    $("#date-end").datepicker("setDate", date);
@@ -206,10 +205,10 @@
                     {
                         document.getElementById("date-end").disabled = true;
 						
-						$("#time-start").removeClass("hidden4");
-						$("#time-end").removeClass("hidden4");
-						$("#lbl-end-time").removeClass("hidden4");
-						$("#lbl-start-time").removeClass("hidden4");
+						$("#time-start").removeClass("fc-cell-time");
+						$("#time-end").removeClass("fc-cell-time");
+						$("#lbl-end-time").removeClass("fc-cell-time");
+						$("#lbl-start-time").removeClass("fc-cell-time");
 						$("#date-end").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 						$("#time-start").val(date.getHours()+":"+date.getMinutes());
 						
@@ -395,7 +394,7 @@
 						'Delete Event': function() {
 							calendar.fullCalendar('removeEvents',
 							function( ev ){
-								$(".fc-hidden").each(
+								$(".fc-month-vhidden").each(
 								function(index){
 									if( $(this).parent().prev().prev().text().indexOf( '"' +ev.id +'"' ) >= 0 )
 									{
@@ -403,7 +402,7 @@
 										$(this).parent().prev().html("");
 									}
 								});
-								$(".hidden1").each(
+								$(".fc-cell-date").each(
 								function(index){
 									if(  $(this).prev().text().indexOf( '"' +ev.id +'"' ) >= 0 )
 									{
@@ -411,7 +410,7 @@
 										$(this).next().html("");
 									}
 								});
-								$(".hidden2").each(
+								$(".fc-allday-bhidden").each(
 								function(index){
 									if( $(this).prev().prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
 									{
@@ -483,7 +482,7 @@
 						
 						calendar.fullCalendar('removeEvents',
 							function( ev ){
-								$(".fc-hidden").each(
+								$(".fc-month-vhidden").each(
 								function(index){
 									if( $(this).parent().prev().prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
 									{
@@ -491,7 +490,7 @@
 										$(this).parent().prev().html("");
 									}
 								});
-								$(".hidden1").each(
+								$(".fc-cell-date").each(
 								function(index){
 									if( $(this).prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
 									{
@@ -499,7 +498,7 @@
 										$(this).next().html("");
 									}
 								});
-								$(".hidden2").each(
+								$(".fc-allday-bhidden").each(
 								function(index){
 									if( $(this).prev().prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
 									{
@@ -603,7 +602,7 @@
                         <input type="text" name="date" id="date-end" class="text ui-widget-content ui-corner-all">
                     </td>
                     <td>
-                        <select title="Select End Time" name="time" id="time-end" class="text ui-widget-content ui-corner-all">
+                        <select name="time" id="time-end" class="text ui-widget-content ui-corner-all">
                         </select>
                     </td>
                 </tr>
@@ -635,7 +634,7 @@
                     <td>
                         <input type="text" name="date-start" id="date-start1" class="text ui-widget-content ui-corner-all">
                     </td>
-                    <td>
+                    <td id="container-fc-tm">
                         <input type="text" name="time" id="time-start1" disabled="disabled" class="text ui-widget-content ui-corner-all">
                     </td>
                 </tr>
@@ -652,7 +651,7 @@
                         <input type="text" name="date" id="date-end1" class="text ui-widget-content ui-corner-all">
                     </td>
                     <td>
-                        <select title="Select End Time" name="time" id="time-end1" class="text ui-widget-content ui-corner-all">
+                        <select name="time" id="time-end1" class="text ui-widget-content ui-corner-all">
                         </select>
                     </td>
                 </tr>    
