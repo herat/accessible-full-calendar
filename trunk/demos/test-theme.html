@@ -106,7 +106,11 @@
 						document.getElementById("date-end1").disabled = false;
 						document.getElementById("date-start1").disabled = false;
 						$("#time-start1").addClass("hidden4");
-						$("#time-end1").addClass("hidden4");   
+						$("#time-end1").addClass("hidden4");  
+						
+						$("#lbl-end-time1").addClass("hidden4");
+						$("#lbl-start-time1").addClass("hidden4");
+						 
 						$("#date-start1").datepicker();
 						$("#date-start1").datepicker("setDate", date);
                         $("#date-end1").datepicker();
@@ -121,6 +125,10 @@
                         $("#container-fc-tm").html("<select title='Select Start Time' name='time' id='time-start1' class='text ui-widget-content ui-corner-all'></select>");
 						$("#time-start1").removeClass("hidden4");
 						$("#time-end1").removeClass("hidden4");
+						
+						$("#lbl-end-time1").removeClass("hidden4");
+						$("#lbl-start-time1").removeClass("hidden4");
+						
 						$("#date-end1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 						//$("#date-end").attr("disabled","true");
 						$("#time-start1").val(date.getHours()+":"+date.getMinutes());
@@ -187,8 +195,11 @@
                     if( allDay == true )
 	                {
 						document.getElementById("date-end").disabled = false;
+						
 						$("#time-start").addClass("hidden4");
 						$("#time-end").addClass("hidden4");   
+						$("#lbl-end-time").addClass("hidden4");
+						$("#lbl-start-time").addClass("hidden4");
                         $("#date-end").datepicker();
 						$("#date-end").datepicker("option", "minDate", date);
 	                    $("#date-end").datepicker("setDate", date);
@@ -196,8 +207,11 @@
                     else
                     {
                         document.getElementById("date-end").disabled = true;
+						
 						$("#time-start").removeClass("hidden4");
 						$("#time-end").removeClass("hidden4");
+						$("#lbl-end-time").removeClass("hidden4");
+						$("#lbl-start-time").removeClass("hidden4");
 						$("#date-end").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 						$("#time-start").val(date.getHours()+":"+date.getMinutes());
 						
@@ -545,38 +559,98 @@
 <body>
  <div id="dialog" class="event-dialog" title="Create Event">
             <div id="dialog-inner">
-                <input title="Event title" type="text" name="name" id="name" class="text ui-widget-content ui-corner-all title"><br>
-                <span class="inline">From:</span>
-                <br />
-                <span class="inline"><input title="Enter Start Date" type="text" name="date-start" id="date-start" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
-                <span class="inline"><input title="Select Start Time" type="text" name="time" id="time-start" disabled="disabled" class="text ui-widget-content ui-corner-all"></span>
-                <br />
-                <span class="inline">To:</span>
-                <br /> 
-                <span class="inline"><input title="Enter End Date" type="text" name="date" id="date-end" class="text ui-widget-content ui-corner-all"></span>
-                <span class="inline"><!--<input type="text" name="time" id="time-end" class="text ui-widget-content ui-corner-all">--></span>
-                    <select title="Select End Time" name="time" id="time-end" class="text ui-widget-content ui-corner-all">
-                    </select>
-                <br />
+               <table border="0" cellpadding="5">
+                <tr> 
+                    <td>               
+                        <label for="name">Event Title</label>
+                    </td>
+                    <td>
+                        <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all title">
+                    </td>
+                </tr>                
+                <tr>
+                    <td>
+                        <label for="date-start">Start Date (mm/dd/yyyy)</label>
+                    </td>
+                    <td>
+                        <label id="lbl-start-time" for ="time-start">Start Time (24hours)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="date-start" id="date-start" disabled="disabled" class="text ui-widget-content ui-corner-all">
+                    </td>
+                    <td>
+                        <input type="text" name="time" id="time-start" disabled="disabled" class="text ui-widget-content ui-corner-all">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="date-end">End Date (mm/dd/yyyy)</label>
+                    </td>
+                    <td>
+                        <label id="lbl-end-time" for ="time-end">End Time (24hours)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="date" id="date-end" class="text ui-widget-content ui-corner-all">
+                    </td>
+                    <td>
+                        <select title="Select End Time" name="time" id="time-end" class="text ui-widget-content ui-corner-all">
+                        </select>
+                    </td>
+                </tr>
+                </table> 
                 <input type="hidden" id="viewname" />
                 <input type="hidden"  id="fc-emode" />
           </div>
         </div>
         <div id="dialog1" class="event-dialog" title="Edit Event">
             <div id="dialog-inner1">
-                <input type="text" title="Event title" name="name" id="name1" class="text ui-widget-content ui-corner-all title"><br>
-                <span class="inline">From:</span>
-                <br />
-                <span class="inline"><input type="text" title="Enter Start Date" name="date-start" id="date-start1" class="text ui-widget-content ui-corner-all"></span>
-                <span class="inline"><span id="container-fc-tm"><input type='text' title="Select Start Time" name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'></span></span>
-                <br />
-                <span class="inline">To:</span>
-                <br /> 
-                <span class="inline"><input type="text" title="Enter End Date" name="date" id="date-end1" class="text ui-widget-content ui-corner-all"></span>
-                <span class="inline"><!--<input type="text" name="time" id="time-end" class="text ui-widget-content ui-corner-all">--></span>
-                    <select name="time" id="time-end1" title="Select End Time" class="text ui-widget-content ui-corner-all">
-                    </select>
-                <br />
+                <table border="0" cellpadding="5">
+                 <tr> 
+                    <td>               
+                        <label for="name1">Event Title</label>
+                    </td>
+                    <td>
+                        <input type="text" name="name" id="name1" class="text ui-widget-content ui-corner-all title">
+                    </td>
+                </tr>                
+                <tr>
+                    <td>
+                        <label for="date-start1">Start Date (mm/dd/yyyy)</label>
+                    </td>
+                    <td>
+                        <label id="lbl-start-time1" for ="time-start1">Start Time (24hours)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="date-start" id="date-start1" class="text ui-widget-content ui-corner-all">
+                    </td>
+                    <td>
+                        <input type="text" name="time" id="time-start1" disabled="disabled" class="text ui-widget-content ui-corner-all">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="date-end1">End Date (mm/dd/yyyy)</label>
+                    </td>
+                    <td>
+                        <label id="lbl-end-time1" for ="time-end1">End Time (24hours)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="date" id="date-end1" class="text ui-widget-content ui-corner-all">
+                    </td>
+                    <td>
+                        <select title="Select End Time" name="time" id="time-end1" class="text ui-widget-content ui-corner-all">
+                        </select>
+                    </td>
+                </tr>    
+                </table>
                 <input type="hidden" id="viewname1" />
                 <input type="hidden"  id="fc-emode1" /> 
                 <input type="hidden" id="ori-name1" />              
