@@ -4743,7 +4743,7 @@
 		);
 			var newsdate = formatDate(event.start,"yyyy-MM-dd HH:mm") +":00"; 
 			var newedate = formatDate(event.end,"yyyy-MM-dd HH:mm") +":00"; 
-			$.get("update.php",{id:event.id, start:newsdate, end:newedate, title:event.title});
+			$.get("update.php",{id:event.id, start:newsdate, end:newedate, title:event.title, cmd:"update"});
             reportEventChange(eventId);
         }
 

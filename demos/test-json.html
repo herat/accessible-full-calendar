@@ -338,6 +338,7 @@
 					modal: true,
 					buttons: {
 						'Delete Event': function() {
+							$.get("update.php",{id:$("#ori-name1").val(), cmd:"delete"});
 							calendar.fullCalendar('removeEvents',
 							function( ev ){
 								$(".fc-month-vhidden").each(
