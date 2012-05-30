@@ -4,6 +4,7 @@ $iddd = $_GET["id"];
 $newstartd = $_GET["start"];
 $newend = $_GET["end"];
 $newtitle = $_GET["title"];
+$alld = $_GET["allday"];
 $command = $_GET["cmd"];
 
 $con = mysql_connect("localhost","root","root");
@@ -21,8 +22,8 @@ if( strcmp($command,"update") == 0 )
 }
 else if( strcmp($command,"create") == 0 )
 {
-	/*$query = "UPDATE `full-calendar-events` SET start = '".$newstartd."', end = '".$newend."' WHERE id=".$iddd;
-	mysql_query( $query, $con );*/
+	$query = "INSERT INTO `full-calendar-events` (title,start,end,allDay) values ('".$newtitle."','".$newstartd."','".$newend."','".$alld."')" ;
+	mysql_query( $query, $con );	
 }
 else if( strcmp($command,"delete") == 0 )
 {

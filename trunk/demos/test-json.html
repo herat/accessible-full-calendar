@@ -296,6 +296,9 @@
 						
 						 if( $('#viewname').val() == "month" || document.getElementById("date-end").disabled == false)
 							{
+								var mysqlendd = $.fullCalendar.formatDate(new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
+								var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
+								$.get("update.php",{id:'',start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"create",allday:"true"});
 								calendar.fullCalendar('renderEvent',
 									{
 										id: Math.floor((Math.random()*100)+1), 
