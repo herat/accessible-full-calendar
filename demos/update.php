@@ -15,7 +15,7 @@ if (!$con)
 
 mysql_select_db("test");
 
-if( strcmp($command,"update") == 0 )
+if( strcmp($command,"drag") == 0 )
 {
 	$query = "UPDATE `full-calendar-events` SET start = '".$newstartd."', end = '".$newend."' WHERE id=".$iddd;
 	mysql_query( $query, $con );
@@ -23,11 +23,20 @@ if( strcmp($command,"update") == 0 )
 else if( strcmp($command,"create") == 0 )
 {
 	$query = "INSERT INTO `full-calendar-events` (title,start,end,allDay) values ('".$newtitle."','".$newstartd."','".$newend."','".$alld."')" ;
-	mysql_query( $query, $con );	
+	mysql_query( $query, $con );
+	$query = "SELECT MAX(id) from `full-calendar-events`";
+	$resultno = mysql_query( $query, $con );
+	$idno=mysql_fetch_row($resultno);  
+	echo $idno[0];	
 }
 else if( strcmp($command,"delete") == 0 )
 {
 	$query = "DELETE FROM `full-calendar-events` WHERE id=".$iddd;
+	mysql_query( $query, $con );
+}
+else if( strcmp($command,"update") == 0 )
+{
+	$query = "UPDATE `full-calendar-events` SET title = '".$newtitle."' , start = '".$newstartd."', end = '".$newend."' WHERE id=".$iddd;
 	mysql_query( $query, $con );
 }
 ?>

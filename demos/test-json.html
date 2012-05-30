@@ -276,7 +276,7 @@
 							var timestp = $('#time-end').val().split(':');						
 						}
 						var endsplt = ends.split("/");
-						
+						var newid;
 						if( startsplt[1].charAt(0) == '0' )
 						{
 							startsplt[1] = startsplt[1].charAt(1);
@@ -298,10 +298,10 @@
 							{
 								var mysqlendd = $.fullCalendar.formatDate(new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
 								var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
-								$.get("update.php",{id:'',start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"create",allday:"true"});
+								$.get("update.php",{id:'',start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"create",allday:"true"},function(data){ newid = data; });
 								calendar.fullCalendar('renderEvent',
 									{
-										id: Math.floor((Math.random()*100)+1), 
+										id: newid, 
 										title: $("#name").val(),
 										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])),
 										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]))				                                       
@@ -312,9 +312,12 @@
 							}
 							else
 							{
+								var mysqlendd = $.fullCalendar.formatDate( new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]), 'yyyy-MM-dd HH:mm')+":00";
+								var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]), 'yyyy-MM-dd HH:mm')+":00";
+								$.get("update.php",{id:'',start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"create",allday:"false"}, function(data){ newid = data; });
 								calendar.fullCalendar('renderEvent',
 									{
-										id: Math.floor((Math.random()*100)+1),
+										id: newid,
 										title: $("#name").val(),
 										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]),
 										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]),
@@ -341,7 +344,7 @@
 					modal: true,
 					buttons: {
 						'Delete Event': function() {
-							$.get("update.php",{id:$("#ori-name1").val(), cmd:"delete"});
+							$.get("update.php",{id:$("#ori-name1").val(),start:'',end:'',title:'',allday:'',cmd:"delete"});
 							calendar.fullCalendar('removeEvents',
 							function( ev ){
 								$(".fc-month-vhidden").each(
@@ -464,6 +467,9 @@
 						
 						 if( $('#viewname1').val() == "true" )
 							{
+								var mysqlendd = $.fullCalendar.formatDate(new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
+								var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
+								$.get("update.php",{id:$("#ori-name1").val(),start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"update",allday:"true"});
 								calendar.fullCalendar('renderEvent',
 									{
 										id: $("#ori-name1").val(),
@@ -477,6 +483,9 @@
 							}
 							else
 							{
+								var mysqlendd = $.fullCalendar.formatDate( new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]), 'yyyy-MM-dd HH:mm')+":00";
+								var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]), 'yyyy-MM-dd HH:mm')+":00";
+								$.get("update.php",{id:$("#ori-name1").val(),start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"update",allday:"false"});
 								calendar.fullCalendar('renderEvent',
 									{
 										id: $("#ori-name1").val(),
