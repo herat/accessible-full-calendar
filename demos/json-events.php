@@ -1,9 +1,6 @@
 <?php
 
-	$year = date('Y');
-	$month = date('m');
-	
-	$con = mysql_connect("localhost","root","");
+	$con = mysql_connect("localhost","root","root");
 	if (!$con)
 	{
 	  die('Could not connect: ' . mysql_error());
@@ -21,8 +18,8 @@
 		array_push( $rows, $row );		
 	}
 
-	//mysql_free_result($result);
-	//mysql_close($db);
-	
-	echo json_encode( $rows );
+	$str =  json_encode( $rows );
+	$str = str_replace('"true"','true',$str);
+	$str = str_replace('"false"','false',$str);
+	echo $str;
 ?>

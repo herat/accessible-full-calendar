@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI Dialog - Default functionality</title>
+	
+    <script type="text/javascript" src="../jquery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../jquery/jquery-ui-1.8.20.custom.min.js"></script>
+	<script type="text/javascript" src="../jquery/lib/jquery/plugins/tooltip/js/jquery.ui.tooltip.js"></script>
+    <script type="text/javascript" src="../jquery/framework/core/js/FluidDocument.js"></script>
+    <script type="text/javascript" src="../jquery/framework/core/js/Fluid.js"></script>
+    <script type="text/javascript" src="../jquery/framework/core/js/DataBinding.js"></script>
+    <script type="text/javascript" src="../jquery/components/tooltip/js/Tooltip.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="../jquery/lib/jquery/plugins/tooltip/css/jquery.tooltip.css" />
+    <link rel='stylesheet' type='text/css' href='../jquery/jquery-ui-1.8.20.custom.css' />
+    <link rel='stylesheet' type='text/css' href='../fullcalendar/fullcalendar.css' />
+    <link rel='stylesheet' type='text/css' href='../fullcalendar/fullcalendar.print.css' media='print' />
+    
+	<script type='text/javascript' src='../fullcalendar/fullcalendar-json.js'></script>
+    <script>
+	    $(document).ready(function () {
+	        var date = new Date();
+	        var d = date.getDate();
+	        var m = date.getMonth();
+	        var y = date.getFullYear();
+            
+	        var calendar = $('#calendar').fullCalendar({
+				/*defaultView: 'agendaWeek',*/
+	            header: {
+	                left: 'prev,next today',
+	                center: 'title',
+	                right: 'month,agendaWeek,agendaDay'
+	            },
+	            selectable: true,
+	            selectHelper: true,
+				eventAfterRender: function( evento,elemento,viewo ){
+					fluid.tooltip( elemento, {
+							content: function(){
+								return "Edit Event";
+							}
+						});
+				},
+                eventResize: function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) { 
+                    //console.log(event.id+" "+event.start+" "+event.end);
+                },
+				viewDisplay: function(view) {
+					if( view.name == "month" )
+					{
+						for( var ty=0; ty<= 41;ty++)
+						{
+							fluid.tooltip(".fc-day"+ty, {
+								content: function () {
+									return "Create Event";
+									
+									/*if ( $(this).html().indexOf( "fc-day-content" ) >= 0 )
+										return $(this).prev().prev().text();
+									else if ( $(this).html().indexOf("div") >= 0)
+										return $(this).parent().prev().prev().text();
+									else
+										return $(this).parent().parent().prev().prev().text();
+									return "";*/								
+								}
+							});
+						}
+					}
+					else
+					{
+						$(".fc-day-content").each( function() {
+							fluid.tooltip( $(this),{
+								content: function(){
+									return "Create Event";
+								}
+							});
+						});
+						for( var ty=0;ty <= 47;ty++)
+						{
+							$(".fc-slot"+ty).find(".fc-widget-content").each( function(){
+									fluid.tooltip( $(this),{
+											content: function(){
+												return "Create Event";
+											}
+										} );
+								});
+						}
+					}
+    			},
+				//event is clicked
+				eventClick: function(calevent,jsEvent,view){
+					
+					$("#fc-emode1").val("edit");
+					$("#dialog1").dialog('open');	                
+					$("#name1").val(calevent.title);
+										
+					var date = calevent.start;
+					
+	                $("#date-start1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
+					$("#ori-name1").val( calevent.id );
+	                
+                    if( calevent.allDay == true )
+	                {
+						$("#container-fc-tm").html("<input type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'>");
+						document.getElementById("date-end1").disabled = false;
+						document.getElementById("date-start1").disabled = false;
+						$("#time-start1").addClass("fc-cell-time");
+						$("#time-end1").addClass("fc-cell-time");  
+						
+						$("#lbl-end-time1").addClass("fc-cell-time");
+						$("#lbl-start-time1").addClass("fc-cell-time");
+						 
+						$("#date-start1").datepicker();
+						$("#date-start1").datepicker("setDate", date);
+                        $("#date-end1").datepicker();
+						
+						if( calevent.end != null )
+							$("#date-end1").datepicker("setDate", calevent.end);
+						else
+							$("#date-end1").datepicker("setDate", date);
+                    }
+                    else
+                    {
+                        $("#container-fc-tm").html("<select name='time' id='time-start1' class='text ui-widget-content ui-corner-all'></select>");
+						$("#time-start1").removeClass("fc-cell-time");
+						$("#time-end1").removeClass("fc-cell-time");
+						
+						$("#lbl-end-time1").removeClass("fc-cell-time");
+						$("#lbl-start-time1").removeClass("fc-cell-time");
+						
+						$("#date-end1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
+						//$("#date-end").attr("disabled","true");
+						$("#time-start1").val(date.getHours()+":"+date.getMinutes());
+						
+						select = $('#time-end1');
+						$("#time-end1 > option").each(function() {
+    						$(this).remove();
+						});
+						var startpt = date.getHours();
+						var endpt = calevent.end;
+						var bol = true;
+						for(zz=0;zz<=24;zz++)
+						{
+							if( zz == 24 )
+							{
+								select.append("<option value='"+zz+":0' >"+zz+"</option>");
+							}
+							else
+							{
+								if( bol )	
+                				{
+									select.append("<option value='"+zz+":0' >"+zz+"</option>");									
+								}
+								select.append("<option value='"+zz+":30' >"+zz+":30"+"</option>");								
+								bol = true;								
+							}
+						}
+						//console.log(endpt.getHours());
+						select.val(endpt.getHours()+":"+endpt.getMinutes());
+						
+						select = $('#time-start1');
+						bol = true;
+						
+						for(zz=0;zz<=24;zz++)
+						{
+							if( zz == 24 )
+							{
+								select.append("<option value='"+zz+":0' >"+zz+"</option>");
+							}
+							else
+							{
+								if( bol )	
+                				{
+									select.append("<option value='"+zz+":0' >"+zz+"</option>");									
+								}
+								select.append("<option value='"+zz+":30' >"+zz+":30"+"</option>");								
+								bol = true;								
+							}
+						}
+						
+						select.val(date.getHours()+":"+date.getMinutes());
+												            			
+                    }
+	                $("#viewname1").val(""+calevent.allDay);
+				},
+				//enter data
+	            select: function (date,end, allDay, jsEvent, view) {
+					$("#fc-emode").val("create");					
+	                $("#dialog").dialog('open');
+	                $("#name").val("[event name]");
+					                
+					$("#date-start").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
+					
+                    if( allDay == true )
+	                {
+						document.getElementById("date-end").disabled = false;
+						
+						$("#time-start").addClass("fc-cell-time");
+						$("#time-end").addClass("fc-cell-time");   
+						$("#lbl-end-time").addClass("fc-cell-time");
+						$("#lbl-start-time").addClass("fc-cell-time");
+                        $("#date-end").datepicker();
+						$("#date-end").datepicker("option", "minDate", date);
+	                    $("#date-end").datepicker("setDate", date);
+                    }
+                    else
+                    {
+                        document.getElementById("date-end").disabled = true;
+						
+						$("#time-start").removeClass("fc-cell-time");
+						$("#time-end").removeClass("fc-cell-time");
+						$("#lbl-end-time").removeClass("fc-cell-time");
+						$("#lbl-start-time").removeClass("fc-cell-time");
+						$("#date-end").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
+						$("#time-start").val(date.getHours()+":"+date.getMinutes());
+						
+						select = $('#time-end');
+						$("#time-end > option").each(function() {
+    						$(this).remove();
+						});
+						var startpt = date.getHours();
+						var bol = false;
+						if( date.getMinutes() == 0 )
+                        	bol = false;
+                    	else
+						{
+							startpt++;							
+                        	bol = true;
+						}
+            			for(zz=startpt;zz<=24;zz++)
+            			{
+							if( zz == 24 )
+							{
+								select.append("<option value='"+zz+":0' >"+zz+"</option>");
+							}
+							else
+							{
+								if( bol )	
+                				{
+									select.append("<option value='"+zz+":0' >"+zz+"</option>");
+								}
+								select.append("<option value='"+zz+":30' >"+zz+":30"+"</option>");
+								bol = true;
+								
+							}
+								
+            			}
+						
+                    	if( date.getMinutes() == 0 )
+                        	$("#time-end").val(date.getHours()+":30");
+                    	else
+                        	$("#time-end").val((parseInt(date.getHours())+1)+":0");
+                    }
+
+	                $("#viewname").val(view.name);	                
+	            },
+
+	            editable: true,
+	            events: "json-events.php"
+	        });
+			//create mode
+				$("#dialog").dialog({
+					autoOpen: false,
+					height: 350,
+					width: 700,
+					modal: true,
+					buttons: {
+						'Create event': function () {						
+						var startsplt = $("#date-start").val().split("/");
+						var ends;
+						if( $('#viewname').val() == "month" || document.getElementById("date-end").disabled == false)
+							ends = $.fullCalendar.formatDate($("#date-end").datepicker("getDate"), 'MM/dd/yyyy');
+						else
+						{
+							ends =  $("#date-start").val();
+								
+							var timestr = $('#time-start').val().split(':');
+							var timestp = $('#time-end').val().split(':');						
+						}
+						var endsplt = ends.split("/");
+						
+						if( startsplt[1].charAt(0) == '0' )
+						{
+							startsplt[1] = startsplt[1].charAt(1);
+						}
+						if( endsplt[1].charAt(0) == '0' )
+						{
+							endsplt[1] = endsplt[1].charAt(1);
+						}
+						if( startsplt[0].charAt(0) == '0' )
+						{
+							startsplt[0] = startsplt[0].charAt(1);
+						}
+						if( endsplt[0].charAt(0) == '0' )
+						{
+							endsplt[0] = endsplt[0].charAt(1);
+						}
+						
+						 if( $('#viewname').val() == "month" || document.getElementById("date-end").disabled == false)
+							{
+								calendar.fullCalendar('renderEvent',
+									{
+										id: Math.floor((Math.random()*100)+1), 
+										title: $("#name").val(),
+										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])),
+										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]))				                                       
+									},
+								true // make the event "stick"
+								);
+								$(this).dialog('close');
+							}
+							else
+							{
+								calendar.fullCalendar('renderEvent',
+									{
+										id: Math.floor((Math.random()*100)+1),
+										title: $("#name").val(),
+										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]),
+										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]),
+										allDay: false		                                        
+									},
+								true // make the event "stick"
+								);
+								$(this).dialog('close');
+							}
+						},
+						Cancel: function () {
+							$(this).dialog('close');
+						}
+					},
+					close: function () {
+					}
+	
+				});
+			//edit mode
+				$("#dialog1").dialog({
+					autoOpen: false,
+					height: 350,
+					width: 700,
+					modal: true,
+					buttons: {
+						'Delete Event': function() {
+							calendar.fullCalendar('removeEvents',
+							function( ev ){
+								$(".fc-month-vhidden").each(
+								function(index){
+									if( $(this).parent().prev().prev().text().indexOf( '"' +ev.id +'"' ) >= 0 )
+									{
+										$(this).parent().prev().prev().html("");
+										$(this).parent().prev().html("");
+									}
+								});
+								$(".fc-cell-date").each(
+								function(index){
+									if(  $(this).prev().text().indexOf( '"' +ev.id +'"' ) >= 0 )
+									{
+										$(this).prev().html("");
+										$(this).next().html("");
+									}
+								});
+								$(".fc-allday-bhidden").each(
+								function(index){
+									if( $(this).prev().prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
+									{
+										$(this).prev().prev().html("");
+										$(this).prev().html("");
+									}
+								});
+								if( ev.id == $("#ori-name1").val())
+									return true;
+							}
+							
+						);
+						$(this).dialog('close');
+						},
+						'Edit event': function () {
+						
+						var startsplt = $("#date-start1").val().split("/");
+						var ends;
+						if( $('#viewname1').val() == "true" )
+							ends = $.fullCalendar.formatDate($("#date-end1").datepicker("getDate"), 'MM/dd/yyyy');
+						else
+						{
+							ends =  $("#date-start1").val();
+								
+							var timestr = $('#time-start1').val().split(':');
+							var timestp = $('#time-end1').val().split(':');						
+						}
+						var endsplt = ends.split("/");
+						
+						if( startsplt[1].charAt(0) == '0' )
+						{
+							startsplt[1] = startsplt[1].charAt(1);
+						}
+						if( endsplt[1].charAt(0) == '0' )
+						{
+							endsplt[1] = endsplt[1].charAt(1);
+						}
+						if( startsplt[0].charAt(0) == '0' )
+						{
+							startsplt[0] = startsplt[0].charAt(1);
+						}
+						if( endsplt[0].charAt(0) == '0' )
+						{
+							endsplt[0] = endsplt[0].charAt(1);
+						}
+						
+						if( $('#viewname1').val() == "true" )
+						{
+							var sdat = new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]));
+							var edat = new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]));
+							if( edat < sdat )
+							{
+								alert("Enter valid dates");
+								$(this).dialog('close');
+								return;
+							}
+						}
+						else
+						{
+							var sdat = new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]);
+							var edat = new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]);
+							if( edat < sdat )
+							{
+								alert("Enter valid dates");
+								$(this).dialog('close');
+								return;
+							}
+						}
+						
+						calendar.fullCalendar('removeEvents',
+							function( ev ){
+								$(".fc-month-vhidden").each(
+								function(index){
+									if( $(this).parent().prev().prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
+									{
+										$(this).parent().prev().prev().html("");
+										$(this).parent().prev().html("");
+									}
+								});
+								$(".fc-cell-date").each(
+								function(index){
+									if( $(this).prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
+									{
+										$(this).prev().html("");
+										$(this).next().html("");
+									}
+								});
+								$(".fc-allday-bhidden").each(
+								function(index){
+									if( $(this).prev().prev().text().indexOf( '"'+ev.id+'"' ) >= 0 )
+									{
+										$(this).prev().prev().html("");
+										$(this).prev().html("");
+									}
+								});
+								if( ev.id == $("#ori-name1").val())
+									return true;
+								
+							}
+						);
+						
+						 if( $('#viewname1').val() == "true" )
+							{
+								calendar.fullCalendar('renderEvent',
+									{
+										id: $("#ori-name1").val(),
+										title: $("#name1").val(),
+										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])),
+										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]))				                                       
+									},
+								true // make the event "stick"
+								);
+								$(this).dialog('close');
+							}
+							else
+							{
+								calendar.fullCalendar('renderEvent',
+									{
+										id: $("#ori-name1").val(),
+										title: $("#name1").val(),
+										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]),
+										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]),
+										allDay: false	                                        
+									},
+								true // make the event "stick"
+								);
+								$(this).dialog('close');
+							}
+						},
+						Cancel: function () {
+							$(this).dialog('close');
+						}
+					},
+					close: function () {
+					}
+	
+				});     
+			
+        });
+	</script>
+    <style type='text/css'>
+
+	#calendar {
+		width: 900px;
+		margin: 0 auto;
+		}
+
+	</style>
+</head>
+
+<body>
+ <div id="dialog" class="event-dialog" title="Create Event">
+            <div id="dialog-inner">
+               <table border="0" cellpadding="5">
+                <tr> 
+                    <td>               
+                        <label for="name">Event Title</label>
+                    </td>
+                    <td>
+                        <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all title">
+                    </td>
+                </tr>                
+                <tr>
+                    <td>
+                        <label for="date-start">Start Date (mm/dd/yyyy)</label>
+                    </td>
+                    <td>
+                        <label id="lbl-start-time" for ="time-start">Start Time (24hours)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="date-start" id="date-start" disabled="disabled" class="text ui-widget-content ui-corner-all">
+                    </td>
+                    <td>
+                        <input type="text" name="time" id="time-start" disabled="disabled" class="text ui-widget-content ui-corner-all">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="date-end">End Date (mm/dd/yyyy)</label>
+                    </td>
+                    <td>
+                        <label id="lbl-end-time" for ="time-end">End Time (24hours)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="date" id="date-end" class="text ui-widget-content ui-corner-all">
+                    </td>
+                    <td>
+                        <select name="time" id="time-end" class="text ui-widget-content ui-corner-all">
+                        </select>
+                    </td>
+                </tr>
+                </table> 
+                <input type="hidden" id="viewname" />
+                <input type="hidden"  id="fc-emode" />
+          </div>
+        </div>
+        <div id="dialog1" class="event-dialog" title="Edit Event">
+            <div id="dialog-inner1">
+                <table border="0" cellpadding="5">
+                 <tr> 
+                    <td>               
+                        <label for="name1">Event Title</label>
+                    </td>
+                    <td>
+                        <input type="text" name="name" id="name1" class="text ui-widget-content ui-corner-all title">
+                    </td>
+                </tr>                
+                <tr>
+                    <td>
+                        <label for="date-start1">Start Date (mm/dd/yyyy)</label>
+                    </td>
+                    <td>
+                        <label id="lbl-start-time1" for ="time-start1">Start Time (24hours)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="date-start" id="date-start1" class="text ui-widget-content ui-corner-all">
+                    </td>
+                    <td id="container-fc-tm">
+                        <input type="text" name="time" id="time-start1" disabled="disabled" class="text ui-widget-content ui-corner-all">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="date-end1">End Date (mm/dd/yyyy)</label>
+                    </td>
+                    <td>
+                        <label id="lbl-end-time1" for ="time-end1">End Time (24hours)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="date" id="date-end1" class="text ui-widget-content ui-corner-all">
+                    </td>
+                    <td>
+                        <select name="time" id="time-end1" class="text ui-widget-content ui-corner-all">
+                        </select>
+                    </td>
+                </tr>    
+                </table>
+                <input type="hidden" id="viewname1" />
+                <input type="hidden"  id="fc-emode1" /> 
+                <input type="hidden" id="ori-name1" />              
+            </div>
+        </div>
+        <div id="calendar"></div>
+
+</body>
+</html>
