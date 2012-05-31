@@ -85,6 +85,13 @@
 											}
 										} );
 								});
+							$(".fc-slot"+ty).find(".ui-widget-content").each( function(){
+									fluid.tooltip( $(this),{
+											content: function(){
+												return "Click or press enter to create event";
+											}
+										} );
+								});	
 						}
 					}
     			},
