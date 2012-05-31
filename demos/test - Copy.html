@@ -37,7 +37,7 @@
 				eventAfterRender: function( evento,elemento,viewo ){
 					fluid.tooltip( elemento, {
 							content: function(){
-								return "Edit Event";
+								return "Click or press enter to edit event";
 							}
 						});
 				},
@@ -51,7 +51,7 @@
 						{
 							fluid.tooltip(".fc-day"+ty, {
 								content: function () {
-									return "Create Event";
+									return "Click or press enter to create event";
 									
 									/*if ( $(this).html().indexOf( "fc-day-content" ) >= 0 )
 										return $(this).prev().prev().text();
@@ -69,7 +69,7 @@
 						$(".fc-day-content").each( function() {
 							fluid.tooltip( $(this),{
 								content: function(){
-									return "Create Event";
+									return "Click or press enter to create event";
 								}
 							});
 						});
@@ -78,7 +78,7 @@
 							$(".fc-slot"+ty).find(".fc-widget-content").each( function(){
 									fluid.tooltip( $(this),{
 											content: function(){
-												return "Create Event";
+												return "Click or press enter to create event";
 											}
 										} );
 								});
@@ -102,11 +102,11 @@
 						$("#container-fc-tm").html("<input type='text' name='time' id='time-start1' disabled='disabled' class='text ui-widget-content ui-corner-all'>");
 						document.getElementById("date-end1").disabled = false;
 						document.getElementById("date-start1").disabled = false;
-						$("#time-start1").addClass("fc-cell-time");
-						$("#time-end1").addClass("fc-cell-time");  
+						$("#time-start1").addClass("fc-form-hide");
+						$("#time-end1").addClass("fc-form-hide");  
 						
-						$("#lbl-end-time1").addClass("fc-cell-time");
-						$("#lbl-start-time1").addClass("fc-cell-time");
+						$("#lbl-end-time1").addClass("fc-form-hide");
+						$("#lbl-start-time1").addClass("fc-form-hide");
 						 
 						$("#date-start1").datepicker();
 						$("#date-start1").datepicker("setDate", date);
@@ -120,11 +120,11 @@
                     else
                     {
                         $("#container-fc-tm").html("<select name='time' id='time-start1' class='text ui-widget-content ui-corner-all'></select>");
-						$("#time-start1").removeClass("fc-cell-time");
-						$("#time-end1").removeClass("fc-cell-time");
+						$("#time-start1").removeClass("fc-form-hide");
+						$("#time-end1").removeClass("fc-form-hide");
 						
-						$("#lbl-end-time1").removeClass("fc-cell-time");
-						$("#lbl-start-time1").removeClass("fc-cell-time");
+						$("#lbl-end-time1").removeClass("fc-form-hide");
+						$("#lbl-start-time1").removeClass("fc-form-hide");
 						
 						$("#date-end1").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 						//$("#date-end").attr("disabled","true");
@@ -193,10 +193,10 @@
 	                {
 						document.getElementById("date-end").disabled = false;
 						
-						$("#time-start").addClass("fc-cell-time");
-						$("#time-end").addClass("fc-cell-time");   
-						$("#lbl-end-time").addClass("fc-cell-time");
-						$("#lbl-start-time").addClass("fc-cell-time");
+						$("#time-start").addClass("fc-form-hide");
+						$("#time-end").addClass("fc-form-hide");   
+						$("#lbl-end-time").addClass("fc-form-hide");
+						$("#lbl-start-time").addClass("fc-form-hide");
                         $("#date-end").datepicker();
 						$("#date-end").datepicker("option", "minDate", date);
 	                    $("#date-end").datepicker("setDate", date);
@@ -205,10 +205,10 @@
                     {
                         document.getElementById("date-end").disabled = true;
 						
-						$("#time-start").removeClass("fc-cell-time");
-						$("#time-end").removeClass("fc-cell-time");
-						$("#lbl-end-time").removeClass("fc-cell-time");
-						$("#lbl-start-time").removeClass("fc-cell-time");
+						$("#time-start").removeClass("fc-form-hide");
+						$("#time-end").removeClass("fc-form-hide");
+						$("#lbl-end-time").removeClass("fc-form-hide");
+						$("#lbl-start-time").removeClass("fc-form-hide");
 						$("#date-end").val($.fullCalendar.formatDate(date, 'MM/dd/yyyy'));
 						$("#time-start").val(date.getHours()+":"+date.getMinutes());
 						
