@@ -43,6 +43,9 @@
 				},
                 eventResize: function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) { 
                     //console.log(event.id+" "+event.start+" "+event.end);
+					var newsdate = $.fullCalendar.formatDate(event.start,"yyyy-MM-dd HH:mm") +":00"; 
+					var newedate = $.fullCalendar.formatDate(event.end,"yyyy-MM-dd HH:mm") +":00"; 
+					$.get("update.php",{id:event.id, start:newsdate, end:newedate, title:'',allday:'', cmd:"drag"});
                 },
 				viewDisplay: function(view) {
 					if( view.name == "month" )
@@ -295,43 +298,42 @@
 						}
 						
 						 if( $('#viewname').val() == "month" || document.getElementById("date-end").disabled == false)
+						{
+							var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
+							var mysqlendd = $.fullCalendar.formatDate(new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
+							$.get("update.php",{id:'',start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"create",allday:"true"},function(data){ newid = data; 
+							calendar.fullCalendar('renderEvent',
 							{
-								var mysqlendd = $.fullCalendar.formatDate(new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
-								var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
-								$.get("update.php",{id:'',start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"create",allday:"true"},function(data){ newid = data; });
-								calendar.fullCalendar('renderEvent',
-									{
-										id: newid, 
-										title: $("#name").val(),
-										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])),
-										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]))				                                       
-									},
-								true // make the event "stick"
-								);
-								$(this).dialog('close');
-							}
-							else
-							{
-								var mysqlendd = $.fullCalendar.formatDate( new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]), 'yyyy-MM-dd HH:mm')+":00";
-								var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]), 'yyyy-MM-dd HH:mm')+":00";
-								$.get("update.php",{id:'',start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"create",allday:"false"}, function(data){ newid = data; });
-								calendar.fullCalendar('renderEvent',
-									{
-										id: newid,
-										title: $("#name").val(),
-										start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]),
-										end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]),
-										allDay: false		                                        
-									},
-								true // make the event "stick"
-								);
-								$(this).dialog('close');
-							}
-						},
-						Cancel: function () {
+								id: newid, 
+								title: $("#name").val(),
+								start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])),
+								end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]))				                            },
+							true // make the event "stick"
+							); });
+							$(this).dialog('close');
+						}
+						else
+						{
+							var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]), 'yyyy-MM-dd HH:mm')+":00";
+							var mysqlendd = $.fullCalendar.formatDate( new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]), 'yyyy-MM-dd HH:mm')+":00";
+							$.get("update.php",{id:'',start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"create",allday:"false"}, function(data){ newid = data; 
+							calendar.fullCalendar('renderEvent',
+								{
+									id: newid,
+									title: $("#name").val(),
+									start: new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]),
+									end: new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]),
+									allDay: false		                                        
+								},
+							true // make the event "stick"
+							); });
 							$(this).dialog('close');
 						}
 					},
+					Cancel: function () {
+						$(this).dialog('close');
+					}
+				},
 					close: function () {
 					}
 	
@@ -469,7 +471,7 @@
 							{
 								var mysqlendd = $.fullCalendar.formatDate(new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
 								var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1])), 'yyyy-MM-dd HH:mm')+":00";
-								$.get("update.php",{id:$("#ori-name1").val(),start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"update",allday:"true"});
+								$.get("update.php",{id:$("#ori-name1").val(),start:mysqlstartd, end:mysqlendd, title:$("#name1").val(), cmd:"update",allday:"true"});
 								calendar.fullCalendar('renderEvent',
 									{
 										id: $("#ori-name1").val(),
@@ -485,7 +487,7 @@
 							{
 								var mysqlendd = $.fullCalendar.formatDate( new Date(parseInt(endsplt[2]),parseInt(endsplt[0])-1,parseInt(endsplt[1]),timestp[0],timestp[1]), 'yyyy-MM-dd HH:mm')+":00";
 								var mysqlstartd = $.fullCalendar.formatDate(new Date(parseInt(startsplt[2]),parseInt(startsplt[0])-1,parseInt(startsplt[1]),timestr[0],timestr[1]), 'yyyy-MM-dd HH:mm')+":00";
-								$.get("update.php",{id:$("#ori-name1").val(),start:mysqlstartd, end:mysqlendd, title:$("#name").val(), cmd:"update",allday:"false"});
+								$.get("update.php",{id:$("#ori-name1").val(),start:mysqlstartd, end:mysqlendd, title:$("#name1").val(), cmd:"update",allday:"false"});
 								calendar.fullCalendar('renderEvent',
 									{
 										id: $("#ori-name1").val(),
