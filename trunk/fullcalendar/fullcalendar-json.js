@@ -4742,7 +4742,12 @@
 			ui
 		);
 			var newsdate = formatDate(event.start,"yyyy-MM-dd HH:mm") +":00"; 
-			var newedate = formatDate(event.end,"yyyy-MM-dd HH:mm") +":00"; 
+			var newedate; 
+			if( event.end == null )
+				newedate = formatDate(event.start,"yyyy-MM-dd HH:mm") +":00";
+			else
+				newedate = formatDate(event.end,"yyyy-MM-dd HH:mm") +":00";			
+			
 			$.get("update.php",{id:event.id, start:newsdate, end:newedate, title:event.title,allday:'', cmd:"drag"});
             reportEventChange(eventId);
         }
