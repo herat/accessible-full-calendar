@@ -21,3 +21,12 @@ When new evets are added, add new condtitions for checking validity. Also make s
 
 All single day events must be allDay: false.
 All multiple events must be allDay: true.
+
+In week view alldates in the columns are not proper.
+
+Check logs with CindyLi
+
+Make some events unchangable. ATutor events will not be able to modified. - Use http://arshaw.com/fullcalendar/docs/event_data/Event_Object/ editable
+
+http://arshaw.com/fullcalendar/docs/event_rendering/Colors/ to seperate atutor and personal events
+
