@@ -140,6 +140,15 @@
 						//$("#date-end").attr("disabled","true");
 						$("#time-start1").val(date.getHours()+":"+date.getMinutes());
 						
+						$("#date-start1").datepicker();
+						$("#date-start1").datepicker("setDate", date);
+                        $("#date-end1").datepicker();
+						
+						if( calevent.end != null )
+							$("#date-end1").datepicker("setDate", calevent.end);
+						else
+							$("#date-end1").datepicker("setDate", date);
+						
 						select = $('#time-end1');
 						$("#time-end1 > option").each(function() {
     						$(this).remove();
