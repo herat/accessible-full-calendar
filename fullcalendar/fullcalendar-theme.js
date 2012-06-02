@@ -413,8 +413,8 @@
 				 	//console.log("con3 ");
                     currentView.clearEvents();
                     forceEventRender = true;
-					//currentView.render(date, inc || 0); // responsible for clearing events
-                    //setSize(true);
+					currentView.render(date, inc || 0); // responsible for clearing events
+                    setSize(true);
                 }
                 currentView.sizeDirty = false;
                 currentView.eventsDirty = false;
@@ -4741,6 +4741,14 @@
 			ev,
 			ui
 		);
+			var newsdate = formatDate(event.start,"yyyy-MM-dd HH:mm") +":00"; 
+			var newedate; 
+			if( event.end == null )
+				newedate = formatDate(event.start,"yyyy-MM-dd HH:mm") +":00";
+			else
+				newedate = formatDate(event.end,"yyyy-MM-dd HH:mm") +":00";			
+			
+			$.get("update.php",{id:event.id, start:newsdate, end:newedate, title:event.title,allday:'', cmd:"drag"});
             reportEventChange(eventId);
         }
 
