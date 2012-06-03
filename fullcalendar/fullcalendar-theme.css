@@ -6,8 +6,9 @@
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
  * Date: Mon Feb 6 22:40:40 2012 -0800
- *http://css-tricks.com/removing-the-dotted-outline/
+ *
  */
+ /* top buttons */
  .fc-button-firsts{
 	position:absolute;
 	left:-10000px;
@@ -16,19 +17,24 @@
 	height:1px;
 	overflow:hidden;
 	text-decoration:none; 
- }
+	}
+/* hide id in month view's events */
  .fc-id{
-	 display:none;
- }
+	display:none;
+	}
+/* hide id in month view's each cell */
  .fc-monthv-id{
-	 display:none;
- }
+	display:none;
+	}
+/* hide id in allday row */
  .fc-allday-row-id{
-	 display:none;
- }
+	display:none;
+	}
+/* hide id in week and day views' cells */
  .fc-cell-id{
-	 display:none;
- }
+	display:none;
+	}
+/* hide month name and year for screen reader */
 .fc-month-vhidden{
 	position:absolute;
 	left:-10000px;
@@ -37,7 +43,8 @@
 	height:1px;
 	overflow:hidden;
 	text-decoration:none;
-}
+	}
+/* hide event info in allday row for screen reader */
 .fc-weekday-ehidden{
 	position:absolute;
 	left:-10000px;
@@ -46,7 +53,8 @@
 	height:1px;
 	overflow:hidden;
 	text-decoration:none;
-}
+	}
+/* hide allday information for screen reader */
 .fc-allday-bhidden{
 	position:absolute;
 	left:-10000px;
@@ -54,7 +62,7 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
-}
+	}
 .hidden-fullday{
 	position:absolute;
 	left:-10000px;
@@ -62,8 +70,8 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
-}
-
+	}
+/* hide date of week and day views */
 .fc-cell-date{
 	position:absolute;
 	left:-10000px;
@@ -71,7 +79,8 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
-}
+	}
+/* hide event data in month and day  views */
 .fc-month-vevent{
 	position:absolute;
 	left:-10000px;
@@ -79,7 +88,8 @@
 	width:1px;
 	height:1px;
 	overflow:hidden;
-}
+	}
+/* hide time of week and day views */
 .fc-cell-time{
 	position:absolute;
 	left:-10000px;
@@ -88,6 +98,7 @@
 	height:1px;
 	overflow:hidden;
 	}
+/* hide inactive form elements */
 .fc-form-hide{
 	position:absolute;
 	left:-10000px;
@@ -96,19 +107,24 @@
 	height:1px;
 	overflow:hidden;
 	display:none;
-	}	  
+	}
+/* for all the anchor tags */	
 .fc-dummy{
 	text-decoration:none;
-}
+	}
+/* override default behavior of cell highlight */
 .fc-dummy:hover , .fc-dummy:focus , .fc-dummy:active  {
-   border: none;
-   outline: none;
-   outline-style: none; 
-   -moz-outline-style:none;
- } 
+	border: none;
+	outline: none;
+	outline-style: none; 
+	-moz-outline-style:none;
+	} 
+/* apply this class to highlight selected cell */
 .fc-he-test{
-   background:#FC6 !important;   
- }
+	background:#FC6 !important;   
+	}
+	
+/* Original CSS */
 .fc {
 	direction: ltr;
 	text-align: left;
