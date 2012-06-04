@@ -2307,6 +2307,9 @@
             markFirstLast(bodyRows); // marks first+last td's
             bodyRows.eq(0).addClass('fc-first'); // fc-last is done in updateCells
 
+            /*
+             * ATutor - Bind event handlers
+             */
             dayBind(bodyCells);
             dayBind1(bodyCells.find("a"));
 
@@ -2323,7 +2326,7 @@
                 function(){
                     $(this).parent().addClass('fc-he-test');
                 }
-            );				
+            );
             $(".fc-dummy").blur(
                 function(){
                     $(this).parent().removeClass('fc-he-test');
@@ -2444,7 +2447,7 @@
         /*
          * ATutor - Attach keyboard event listener
          */
-        days.keydown(dayKeyTest);
+            days.keydown(dayKeyTest);
         }
 
         function dayClickTest(ev) {
@@ -2699,7 +2702,7 @@
 
 
         function renderEvents(events, modifiedEventId) {
-			reportEvents(events);
+            reportEvents(events);
             renderDaySegs(compileSegs(events), modifiedEventId);
             /*
              * ATutor- Highlight events
@@ -2732,6 +2735,10 @@
                         });
                     }
             );
+            /*
+             * ATutor - Fire eventClick event when enter is pressed
+             * on the highlighted event.
+             */
             $("a.fc-event-hori").keydown(
                 function(event){
                     if( event.keyCode == 13 )
@@ -2793,7 +2800,7 @@
                 resizableDayEvent(event, eventElement, seg);
             }
             eventElementHandlers(event, eventElement);
-			// needs to be after, because resizableDayEvent might stopImmediatePropagation on click
+            // needs to be after, because resizableDayEvent might stopImmediatePropagation on click
         }
 
 
@@ -2822,7 +2829,7 @@
                             renderDayOverlay(
                             addDays(cloneDate(event.start), dayDelta),
                             addDays(exclEndDay(event), dayDelta)
-                        );
+                            );
                         } else {
                             //setOverflowHidden(false);
                             dayDelta = 0;
@@ -2831,7 +2838,8 @@
                 },
                 stop: function (ev, ui) {
                     /*
-                     * ATutor - Remove events from its original position
+                     * ATutor - Remove hidden information about 
+                     * events from its original position
                      */
                     $(".fc-month-vhidden").each(
                     function(index){
@@ -3313,7 +3321,7 @@
                     bodyCell.removeClass(tm + '-state-highlight fc-today');
                 }
                 setDayID(headCell.add(bodyCell), date);
-            }			
+            }
             $('div.fc-cell-date').each(
                 function (index) {
                     zzz = index % colCnt;
@@ -3321,7 +3329,7 @@
                     date = colDate(zzz);
                     $(this).html(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
                 }
-            );			
+            );
         }
 
 
