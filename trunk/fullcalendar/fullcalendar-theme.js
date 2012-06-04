@@ -2714,7 +2714,6 @@
                         function (){
                             if( $(this).find(".fc-id").text() == tmpcont )
                             {
-                                //console.log("Match" + tmpcont);
                                 $(this).removeClass('fc-event-skin').addClass('fc-event-hf');
                                 $(this).children('.fc-event-skin').removeClass('fc-event-skin').addClass('fc-event-hf');
                             }
@@ -2728,7 +2727,6 @@
                             function (){
                             if( $(this).find(".fc-id").text() == tmpcont )
                             {
-                                //console.log("Match");
                                 $(this).removeClass('fc-event-hf').addClass('fc-event-skin');
                                 $(this).children('.fc-event-hf').removeClass('fc-event-hf').addClass('fc-event-skin');
                             }
@@ -3305,7 +3303,7 @@
             var allDayCell;
             var date;
             var today = clearTime(new Date());
-            //console.log("update cells");
+
             for (i = 0; i < colCnt; i++) {
                 date = colDate(i);
                 headCell = dayHeadCells.eq(i);
@@ -3325,7 +3323,6 @@
             $('div.fc-cell-date').each(
                 function (index) {
                     zzz = index % colCnt;
-                    //console.log( zzz );
                     date = colDate(zzz);
                     $(this).html(date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear());
                 }
@@ -3748,7 +3745,6 @@
                 var $tpos1 = $(ev.target);
                 var tpos = $tpos1.parents("body").position();
                 var tpos2 = $tpos1.offset();
-                //alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 70));
                 var newCell;
                 newCell = coordinateGrid.cell((tpos2.left), (tpos2.top));
 
@@ -3761,18 +3757,16 @@
                     while (
                         div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
                         all[0]
-                    );				
-                    return v > 4 ? v : undef;				
+                    );
+                    return v > 4 ? v : undef;
                 }());
 
                 if( typeof ie === "undefined" )
                 {
-                    //alert( "case1" );
                     newCell = coordinateGrid.cell((tpos2.left), (tpos2.top));
                 }
                 else
                 {
-                    //alert( "case2" );
                     newCell = coordinateGrid.cell((tpos2.left), (tpos2.top+15));
                 }
                 
@@ -4077,8 +4071,7 @@
                 seg.outerWidth = outerWidth;
                 seg.outerHeight = bottom - top;
                 html += slotSegHtml(event, seg);
-                //here everytime it is called in day and week view
-                //console.log( event.title );
+                
             }
             //events are focused after all day links. Test it using this temp link.
             slotSegmentContainer[0].innerHTML = html; // faster than html()
@@ -4104,11 +4097,11 @@
                             var typ;
                             for( var zy = 0;zy < segs.length;zy++)
                             {
-                                //console.log($(this).find(".fc-event-title").text());
+                                
                                 if( segs[zy].event.id == $(this).find(".fc-id").text())
                                     typ = segs[zy].event;
                             }
-                            trigger('eventClick', this, typ, evnt);							
+                            trigger('eventClick', this, typ, evnt);
                     }
                 }
             );
@@ -4184,7 +4177,7 @@
 
 
         function slotSegHtml(event, seg) {
-            //console.log( event.title );
+            
             var html = "<";
             var url = event.url;
             var skinCss = getSkinCss(event, opt);
@@ -4238,7 +4231,7 @@
                         var date = event.start;
                         if( $(this).text() == date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() && $(this).prev().prev().text() == formatDate(date,'h(:mm)tt') + " of " )
                         {
-                            //console.log( "match" + event.title);
+                            
                             if( '"'+event.id+'"' == '"undefined"' || $(this).prev().text().indexOf('"'+event.id+'"')>= 0)
                             {
                             }
@@ -4704,7 +4697,7 @@
         function eventElementHandlers(event, eventElement) {
             eventElement
             .click(function (ev) {
-                //console.log("clicked and triggered"+eventElement.html());
+                
                 ev.preventDefault();
                 if (!eventElement.hasClass('ui-draggable-dragging') &&
                     !eventElement.hasClass('ui-resizable-resizing')) {
@@ -4949,7 +4942,7 @@
                             function (){
                             if( $(this).find(".fc-id").text() == tmpcont )
                             {
-                                //console.log("Match" + tmpcont);								
+                                
                                 $(this).removeClass('fc-event-skin').addClass('fc-event-hf');
                                 $(this).children('.fc-event-skin').removeClass('fc-event-skin').addClass('fc-event-hf');
                             }
@@ -5038,7 +5031,7 @@
             for (i = 0; i < segCnt; i++) {
                 seg = segs[i];
                 event = seg.event;
-                //console.log( event.title );
+                
                 classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
                 if (isEventDraggable(event)) {
                     classes.push('fc-event-draggable');
@@ -5508,30 +5501,19 @@
         }
 
         function dayKeyTest(ev) {
-            //alert( ev.target.nodeName );
             var cellDate = t.cellDate;
             var cellIsAllDay = t.cellIsAllDay;
             var hoverListener = t.getHoverListener();
             var coordinateGrid = t.getCoordinateGrid();
             var reportDayClick = t.reportDayClick; // this is hacky and sort of weird
             if (ev.which == 13 && opt('selectable')) { // which==1 means left mouse button
-                //alert("hi");
                 unselect(ev);
                 var _mousedownElement = this;
                 var dates;
-                //hoverListener.start1(function (cell, origCell) { // TODO: maybe put cellDate/cellIsAllDay info in cell
-                //clearSelection();
-                //if (cell && cellIsAllDay(cell)) {
-                //dates = [cellDate(origCell), cellDate(cell)].sort(cmp);
-                //    renderSelection(dates[0], dates[1], true);
-                //} else {
-                //    dates = null;
-                //}
                 coordinateGrid.build();
                 var $tpos1 = $(ev.target);
                 var tpos = $tpos1.parents("div.fc-content").position();
                 var tpos2 = $tpos1.position();
-                //alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 30));
                 var newCell;
 
                 var ie = (function(){
@@ -5557,11 +5539,8 @@
                 }
 
                 firstCell = newCell;
-                //change(newCell, firstCell, newCell.row - firstCell.row, newCell.col - firstCell.col);
                 dates = [cellDate(firstCell), cellDate(newCell)].sort(cmp);
                 cell = newCell;
-                //}, ev);
-                //$(document).one('keypress', function (ev) {
                 hoverListener.stop();
                 if (dates) {
                     if (+dates[0] == +dates[1]) {
@@ -5569,7 +5548,6 @@
                     }
                     reportSelection(dates[0], dates[1], true, ev);
                 }
-                //});
             }
         }
 
@@ -5720,25 +5698,7 @@
             var $tpos1 = $(ev.target);
             var tpos = $tpos1.parents("div.fc-content").position();
             var tpos2 = $tpos1.position();
-            //alert((tpos2.left + tpos.left) + "  " + (tpos.top + tpos2.top + 20));
             var newCell = coordinateGrid.cell((tpos2.left + tpos.left), (tpos.top + tpos2.top + 20));
-            /*if (!newCell != !cell || newCell && (newCell.row != cell.row || newCell.col != cell.col)) {
-            if (newCell) {
-            if (!firstCell) {
-            alert("con1");
-            firstCell = newCell;
-            }
-            alert("con5");
-            change(newCell, firstCell, newCell.row - firstCell.row, newCell.col - firstCell.col);
-            } else {
-            alert("con2");
-            change(newCell, firstCell);
-            }
-            alert("con3");
-            cell = newCell;
-            }
-            alert("con4");
-            cell = newCell;*/
             firstCell = newCell;
             change(newCell, firstCell, newCell.row - firstCell.row, newCell.col - firstCell.col);
             cell = newCell;
@@ -5746,7 +5706,6 @@
 
         function mouse(ev) {
             _fixUIEvent(ev); // see below
-            //alert(ev.pageX +" "+ev.pageY);
             var newCell = coordinateGrid.cell(ev.pageX, ev.pageY);
             if (!newCell != !cell || newCell && (newCell.row != cell.row || newCell.col != cell.col)) {
                 if (newCell) {
